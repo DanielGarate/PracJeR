@@ -1,8 +1,8 @@
 # PracJeR
-## GDD: BOMB-OUT! Game Design Document
+## GDD: BOMB-OUT! <br> Game Design Document
 
 ### Royal Flush
-##### Luis Mateos Sánchez<br>Daniel Gárate Díaz <br>Álvaro Lozano de Osma<br> Javier Barriga Piñero<br> Alejandro Cavero Sebastián
+##### Luis Mateos Sánchez l.mateos.2020@alumnos.urjc.es<br>Daniel Gárate Díaz d.garate.2020@alumnos.urjc.es<br>Álvaro Lozano de Osma a.lozanod.2020@alumnos.urjc.es<br> Javier Barriga Piñero j.barriga.2018@alumnos.urjc.es<br> Alejandro Cavero Sebastián a.cavero.2020@alumnos.urjc.es
 
 ## ÍNDICE
 
@@ -20,8 +20,8 @@ Las partidas se dividen en dos fases, en la primera fase cada jugador tiene un p
 Habrá varios mapas que se diferenciarán principalmente en estética, en la distribución del terreno y en características especiales:
 
 - **Arena Bomb-Out:** es el nivel más básico, consta de una arena rectangular dividida a la mitad como un campo de fútbol.
-- **Cenote milenario: **Un nivel en forma de anillo con un círculo en medio que no se puede atravesar. El campo seguirá dividido en 2 por la mitad del círculo.
-- **Night Distrit: **Un mapa con forma de rombo, en el que los rebotes en las paredes cambian las propiedades de los lanzamientos dependiendo del color de estas. El naranja acelera los rebotes, el azul los ralentiza, el morado hace que reboten con retardo y el amarillo hace que aparezcan en la pared del lado opuesto.
+- **Cenote milenario:** Un nivel en forma de anillo con un círculo en medio que no se puede atravesar. El campo seguirá dividido en 2 por la mitad del círculo.
+- **Night Distrit:** Un mapa con forma de rombo, en el que los rebotes en las paredes cambian las propiedades de los lanzamientos dependiendo del color de estas. El naranja acelera los rebotes, el azul los ralentiza, el morado hace que reboten con retardo y el amarillo hace que aparezcan en la pared del lado opuesto.
 
 - **Refinería Bum Bum:** Un escenario rectangular en el cual las estructuras son más frágiles y al perder toda su resistencia estallan y hacen daño en área.
 - **Caos en la carretera:** un mapa cuadrado con la peculiaridad de que en la parte central hay dos barreras que delimitan un rectángulo, por dicho rectángulo circulan coches, si la bomba impacta un coche este rebota esta rebota hacia el campo del que la ha lanzado.
