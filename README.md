@@ -10,6 +10,7 @@
 
 [TOCM]
 
+<<<<<<< HEAD
 #####INTRODUCCIÓN 2 <br> DISEÑO DE NIVEL 2<br> AMBIENTE 3 <br>GAMEPLAY 3 <br>ARTE 5 <br>SONIDO Y MÚSICA 6<br> INTERFAZ DE USUARIO 6<br> RECURSOS 14
 
 ### INTRODUCCIÓN 
@@ -17,6 +18,48 @@ En este documento se presentarán las características de “Bomb-Out!”, un fr
 
 ### DISEÑO DE NIVEL 
 El escenario sobre el que se desarrolla la acción es una arena dividida en 2 espacios iguales por una barrera que no pueden atravesar los personajes. Cada jugador se puede mover libremente por su espacio, en este caerán bombas del cielo las cuales podrá coger para arrojarlas al rival. Las partidas se dividen en dos fases, en la primera fase cada jugador tiene un periodo de tiempo de 30 segundos para poder distribuir los obstáculos de su campo y así tener una serie de barricadas para sacar ventaja a su rival; en la segunda fase comienza la acción, las bombas aparecen en cada campo de forma aleatoria y a medida que avanza el tiempo aparecen más frecuentemente. La duración de la segunda fase es de 2 minutos. Habrá varios mapas que se diferenciarán principalmente en estética, en la distribución del terreno y en características especiales: • Arena Bomb-Out: es el nivel más básico, consta de una arena rectangular dividida a la mitad como un campo de fútbol. • Cenote milenario: Un nivel en forma de anillo con un círculo en medio que no se puede atravesar. El campo seguirá dividido en 2 por la mitad del círculo. • Night Distrit: Un mapa con forma de rombo, en el que los rebotes en las paredes cambian las propiedades de los lanzamientos dependiendo del color de estas. El naranja acelera los rebotes, el azul los ralentiza, el morado hace que reboten con retardo y el amarillo hace que aparezcan en la pared del lado opuesto.
+=======
+Royal Flush
+Luis Mateos Sánchez
+Daniel Gárate Díaz
+Álvaro Lozano de Osma
+Javier Barriga Piñero
+Alejandro Cavero Sebastián
+
+
+
+ÍNDICE
+
+INTRODUCCIÓN	2
+DISEÑO DE NIVEL	2
+AMBIENTE	3
+GAMEPLAY	3
+ARTE	5
+SONIDO Y MÚSICA	6
+INTERFAZ DE USUARIO	6
+RECURSOS	14
+
+
+
+
+INTRODUCCIÓN
+En este documento se presentarán las características de “Bomb-Out!”, un frenético videojuego 2D en el que dos jugadores se enfrentan en una batalla a contrarreloj en la que se lanzarán bombas y tratarán de esquivar los disparos del enemigo moviéndose entre muros colocados sobre el campo de batalla.
+
+DISEÑO DE NIVEL
+El escenario sobre el que se desarrolla la acción es una arena dividida en 2 espacios iguales por una barrera que no pueden atravesar los personajes. Cada jugador se puede mover libremente por su espacio, en este caerán bombas del cielo las cuales podrá coger para arrojarlas al rival.
+Las partidas se dividen en dos fases, en la primera fase cada jugador tiene un periodo de tiempo de 30 segundos para poder distribuir los obstáculos de su campo y así tener una serie de barricadas para sacar ventaja a su rival; en la segunda fase comienza la acción, las bombas aparecen en cada campo de forma aleatoria y a medida que avanza el tiempo aparecen más frecuentemente. La duración de la segunda fase es de 2 minutos.
+Habrá varios mapas que se diferenciarán principalmente en estética, en la distribución del terreno y en características especiales:
+• Arena Bomb-Out: es el nivel más básico, consta de una arena rectangular dividida a la mitad como un campo de fútbol.
+• Cenote milenario: Un nivel en forma de anillo con un círculo en medio que no se puede atravesar. El campo seguirá dividido en 2 por la mitad del círculo.
+• Night Distrit: Un mapa con forma de rombo, en el que los rebotes en las paredes cambian las propiedades de los lanzamientos dependiendo del color de estas. El naranja acelera los rebotes, el azul los ralentiza, el morado hace que reboten con retardo y el amarillo hace que aparezcan en la pared del lado opuesto.
+
+• Refinería Bum Bum: Un escenario rectangular en el cual las estructuras son más frágiles y al perder toda su resistencia estallan y hacen daño en área.
+• Caos en la carretera: un mapa cuadrado con la peculiaridad de que en la parte central hay dos barreras que delimitan un rectángulo, por dicho rectángulo circulan coches, si la bomba impacta un coche este rebota esta rebota hacia el campo del que la ha lanzado.
+• Portal-Mania: similar al primer estadio, pero con portales de colores que hacen que la pelota se teletransporte.
+
+AMBIENTE
+En un mundo en el que los deportes convencionales se han quedado obsoletos se han inventado nuevas formas de entretener al público, ¿la mejor de todas? El festival Bomb-Out, un explosivo evento en el que retadores de todo el mundo construyen sus defensas y se arrojan explosivos por doquier en escenarios de lo más dispares para hacerse con la gloria de la Copa Bomba (y su jugoso premio en metálico). Para todo aquel lo suficientemente chalado como para ponerse en la línea de fuego, para aquel que adora el fresco olor a C4 por la mañana este es su espectáculo.
+>>>>>>> 501d8831e9e21d1e89578fd0c4c3502135f76823
 
 • Refinería Bum Bum: Un escenario rectangular en el cual las estructuras son más frágiles y al perder toda su resistencia estallan y hacen daño en área. • Caos en la carretera: un mapa cuadrado con la peculiaridad de que en la parte central hay dos barreras que delimitan un rectángulo, por dicho rectángulo circulan coches, si la bomba impacta un coche este rebota esta rebota hacia el campo del que la ha lanzado. • Portal-Mania: similar al primer estadio, pero con portales de colores que hacen que la pelota se teletransporte.
 
@@ -34,9 +77,16 @@ Acciones del jugador: en el menú de la partida, el jugador podrá seleccionar e
 
 Acciones del personaje: todas las posibles acciones sólo tienen efecto en la segunda fase de la partida. Sabiendo esto, las posibles acciones de cada personaje son: • Salta muros: este personaje podrá saltar un muro siempre que no haya más de 2 juntos o siempre que la habilidad esté activa y no en espera. Cada vez que se utilice habrá un tiempo de espera de 15 segundos. • Rebotes más lejanos: la distancia de rebote de la bomba en este caso será igual a (distancia Lanzada - Distancia Recorrida)*2 • Atravesar un muro con una bomba: este personaje podrá lanzar una bomba a través de un muro siempre que la habilidad esté activa y no en espera. Cada vez que se utilice habrá un tiempo de espera de 15 segundos. • Lanzar 2 bombas en vez de 1: podrá lanzar 2 bombas siempre que la habilidad esté activa y no en espera. Cada vez que se utilice habrá un tiempo de espera de 15 segundos.
 
+<<<<<<< HEAD
 ### ARTE 
 Bomb Out es pixel-art. Su estilo es futurista, pero no deja de lado espacio para la fantasía.
 Image:
+=======
+
+
+ARTE
+Bomb Out es pixel-art. Su estilo es futurista, pero no deja de lado espacio para la fantasía. 
+>>>>>>> 501d8831e9e21d1e89578fd0c4c3502135f76823
 
 ![](https://th.bing.com/th/id/OIP.jLnDDn45xe9U7MsiWNqoHgAAAA?pid=ImgDet&rs=1)
 
@@ -47,6 +97,7 @@ Las bombas de aspecto más reconocible posible, una bomba negra clásica, que su
 ### SONIDO Y MÚSICA 
 Para el diseño de la música y efectos de sonido se ha concretado que el juego dispondrá de un estilo musical 8-bits parecido a los sonidos de juegos “retro” como el “Mega-Man 2” o “Castlevania (NES)”. Para esto se dispondrá de los siguientes efectos de sonidos: Menús Cambio de opción Seleccionar opción Explosión de bomba Romper barrera Recoger bomba La banda sonora se ha creado una canción con el estilo acordado y priorizando el uso de la percusión ya que concuerda más con el tipo de videojuego. A medida que pase el tiempo de la partida, la banda sonora irá haciéndose más complicada (incrementando el número de instrumentos) y haciendo la partida más intensa. Banda sonora: https://youtu.be/H1g6ncbmIvg 
 
+<<<<<<< HEAD
 ###INTERFAZ DE USUARIO
 En este apartado se explicarán las distintas interfaces que se encontraran en el juego, sus características principales además de diseños básicos de estas.
 
@@ -71,6 +122,83 @@ Pantalla de controles local
 Tecla W : Movimiento hacia arriba del jugador 1. Tecla S : Movimiento hacia abajo del jugador 1. Tecla D : Movimiento hacia la derecha del jugador 1. Tecla A : Movimiento hacia la izquierda del jugador 1. Tecla E : Disparo del proyectil del jugador 1 y colocación de muros en la primera fase.
 
 Flecha superior : Movimiento hacia arriba del jugador 2. Flecha inferior : Movimiento hacia abajo del jugador 2. Flecha derecha : Movimiento hacia la derecha del jugador 2. Flecha izquierda : Movimiento hacia la izquierda del jugador 2 . Barra espaciadora : Disparo del proyectil del jugador 2 y colocación de muros en la primera fase. Pantalla de juego Es la interfaz que se encontrará una vez que comience la partida, está compuesta por el campo de juego, un temporizador y dos contadores uno para cada jugador representados por una pequeña avatar de su personaje.
+=======
+SONIDO Y MÚSICA
+Para el diseño de la música y efectos de sonido se ha concretado que el juego dispondrá de un estilo musical 8-bits parecido a los sonidos de juegos “retro” como el “Mega-Man 2” o “Castlevania (NES)”. Para esto se dispondrá de los siguientes efectos de sonidos:
+Menús
+Cambio de opción
+Seleccionar opción
+Explosión de bomba
+Romper barrera
+Recoger bomba
+La banda sonora se ha creado una canción con el estilo acordado y priorizando el uso de la percusión ya que concuerda más con el tipo de videojuego. A medida que pase el tiempo de la partida, la banda sonora irá haciéndose más complicada (incrementando el número de instrumentos) y haciendo la partida más intensa. 
+Banda sonora:
+https://youtu.be/H1g6ncbmIvg
+INTERFAZ DE USUARIO
+En este apartado se explicarán las distintas interfaces que se encontraran en el juego, sus características principales además de diseños básicos de estas.
+
+
+Menú principal
+La interfaz que encontrará el jugador nada más iniciar el juego, está compuesta por el título del juego y tres botones.
+
+Botón local: Selecciona el modo para jugar de forma local.
+Botón online: Selecciona el modo para jugar de forma online.
+Botón créditos: Accede a la pantalla de créditos.
+
+
+Pantalla de créditos 
+En esta pantalla se encontrarán los distintos roles y la asignación de estos.
+
+
+Pantalla de selección de personaje
+Esta es la interfaz que se encontrará una vez se seleccione el modo local u online, estará compuesta por una etiqueta donde los jugadores pueden poner su nombre, la imagen de los personajes y las habilidades que estos poseen.
+
+Botón flecha: Te mueve entre los distintos personajes disponibles.
+
+
+Pantalla de controles
+Pantalla que aparecerá antes de comenzar la partida, existen dos pantallas que variarán dependiendo de si se está jugando en modo local o modo online.
+
+
+Pantalla de controles online
+
+Tecla W : Movimiento hacia arriba.
+Tecla S : Movimiento hacia abajo.
+Tecla D : Movimiento hacia la derecha.
+Tecla A : Movimiento hacia la izquierda.
+Ratón: Con el ratón se elegirá la dirección de lanzamiento.
+Click izquierdo : Disparo del proyectil del jugador y colocación de muros en la primera fase.
+
+
+Pantalla de controles local
+
+Tecla W : Movimiento hacia arriba del jugador 1.
+Tecla S : Movimiento hacia abajo del jugador 1.
+Tecla D : Movimiento hacia la derecha del jugador 1.
+Tecla A : Movimiento hacia la izquierda del jugador 1.
+Tecla E : Disparo del proyectil del jugador 1 y colocación de muros en la primera fase.
+
+Flecha superior : Movimiento hacia arriba del jugador 2.
+Flecha inferior : Movimiento hacia abajo del jugador 2.
+Flecha derecha : Movimiento hacia la derecha del jugador 2.
+Flecha izquierda : Movimiento hacia la izquierda del jugador 2 .
+Barra espaciadora : Disparo del proyectil del jugador 2 y colocación de muros en la primera fase.
+Pantalla de juego
+Es la interfaz que se encontrará una vez que comience la partida, está compuesta por el campo de juego, un temporizador y dos contadores uno para cada jugador representados por una pequeña avatar de su personaje.
+
+
+Pantalla de victoria
+Interfaz que aparece una vez terminada la partida, aparece el nombre del jugador ganador y como ha ganado (puntuación o muerte súbita).
+
+Botón Volver a jugar: Vuelve a la pantalla de selección de personajes.
+Botón Salir: Vuelve al menú principal.
+
+
+RECURSOS
+Porcunipine « PCGamesTorrents Barricadas
+Pixel Soccer | 🕹️ Play Pixel Soccer Online On GamePix Ejemplo mapa
+
+>>>>>>> 501d8831e9e21d1e89578fd0c4c3502135f76823
 
 Pantalla de victoria Interfaz que aparece una vez terminada la partida, aparece el nombre del jugador ganador y como ha ganado (puntuación o muerte súbita).
 
