@@ -64,7 +64,7 @@ Para el diseño de la música y efectos de sonido se ha concretado que el juego 
 - Romper barrera
 - Recoger bomba
 
-La **banda sonora **se ha creado una canción con el estilo acordado y priorizando el uso de la percusión ya que concuerda más con el tipo de videojuego. A medida que pase el tiempo de la partida, la banda sonora irá haciéndose más complicada (incrementando el número de instrumentos) y haciendo la partida más intensa. 
+La **banda sonora** se ha creado una canción con el estilo acordado y priorizando el uso de la percusión ya que concuerda más con el tipo de videojuego. A medida que pase el tiempo de la partida, la banda sonora irá haciéndose más complicada (incrementando el número de instrumentos) y haciendo la partida más intensa. 
 **Banda sonora:**
 https://youtu.be/H1g6ncbmIvg
 
