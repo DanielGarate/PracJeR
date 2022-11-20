@@ -24,31 +24,45 @@ var config = {     //Contiene un json
 
 var game = new Phaser.Game(config);
 
-var player;
+var player, muros;
 
 
 function preload() {
 
-    this.load.image("sky", "../../resources/img/sky.png");
+    this.load.image("campo", "../../resources/img/campo.png");
     this.load.spritesheet("dude",
         "../../resources/img/dude.png",
         { frameWidth: 32, frameHeight: 48 }
     );
+    this.load.image("muro", "../../resources/img/muro.png");
+
 }
 
 function create() {
 
-
-    this.add.image(400, 300, "sky");  //Añade un nuevo elemento del juego 
+    this.add.image(400, 300, "campo");  //Añade un nuevo elemento del juego 
     //de tipo imagen a la lista de objetos de la escena.
 
+    //Muros
+    muros = this.physics.add.staticGroup();
 
+    //Muros lado izquierdo
+    muros.create(250, 408, "muro").setScale(0.7, 0.25).refreshBody();  //refresh body es necesario ya que se ha escalado un cuerpo estático
+    muros.create(250, 208, "muro").setScale(0.7, 0.25).refreshBody();
+    muros.create(150, 308, "muro").setScale(0.7, 0.25).refreshBody();
+
+    //Muros lado derecho
+    muros.create(550, 408, "muro").setScale(0.7, 0.25).refreshBody();  //refresh body es necesario ya que se ha escalado un cuerpo estático
+    muros.create(550, 208, "muro").setScale(0.7, 0.25).refreshBody();
+    muros.create(650, 308, "muro").setScale(0.7, 0.25).refreshBody();
+    
 
 
     //Personaje
     player = this.physics.add.sprite(100, 450, 'dude'); //Fisica dinamica (dinamic group) por defecto
     //Posicion del personaje
 
+    player.setCollideWorldBounds(true);
 
     this.anims.create({
         key: 'left',
@@ -72,6 +86,8 @@ function create() {
 
     cursors = this.input.keyboard.createCursorKeys();  //Crea el objeto cursors (con 4 propiedades: up, down, left, right)
 
+    this.physics.add.collider(player, muros);
+
 
 }
 
@@ -81,41 +97,41 @@ const cursors = this.input.keyboard.createCursorKeys();
 
     
     if (cursors.down.isDown && cursors.left.isDown) {
-    player.setVelocityY(160);
-    player.setVelocityX(-160);
+    player.setVelocityY(250);
+    player.setVelocityX(-250);
     player.anims.play('left', true);
 
     }else if (cursors.down.isDown && cursors.right.isDown) {
-        player.setVelocityY(160);
-        player.setVelocityX(160);
+        player.setVelocityY(250);
+        player.setVelocityX(250);
         player.anims.play('left', true);
 
     }else if (cursors.up.isDown && cursors.left.isDown) {
-        player.setVelocityY(-160);
-        player.setVelocityX(-160);
+        player.setVelocityY(-250);
+        player.setVelocityX(-250);
         player.anims.play('left', true);
 
     }else if (cursors.up.isDown && cursors.right.isDown) {
-        player.setVelocityY(-160);
-        player.setVelocityX(160);
+        player.setVelocityY(-250);
+        player.setVelocityX(250);
         player.anims.play('left', true);
-        
+
     } else if (cursors.left.isDown) {
-        player.setVelocityX(-160);
+        player.setVelocityX(-250);
 
         player.anims.play('left', true);
     }
     else if (cursors.right.isDown) {
-        player.setVelocityX(160);
+        player.setVelocityX(250);
 
         player.anims.play('right', true);
 
     } else if (cursors.up.isDown) {
-        player.setVelocityY(-160);
+        player.setVelocityY(-250);
         player.anims.play('right', true);
 
     } else if (cursors.down.isDown) {
-        player.setVelocityY(160);
+        player.setVelocityY(250);
         player.anims.play('left', true);
     }else {
         player.setVelocityX(0);
