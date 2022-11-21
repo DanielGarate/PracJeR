@@ -24,7 +24,7 @@ var config = {     //Contiene un json
 
 var game = new Phaser.Game(config);
 
-var player1, player2, muros;
+var player1, player2, muros, limites;
 
 
 function preload() {
@@ -35,6 +35,10 @@ function preload() {
         { frameWidth: 32, frameHeight: 48 }
     );
     this.load.image("muro", "../../resources/img/muro.png");
+    
+    this.load.image("separacion", "../../resources/img/separacion.png");
+
+
 
 }
 
@@ -43,8 +47,12 @@ function create() {
     this.add.image(400, 300, "campo");  //Añade un nuevo elemento del juego 
     //de tipo imagen a la lista de objetos de la escena.
 
+    this.add.image(400, 300, "separacion");  
+
+
     //Muros
     muros = this.physics.add.staticGroup();
+    limites = this.physics.add.staticGroup();
 
     //Muros lado izquierdo
     muros.create(250, 408, "muro").setScale(0.7, 0.25).refreshBody();  //refresh body es necesario ya que se ha escalado un cuerpo estático
@@ -57,6 +65,8 @@ function create() {
     muros.create(650, 308, "muro").setScale(0.7, 0.25).refreshBody();
 
 
+    limites.create(400, 300, "separacion");
+
 
     //Personaje
     player1 = this.physics.add.sprite(100, 450, 'dude'); //Fisica dinamica (dinamic group) por defecto
@@ -66,6 +76,7 @@ function create() {
 
     player1.setCollideWorldBounds(true);
     player2.setCollideWorldBounds(true);
+
 
     //Jugador 1
     player1.anims.create({
@@ -111,6 +122,8 @@ function create() {
 
     this.physics.add.collider(player1, muros);
     this.physics.add.collider(player2, muros);
+    this.physics.add.collider(player1, limites);
+    this.physics.add.collider(player2, limites);
 
     cursors = this.input.keyboard.createCursorKeys();
     keys = this.input.keyboard.addKeys('A,W,S,D');
