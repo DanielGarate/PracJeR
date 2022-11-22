@@ -37,6 +37,7 @@ function preload() {
     this.load.image("muro", "../../resources/img/muro.png");
     
     this.load.image("separacion", "../../resources/img/separacion.png");
+    this.load.image("bomba","../../resources/img/bomb.png");
 
 
 
@@ -126,7 +127,28 @@ function create() {
     this.physics.add.collider(player2, limites);
 
     cursors = this.input.keyboard.createCursorKeys();
-    keys = this.input.keyboard.addKeys('A,W,S,D');
+    keys = this.input.keyboard.addKeys('A,W,S,D,E,L');
+
+       //bomba
+    bombas = this.physics.add.group();
+ this.physics.add.collider(player1, bombas, hitBomb, null, this);
+function hitBomb (player1, bomba)
+{
+ player1.setActive(false).setVisible(false);
+ bomba.destroy();
+}
+    this.physics.add.collider(muros, bombas, hitBomb1, null, this);
+function hitBomb1 (muros, bomba)
+{
+ muros.destroy();
+ bomba.destroy();
+}
+ this.physics.add.collider(player2, bombas, hitBomb, null, this);
+function hitBomb (player2, bomba)
+{
+ player2.setActive(false).setVisible(false);
+ bomba.destroy();
+}
 
 }
 
@@ -225,7 +247,22 @@ function update(time, delta) //Delta se usa para que en todos los navegadores el
 
         player2.anims.play('turn');
     }
-
+       if(keys.E.isDown){
+      var x = player2.x;
+      var y = player2.y;
+        var bomba=bombas.create(x,y,'bomba');
+        bomba.setBounce(1);
+        bomba.setCollideWorldBounds(true);
+        bomba.setVelocity(Phaser.Math.Between(-200, 0), 20);
+    }
+      if(keys.L.isDown){
+      var x = player1.x;
+      var y = player1.y;
+        var bomba=bombas.create(x,y,'bomba');
+        bomba.setBounce(1);
+        bomba.setCollideWorldBounds(true);
+        bomba.setVelocity(Phaser.Math.Between(0, 200), 20);
+    }
 
 
 
