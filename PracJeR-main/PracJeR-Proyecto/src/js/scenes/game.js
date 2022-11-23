@@ -1,5 +1,5 @@
 
-
+//rama Alex 2
 var player1, player2, muros, limites, bombas,x,y, t1, t2, textoFinPartida; //se sacan las variables fuera de la clase
 var t1 = 1000;
 var t2 = 1000;
@@ -81,6 +81,8 @@ export class Game extends Phaser.Scene {
     bombas = this.physics.add.group();
     this.physics.add.collider(player1, bombas, hitBomb, null, this);
    
+
+    //algoritmo que detecta bomba contra jugador detiene la partida
     function hitBomb (player1, bomba)
    {
     bomba.destroy();
