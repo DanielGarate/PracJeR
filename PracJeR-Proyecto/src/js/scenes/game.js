@@ -1,5 +1,5 @@
 var player1, player2, muros,limites,bombas,x,y; //se sacan las variables fuera de la clase
-
+//hola esta es rama alex
 
 export class Game extends Phaser.Scene {
   constructor() {
