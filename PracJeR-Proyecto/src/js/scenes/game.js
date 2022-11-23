@@ -92,18 +92,15 @@ export class Game extends Phaser.Scene {
     player2.setActive(false).setVisible(false);
     bomba.destroy();
    }
-
 }
 
-update(time, delta) //Delta se usa para que en todos los navegadores el movimiento sea el mismo
-{
+update(time, delta){ //Delta se usa para que en todos los navegadores el movimiento sea el mismo
 //Jugador 1
     if (this.cursors.down.isDown && this.cursors.left.isDown) {
       player1.setVelocityY(250);
       player1.setVelocityX(-250);
       player1.anims.play('left', true);
-          
-    }   else if (this.cursors.down.isDown && this.cursors.right.isDown) {
+    } else if (this.cursors.down.isDown && this.cursors.right.isDown) {
       player1.setVelocityY(250);
       player1.setVelocityX(250);
       player1.anims.play('left', true);
@@ -118,8 +115,7 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
     } else if (this.cursors.left.isDown) {
       player1.setVelocityX(-250);
       player1.anims.play('left', true);
-    }
-    else if (this.cursors.right.isDown) {
+    } else if (this.cursors.right.isDown) {
       player1.setVelocityX(250);
       player1.anims.play('right', true);
     } else if (this.cursors.up.isDown) {
@@ -133,61 +129,57 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
       player1.setVelocityY(0);
       player1.anims.play('turn');
     }
+
+
     //Jugador 2
     if (this.keys.S.isDown && this.keys.A.isDown) {
-      player2.setVelocityY(250);
-      player2.setVelocityX(-250);
-      player2.anims.play('left', true);
-  } else if (this.keys.S.isDown && this.keys.D.isDown) {
-      player2.setVelocityY(250);
-      player2.setVelocityX(250);
-      player2.anims.play('left', true);
+        player2.setVelocityY(250);
+        player2.setVelocityX(-250);
+        player2.anims.play('left', true);
+    } else if (this.keys.S.isDown && this.keys.D.isDown) {
+        player2.setVelocityY(250);
+        player2.setVelocityX(250);
+        player2.anims.play('left', true);
+    } else if (this.keys.W.isDown && this.keys.A.isDown) {
+        player2.setVelocityY(-250);
+        player2.setVelocityX(-250);
+        player2.anims.play('left', true);
+    } else if (this.keys.W.isDown && this.keys.D.isDown) {
+        player2.setVelocityY(-250);
+        player2.setVelocityX(250);
+        player2.anims.play('left', true);
+    } else if (this.keys.A.isDown) {
+        player2.setVelocityX(-250);
+        player2.anims.play('left', true);
+    } else if (this.keys.D.isDown) {
+        player2.setVelocityX(250);
+        player2.anims.play('right', true);
+    } else if (this.keys.W.isDown) {
+        player2.setVelocityY(-250);
+        player2.anims.play('right', true);
+    } else if (this.keys.S.isDown) {
+        player2.setVelocityY(250);
+        player2.anims.play('left', true);
+    } else {
+        player2.setVelocityX(0);
+        player2.setVelocityY(0);
 
-  } else if (this.keys.W.isDown && this.keys.A.isDown) {
-      player2.setVelocityY(-250);
-      player2.setVelocityX(-250);
-      player2.anims.play('left', true);
-
-  } else if (this.keys.W.isDown && this.keys.D.isDown) {
-      player2.setVelocityY(-250);
-      player2.setVelocityX(250);
-      player2.anims.play('left', true);
-
-  } else if (this.keys.A.isDown) {
-      player2.setVelocityX(-250);
-
-      player2.anims.play('left', true);
-  }
-  else if (this.keys.D.isDown) {
-      player2.setVelocityX(250);
-
-      player2.anims.play('right', true);
-
-  } else if (this.keys.W.isDown) {
-      player2.setVelocityY(-250);
-      player2.anims.play('right', true);
-
-  } else if (this.keys.S.isDown) {
-      player2.setVelocityY(250);
-      player2.anims.play('left', true);
-  } else {
-      player2.setVelocityX(0);
-      player2.setVelocityY(0);
-
-      player2.anims.play('turn');
-  }
-  if(this.keys.E.isDown){
-    this.bomba=bombas.create(player2.x,player2.y,'bomba');
-    this.bomba.setBounce(1);
-    this.bomba.setCollideWorldBounds(true);
-    this.bomba.setVelocity(Phaser.Math.Between(-200, 0), 20);
-  }
-  if(this.keys.L.isDown){
-      this.bomba=bombas.create(player1.x,player1.y,'bomba');
+        player2.anims.play('turn');
+    }
+    
+    if(this.keys.E.isDown){
+      this.bomba=bombas.create(player2.x,player2.y,'bomba');
       this.bomba.setBounce(1);
       this.bomba.setCollideWorldBounds(true);
-      this.bomba.setVelocity(Phaser.Math.Between(0, 200), 20);
-  }
-  }
+      this.bomba.setVelocity(Phaser.Math.Between(-200, 0), 20);
+    }
+    if(this.keys.L.isDown){
+        this.bomba=bombas.create(player1.x,player1.y,'bomba');
+        this.bomba.setBounce(1);
+        this.bomba.setCollideWorldBounds(true);
+        this.bomba.setVelocity(Phaser.Math.Between(0, 200), 20);
+      }
+    }
+
 
 }
