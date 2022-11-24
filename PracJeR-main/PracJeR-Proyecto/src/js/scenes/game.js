@@ -86,7 +86,7 @@ export class Game extends Phaser.Scene {
 
         //Personaje
         player1 = this.physics.add.sprite(100, 450, 'dude'); //Fisica dinamica (dinamic group) por defecto
-        player2 = this.physics.add.sprite(500, 450, 'dude'); //Fisica dinamica (dinamic group) por defecto
+        player2 = this.physics.add.sprite(700, 450, 'dude'); //Fisica dinamica (dinamic group) por defecto
 
         //INSTANCIACION JUGADOR 1
         const playerC1 = new Jugador(10);
@@ -141,7 +141,7 @@ export class Game extends Phaser.Scene {
         this.physics.add.collider(player2, limites);
 
         bombas = this.physics.add.group();
-        this.physics.add.collider(player1, bombas, hitBomb, null, this);
+     
 
         //INTENTO DE MARCADOR 2
         scoreBoard2 = this.add.text(440, 40, "P2: 0", {fontSize: '32px', fill: '#fff'});
@@ -149,19 +149,7 @@ export class Game extends Phaser.Scene {
 
         //algoritmo que detecta bomba contra jugador detiene la partida
         //HAY ALGUN PROBLEMA CON LA DETECCION DE JUGADOR UN Y 2 TODO
-        function hitBomb(player1, bomba)
-        {
-            playerC1.setVida = 0;
-            console.log("hola2");
-            marcador();
-            player1.setActive(false);
-            bomba.destroy();
-            this.physics.pause();
-            player1.anims.play('turn');
-
-            textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 1 gana',
-                    {fontSize: '50px', fill: '#000'});
-        }
+   
 
         this.physics.add.collider(muros, bombas, hitBomb1, null, this);
 
@@ -183,35 +171,48 @@ export class Game extends Phaser.Scene {
             }
             bomba.destroy();
         }
+        this.physics.add.collider(player1, bombas, hitBomb, null, this);
+        function hitBomb(player1, bomba)
+        {
+            score2++;
+            marcador();
+            player1.setActive(false);
+            player1.setPosition(100,Phaser.Math.Between(0, 600));
+            bomba.destroy();
+            
+            if(score2==5){
+            this.physics.pause();
+            player1.anims.play('turn');
+
+            textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 2 gana',
+                    {fontSize: '50px', fill: '#000'});
+            }
+        }
 
 
         this.physics.add.collider(player2, bombas, hitBomb2, null, this);
 
         function hitBomb2(player2, bomba)
         {
-            console.log("hola1");
-            playerC2.setVida = 0;
+            score1++;
             marcador();
             player2.setActive(false);
+            player1.setPosition(700,Phaser.Math.Between(0, 600));
             bomba.destroy();
+           
+            if (score1==5){
             this.physics.pause();
             player2.anims.play('turn');
             player1.anims.play('turn');
-            textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 2 gana',
+            textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 1 gana',
                     {fontSize: '50px', fill: '#000'});
+        }
         }
 
         //INTENTO DE MARCADOR 3
         function marcador() {
-            if (playerC1.getVida == 0) {
-                score1 += 5;
                 scoreBoard2.setText('P2: ' + score1);
-                console.log("hola");
-            } else if (playerC2.getVida == 0) {
-                score2 += 5;
                 scoreBoard1.setText('P1: ' + score2);
-            }
-
         }
     }
 
