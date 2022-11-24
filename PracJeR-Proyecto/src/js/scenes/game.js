@@ -163,7 +163,6 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
       player1.setVelocityX(-250);
       player1.anims.play('left', true);
       player1.direcionMira = 'Left';
-      console.log(player1.direcionMira);
     }
 // Derecha
     else if (this.cursors.right.isDown) {
@@ -171,21 +170,18 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
       player1.anims.play('right', true);
       
       player1.direcionMira = 'Right';
-      console.log(player1.direcionMira);
     }
 // Arriba
     else if (this.cursors.up.isDown) {
       player1.setVelocityY(-250);
       player1.anims.play('right', true);
       player1.direcionMira = 'Up';
-      console.log(player1.direcionMira);
     }
 // Abajo    
     else if (this.cursors.down.isDown) {
       player1.setVelocityY(250);
       player1.anims.play('left', true);
       player1.direcionMira = 'Down';
-      console.log(player1.direcionMira);
     }
 // Quieto
     else {
@@ -195,48 +191,65 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
     }
     //Jugador 2
     // Se mueve con WASD
+    // Abajo Izquierda
     if (this.keys.S.isDown && this.keys.A.isDown) {
       player2.setVelocityY(250);
       player2.setVelocityX(-250);
       player2.anims.play('left', true);
-  } else if (this.keys.S.isDown && this.keys.D.isDown) {
+      player2.direcionMira = 'DownLeft';
+    }
+    // Abajo Derecha
+    else if (this.keys.S.isDown && this.keys.D.isDown) {
       player2.setVelocityY(250);
       player2.setVelocityX(250);
       player2.anims.play('left', true);
-
-  } else if (this.keys.W.isDown && this.keys.A.isDown) {
+      player2.direcionMira = 'DownRight';
+    }
+    // Arriba Izquierda
+    else if (this.keys.W.isDown && this.keys.A.isDown) {
       player2.setVelocityY(-250);
       player2.setVelocityX(-250);
       player2.anims.play('left', true);
-
-  } else if (this.keys.W.isDown && this.keys.D.isDown) {
+      player2.direcionMira = 'UpLeft';
+    }
+    // Arriba Derecha
+    else if (this.keys.W.isDown && this.keys.D.isDown) {
       player2.setVelocityY(-250);
       player2.setVelocityX(250);
       player2.anims.play('left', true);
-
-  } else if (this.keys.A.isDown) {
+      player2.direcionMira = 'UpRight';
+    }
+    // Izquierda
+    else if (this.keys.A.isDown) {
       player2.setVelocityX(-250);
-
       player2.anims.play('left', true);
-  }
-  else if (this.keys.D.isDown) {
+      player2.direcionMira = 'Left';
+    }
+    // Derecha
+    else if (this.keys.D.isDown) {
       player2.setVelocityX(250);
-
       player2.anims.play('right', true);
-
-  } else if (this.keys.W.isDown) {
+      player2.direcionMira = 'Right';
+    }
+    // Arriba
+    else if (this.keys.W.isDown) {
       player2.setVelocityY(-250);
       player2.anims.play('right', true);
-
-  } else if (this.keys.S.isDown) {
+      player2.direcionMira = 'Up';
+    }
+    // Abajo
+    else if (this.keys.S.isDown) {
       player2.setVelocityY(250);
       player2.anims.play('left', true);
-  } else {
+      player2.direcionMira = 'Down';
+    }
+    // Quieto
+    else {
       player2.setVelocityX(0);
       player2.setVelocityY(0);
 
       player2.anims.play('turn');
-  }
+    }
 
   //////////////////////////////////////////////////////////////////////////
   /*Disparos DE LOS PERSONAJES*/
@@ -246,7 +259,33 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
     this.bomba=bombas.create(player2.x,player2.y,'bomba');
     this.bomba.setBounce(1);
     this.bomba.setCollideWorldBounds(true);
-    this.bomba.setVelocity(Phaser.Math.Between(-200, 0), 20);
+    //this.bomba.setVelocity(Phaser.Math.Between(-200, 0), 20);
+    switch (player2.direcionMira){
+      case 'Up':
+        this.bomba.setVelocity(0, -100);
+        break;
+      case 'UpRight':
+        this.bomba.setVelocity(100, -100);
+        break;
+      case 'Right':
+        this.bomba.setVelocity(100, 0);
+        break;
+      case 'DownRight':
+        this.bomba.setVelocity(100, 100);
+        break;
+      case 'Down':
+        this.bomba.setVelocity(0, 100);
+        break;
+      case 'DownLeft':
+        this.bomba.setVelocity(-100, 100);
+        break;
+      case 'Left':
+        this.bomba.setVelocity(-100, 0);
+        break;
+      case 'UpLeft':
+        this.bomba.setVelocity(-100, -100);
+      break;
+    }
 
   }
   if(this.keys.L.isDown){
@@ -257,34 +296,27 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
       switch (player1.direcionMira){
         case 'Up':
           this.bomba.setVelocity(0, -100);
-          console.log(player1.direcionMira);
           break;
         case 'UpRight':
           this.bomba.setVelocity(100, -100);
-          console.log(player1.direcionMira);
           break;
         case 'Right':
           this.bomba.setVelocity(100, 0);
-          console.log(player1.direcionMira);
           break;
         case 'DownRight':
           this.bomba.setVelocity(100, 100);
-          console.log(player1.direcionMira);
           break;
         case 'Down':
           this.bomba.setVelocity(0, 100);
           break;
         case 'DownLeft':
           this.bomba.setVelocity(-100, 100);
-          console.log(player1.direcionMira);
           break;
         case 'Left':
           this.bomba.setVelocity(-100, 0);
-          console.log(player1.direcionMira);
           break;
         case 'UpLeft':
           this.bomba.setVelocity(-100, -100);
-          console.log(player1.direcionMira);
         break;
       }
   }
