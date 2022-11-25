@@ -77,7 +77,7 @@ En este apartado se explicarán las distintas interfaces que se encontraran en e
 
 **Menú principal**
 La interfaz que encontrará el jugador nada más iniciar el juego, está compuesta por el título del juego y tres botones.
-
+![PANTALLAINIC](https://user-images.githubusercontent.com/74834169/204024665-b9956c4c-b2c2-4517-97b6-bd724ff048e8.png)
 
 **Botón local**: Selecciona el modo para jugar de forma local.
 **Botón online**: Selecciona el modo para jugar de forma online.
