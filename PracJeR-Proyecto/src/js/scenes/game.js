@@ -1,5 +1,5 @@
 // Estos son los objetos que vamos ausar en el juego
-var player1, player2, muros,limites,bombas,x,y; //se sacan las variables fuera de la clase
+var player1, player2, muros,limites,bombas1,bombas2,x,y; //se sacan las variables fuera de la clase
 
 export class Game extends Phaser.Scene {
   constructor() {
@@ -41,9 +41,6 @@ export class Game extends Phaser.Scene {
 
     limites.create(400, 300, "separacion");
     //Personaje
-    var playerExp = {
-      figura: this.physics.add.sprite(300, 450, 'dude')
-    }
     player1 = this.physics.add.sprite(100, 450, 'dude'); //Fisica dinamica (dinamic group) por defecto
     player1.direcionMira = 'Down';
     player2 = this.physics.add.sprite(500, 450, 'dude'); //Fisica dinamica (dinamic group) por defecto
@@ -94,35 +91,56 @@ export class Game extends Phaser.Scene {
     this.physics.add.collider(player1, limites);
     this.physics.add.collider(player2, limites);
 
-    bombas = this.physics.add.group();
+    bombas1 = this.physics.add.group();
+    bombas2 = this.physics.add.group();
 
-    // Evento bomba choca con personaje 1
-    this.physics.add.collider(player1, bombas, hitBomb, null, this);
-    function hitBomb (player1, bomba)
+    // Evento bomba2 choca con personaje 1
+    this.physics.add.collider(player1, bombas2, hitBomb1, null, this);
+    function hitBomb1 (player1, bombas2)
     {
     // En esta versión vuelve invisible al personaje 1
     //DESACTIVADO PARA DEBUG
     //player1.setActive(false).setVisible(false);
     // Y la bomba se destruye
-    //bomba.destroy();
+    bombas2.destroy();
+    var randX = Phaser.Math.Between(0, 400);
+    var randY = Phaser.Math.Between(0, 600);
+    player1.setPosition(randX, randY);
+    console.log('impacto sobre1');
     }
+    
+
+    this.physics.add.collider(player2, bombas1, hitBomb2, null, this);
+   function hitBomb2 (player2, bombas1)
+   {
+    //DESACTIVADO PARA DEBUG
+    //player2.setActive(false).setVisible(false);
+    
+    console.log('la boba se destruye');
+    bombas1.destroy();
+    var randX = Phaser.Math.Between(400, 800);
+    var randY = Phaser.Math.Between(0, 600);
+    player2.setPosition(randX, randY);
+    console.log('impacto sobre 2');
+   }
    
-   // Evento bomba choca con muro
-   this.physics.add.collider(muros, bombas, hitBomb1, null, this);
-   function hitBomb1 (muros, bomba)
+   // Evento bomba1 choca con muro
+   this.physics.add.collider(muros, bombas1, hitBombWall1, null, this);
+   function hitBombWall1 (muros, bomba)
    {
     // Destruye el muro y la bomba al impacto
     muros.destroy();
     bomba.destroy();
    }
 
-    this.physics.add.collider(player2, bombas, hitBomb, null, this);
-   function hitBomb (player2, bomba)
+   this.physics.add.collider(muros, bombas2, hitBombWall2, null, this);
+   function hitBombWall2 (muros, bomba)
    {
-    //DESACTIVADO PARA DEBUG
-    //player2.setActive(false).setVisible(false);
-    //bomba.destroy();
+    // Destruye el muro y la bomba al impacto
+    muros.destroy();
+    bomba.destroy();
    }
+
 
 }
 
@@ -256,7 +274,7 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
   //////////////////////////////////////////////////////////////////////////
 
   if(this.keys.E.isDown){
-    this.bomba=bombas.create(player2.x,player2.y,'bomba');
+    this.bomba=bombas2.create(player2.x,player2.y,'bomba');
     this.bomba.setBounce(1);
     this.bomba.setCollideWorldBounds(true);
     //this.bomba.setVelocity(Phaser.Math.Between(-200, 0), 20);
@@ -289,7 +307,7 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
 
   }
   if(this.keys.L.isDown){
-      this.bomba=bombas.create(player1.x,player1.y,'bomba');
+      this.bomba=bombas1.create(player1.x,player1.y,'bomba');
       this.bomba.setBounce(1);
       this.bomba.setCollideWorldBounds(true);
       //this.bomba.setVelocity(Phaser.Math.Between(0, 200), 20);
@@ -321,5 +339,7 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
       }
   }
   }
+  respawn(){
 
+  }
 }
