@@ -5,7 +5,9 @@
 var score1 = 0;
 var score2 = 0;
 var scoreBoard1, scoreBoard2;
-var player1, player2, muros, limites, bombas, x, y, t1, t2, textoFinPartida; //se sacan las variables fuera de la clase
+var player1, player2, muros, limites, bombas, x, y, t1, t2, textoFinPartida, text,explosion; //se sacan las variables fuera de la clase
+var posExplosionX;
+var posExplosionY;
 var t1 = 1000;
 var t2 = 1000;
 var timedEvent;
@@ -21,6 +23,7 @@ class Jugador {
         this.vida = value;
     }
 }
+
 
 class Muro {
     constructor(x, y) {
@@ -54,9 +57,6 @@ export class Game extends Phaser.Scene {
     }
 
     create() {
-        
-        const camera = this.cameras.main;
-
 
         this.add.image(400, 300, "campo");  //Añade un nuevo elemento del juego 
         //de tipo imagen a la lista de objetos de la escena.
@@ -66,6 +66,7 @@ export class Game extends Phaser.Scene {
         muros = this.physics.add.staticGroup();
 
         limites = this.physics.add.staticGroup();
+        explosion =this.physics.add.staticGroup();
 
         var coberturas = new Array(); //Array que contiene los muros
 
@@ -173,9 +174,14 @@ export class Game extends Phaser.Scene {
             if (coberturas[temp].vida == 0) {
                 muro.destroy();
             }
-            bomba.destroy();
-        }
+            posExplosionX=bomba.x;
+             posExplosionY=bomba.y;
+             explosion.create(posExplosionX,posExplosionY,'bomba').setScale(3,3).refreshBody();
+             explosion.setVisible(false);
 
+            bomba.destroy();   
+           
+        }
         this.physics.add.collider(player1, bombas, hitBomb, null, this);
         function hitBomb(player1, bomba) {
             score2++;
@@ -189,8 +195,29 @@ export class Game extends Phaser.Scene {
 
                 textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 2 gana',
                     { fontSize: '50px', fill: '#000' });
+                    this.scene.start('pantallaFinal'); //opcional
+
             }
         }
+
+        this.physics.add.collider(player1, explosion, hitExplosion, null, this);
+        function hitExplosion(player1, explosion) {
+            score2++;
+            marcador();
+            player1.setPosition(100, Phaser.Math.Between(0, 600));
+            explosion.destroy();
+
+            if (score2 == 5) {
+                this.physics.pause();
+                player1.anims.play('turn');
+
+                textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 2 gana',
+                    { fontSize: '50px', fill: '#000' });
+                    this.scene.start('pantallaFinal'); //opcional
+
+            }
+        }
+
 
 
         this.physics.add.collider(player2, bombas, hitBomb2, null, this);
@@ -206,8 +233,28 @@ export class Game extends Phaser.Scene {
                 player2.anims.play('turn');
                 player1.anims.play('turn');
                 textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 1 gana',
-                    { fontSize: '50px', fill: '#000' });                      
-                }
+                    { fontSize: '50px', fill: '#000' });
+                    this.scene.start('pantallaFinal');//opcional
+
+            }
+        }
+        
+        this.physics.add.collider(player2, explosion, hitExplosion1, null, this);
+        function hitExplosion1(player2, explosion) {
+            score1++;
+            marcador();
+            player2.setPosition(700, Phaser.Math.Between(0, 600));
+            explosion.destroy();
+
+            if (score1 == 5) {
+                this.physics.pause();
+                player2.anims.play('turn');
+                player1.anims.play('turn');
+                textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 1 gana',
+                    { fontSize: '50px', fill: '#000' });
+                    this.scene.start('pantallaFinal'); //opcional
+
+            }
         }
 
         //INTENTO DE MARCADOR 3
@@ -215,7 +262,23 @@ export class Game extends Phaser.Scene {
             scoreBoard2.setText('P2: ' + score2);
             scoreBoard1.setText('P1: ' + score1);
         }
+         ///////////////////////////////////////////
+        //TIMER
+        ///////////////////////////////////////////
+        this.timer = 60; //tiempo en segundos restantes
 
+        text = this.add.text(32, 32, 'Time left: ' +this.timer); 
+        timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this, loop: true });
+
+        function onEvent () //cada vez que pase un segundo se ejecutará onEvent(), poner aqui creacion de bombas y 
+        {
+            this.timer -= 1; // One second
+            text.setText('Time left: ' + this.timer);
+            //pequeña función que hace que cuando se acabe el tiempo cambie a la pantalla final
+            if(this.timer == 0){
+            this.scene.start('pantallaFinal');
+            }
+        }
     
 }
 
@@ -245,22 +308,18 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
         player1.direcionMira = 'UpRight';
     } else if (this.cursors.left.isDown) {
         player1.setVelocityX(-250);
-        player1.setVelocityY(0);
         player1.anims.play('left', true);
         player1.direcionMira = 'Left';
     } else if (this.cursors.right.isDown) {
         player1.setVelocityX(250);
-        player1.setVelocityY(0);
         player1.anims.play('right', true);
         player1.direcionMira = 'Right';
     } else if (this.cursors.up.isDown) {
         player1.setVelocityY(-250);
-        player1.setVelocityX(0);
         player1.anims.play('right', true);
         player1.direcionMira = 'Up';
     } else if (this.cursors.down.isDown) {
         player1.setVelocityY(250);
-        player1.setVelocityX(0);
         player1.anims.play('left', true);
         player1.direcionMira = 'Down';
     } else {
@@ -293,24 +352,20 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
 
     } else if (this.keys.A.isDown) {
         player2.setVelocityX(-250);
-        player2.setVelocityY(0);
         player2.anims.play('left', true);
         player2.direcionMira = 'Left';
     } else if (this.keys.D.isDown) {
         player2.setVelocityX(250);
-        player2.setVelocityY(0);
         player2.anims.play('right', true);
         player2.direcionMira = 'Right';
 
     } else if (this.keys.W.isDown) {
         player2.setVelocityY(-250);
-        player2.setVelocityX(0);
         player2.anims.play('right', true);
         player2.direcionMira = 'Up';
 
     } else if (this.keys.S.isDown) {
         player2.setVelocityY(250);
-        player2.setVelocityX(0);
         player2.anims.play('left', true);
         player2.direcionMira = 'Down';
     } else {
@@ -323,36 +378,36 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
             this.bomba = bombas.create(player2.x - 40, player2.y, 'bomba');
             this.bomba.setBounce(1);
             this.bomba.setCollideWorldBounds(true);
-            this.bomba.setDragX(500); //https://phaser.discourse.group/t/friction-not-working/5721/11
-            this.bomba.setDragY(500);
+            this.bomba.setVelocity(Phaser.Math.Between(-200, 0), 20);
             t1 = time;
 
             switch (player2.direcionMira){
                 case 'Up':
-                  this.bomba.setVelocity(0, -500);
+                  this.bomba.setVelocity(0, -100);
                   break;
                 case 'UpRight':
-                  this.bomba.setVelocity(500, -500);
+                  this.bomba.setVelocity(100, -100);
                   break;
                 case 'Right':
-                  this.bomba.setVelocity(500, 0);
+                  this.bomba.setVelocity(100, 0);
                   break;
                 case 'DownRight':
-                  this.bomba.setVelocity(500, 500);
+                  this.bomba.setVelocity(100, 100);
                   break;
                 case 'Down':
-                  this.bomba.setVelocity(0, 500);
+                  this.bomba.setVelocity(0, 100);
                   break;
                 case 'DownLeft':
-                  this.bomba.setVelocity(-500, 500);
+                  this.bomba.setVelocity(-100, 100);
                   break;
                 case 'Left':
-                  this.bomba.setVelocity(-500, 0);
+                  this.bomba.setVelocity(-100, 0);
                   break;
                 case 'UpLeft':
-                  this.bomba.setVelocity(-500, -500);
+                  this.bomba.setVelocity(-100, -100);
                 break;
               }
+
         }
     }
     if (this.keys.L.isDown) {
@@ -360,8 +415,6 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
             this.bomba = bombas.create(player1.x + 40, player1.y, 'bomba');  //+40 provisional para que el juagdor
             this.bomba.setBounce(1);                                         //no se mate a si mismo
             this.bomba.setCollideWorldBounds(true);
-            this.bomba.setDragX(500); 
-            this.bomba.setDragY(500);
             this.bomba.setVelocity(Phaser.Math.Between(0, 200), 20);
             t2 = time;
 
@@ -370,36 +423,31 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
                   this.bomba.setVelocity(0, -100);
                   break;
                 case 'UpRight':
-                  this.bomba.setVelocity(500, -500);
+                  this.bomba.setVelocity(100, -100);
                   break;
                 case 'Right':
-                  this.bomba.setVelocity(500, 0);
+                  this.bomba.setVelocity(100, 0);
                   break;
                 case 'DownRight':
-                  this.bomba.setVelocity(500, 500);
+                  this.bomba.setVelocity(100, 100);
                   break;
                 case 'Down':
-                  this.bomba.setVelocity(0, 500);
+                  this.bomba.setVelocity(0, 100);
                   break;
                 case 'DownLeft':
-                  this.bomba.setVelocity(-500, 500);
+                  this.bomba.setVelocity(-100, 100);
                   break;
                 case 'Left':
-                  this.bomba.setVelocity(-500, 0);
+                  this.bomba.setVelocity(-100, 0);
                   break;
                 case 'UpLeft':
-                  this.bomba.setVelocity(-500, -500);
+                  this.bomba.setVelocity(-100, -100);
                 break;
               }
-          } 
+          }
+        
+        
     }
-
-    //BORRAR BOMBAS
-    /*for(var i=0; i<bombs.length;i++){
-        if((time - bombs[i].tiempo) > (3000)){
-            bombs[i].destroy();
-        }
-    }*/
 
 
 }
