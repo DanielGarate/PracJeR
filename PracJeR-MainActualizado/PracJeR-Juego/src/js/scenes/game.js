@@ -89,8 +89,10 @@ export class Game extends Phaser.Scene {
         player1 = new Jugador(10)
         player1 = this.physics.add.sprite(100, 450, 'dude').setScale(1.25, 1.25).refreshBody(); //Fisica dinamica (dinamic group) por defecto
         player1.direcionMira = 'Down';
+        player1.municion = false;
         player2 = this.physics.add.sprite(700, 450, 'dude').setScale(1.25, 1.25).refreshBody(); ; //Fisica dinamica (dinamic group) por defecto
         player2.direcionMira = 'Down';
+        player2.municion = false;
         //INSTANCIACION JUGADOR 1
         const playerC1 = new Jugador(10);
         const playerC2 = new Jugador(10);
@@ -167,6 +169,7 @@ export class Game extends Phaser.Scene {
 
         function refill(jugador, spawn){
             jugador.setTint(0x09D802);
+            jugador.municion = true;
         }
 
         //algoritmo que detecta bomba contra jugador detiene la partida
@@ -300,6 +303,8 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
         player1.setVelocityY(0);
         player1.anims.play('turn');
     }
+
+
     //Jugador 2
     if (this.keys.S.isDown && this.keys.A.isDown) {
         player2.setVelocityY(250);
@@ -346,6 +351,10 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
         player2.setVelocityY(0);
         player2.anims.play('turn');
     }
+    /////////////////////////////////////////////////////////////////////////////
+    // Disparos Jugador 2
+    /////////////////////////////////////////////////////////////////////////////
+
     if (this.keys.E.isDown) {
         if (t1 < time - 1000) {
             this.bomba = bombas.create(player2.x - 40, player2.y, 'bomba');
@@ -383,8 +392,14 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
 
         }
     }
+
+    /////////////////////////////////////////////////////////////////////////////
+    // Disparos Jugador 1
+    /////////////////////////////////////////////////////////////////////////////
+
     if (this.keys.L.isDown) {
-        if (t2 < time - 1000) {
+        // De momento es una condición doble, luego la única condición sería que tuviese munición
+        if (player1.municion) {
             this.bomba = bombas.create(player1.x + 40, player1.y, 'bomba');  //+40 provisional para que el juagdor
             this.bomba.setBounce(1);                                         //no se mate a si mismo
             this.bomba.setCollideWorldBounds(true);
@@ -417,6 +432,7 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
                   this.bomba.setVelocity(-100, -100);
                 break;
               }
+              player1.municion = false;
           }
         
         
