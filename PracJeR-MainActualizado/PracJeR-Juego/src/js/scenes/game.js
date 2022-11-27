@@ -153,7 +153,7 @@ export class Game extends Phaser.Scene {
         this.physics.add.collider(player1, limites);
         this.physics.add.collider(player2, limites);
 
-        //this.physics.add.overLapp
+        
 
         bombas = this.physics.add.group();
 
@@ -161,6 +161,13 @@ export class Game extends Phaser.Scene {
         //INTENTO DE MARCADOR 2
         scoreBoard2 = this.add.text(440, 40, "P2: 0", { fontSize: '32px', fill: '#fff' });
         scoreBoard1 = this.add.text(240, 40, "P1: 0", { fontSize: '32px', fill: '#fff' });
+
+        //Superposicióncon spawn
+        this.physics.add.overlap(player1, spawnBombas, refill, null, this);
+
+        function refill(jugador, spawn){
+            jugador.setTint(0x09D802);
+        }
 
         //algoritmo que detecta bomba contra jugador detiene la partida
         //HAY ALGUN PROBLEMA CON LA DETECCION DE JUGADOR UN Y 2 TODO
