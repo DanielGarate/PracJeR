@@ -5,7 +5,7 @@
 var score1 = 0;
 var score2 = 0;
 var scoreBoard1, scoreBoard2;
-var player1, player2, muros, limites, bombas, x, y, t1, t2, textoFinPartida, text; //se sacan las variables fuera de la clase
+var player1, player2, muros, limites, spawnBombas, bombas, x, y, t1, t2, textoFinPartida, text; //se sacan las variables fuera de la clase
 var t1 = 1000;
 var t2 = 1000;
 var timedEvent;
@@ -86,7 +86,7 @@ export class Game extends Phaser.Scene {
         limites.create(400, 300, "separacion");
 
         //Personaje
-        
+        player1 = new Jugador(10)
         player1 = this.physics.add.sprite(100, 450, 'dude').setScale(1.25, 1.25).refreshBody(); //Fisica dinamica (dinamic group) por defecto
         player1.direcionMira = 'Down';
         player2 = this.physics.add.sprite(700, 450, 'dude').setScale(1.25, 1.25).refreshBody(); ; //Fisica dinamica (dinamic group) por defecto
@@ -98,6 +98,16 @@ export class Game extends Phaser.Scene {
         //Posicion del personaje
         player1.setCollideWorldBounds(true);
         player2.setCollideWorldBounds(true);
+
+
+
+
+        // Spawn de bombas
+        spawnBombas = this.physics.add.sprite(100, 100, 'dude').setScale(0.75, 0.75).refreshBody();
+        spawnBombas.setTint(0xff0000);
+
+
+
 
         //creación de animaciones personaje
         this.anims.create({
@@ -142,6 +152,8 @@ export class Game extends Phaser.Scene {
         this.physics.add.collider(player2, muros);
         this.physics.add.collider(player1, limites);
         this.physics.add.collider(player2, limites);
+
+        //this.physics.add.overLapp
 
         bombas = this.physics.add.group();
 
@@ -402,7 +414,5 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
         
         
     }
-
-
 }
 }
