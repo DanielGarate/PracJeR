@@ -1,13 +1,13 @@
 import { Game } from './scenes/game.js';
-
-
+import{menuIni} from './scenes/menuIni.js';
+import{pantallaFin} from './scenes/pantallaFinal.js';
 var config = {     //Contiene un json
   type: Phaser.AUTO,
   width: 800,
   height: 600,
   parent: "container",
   type: Phaser.AUTO,
-  scene: [Game],
+  scene: [menuIni,Game,pantallaFin],
   physics: {    //Se agrega el sistema de fisicas arcade a la configuración
       default: 'arcade',
       arcade: {
