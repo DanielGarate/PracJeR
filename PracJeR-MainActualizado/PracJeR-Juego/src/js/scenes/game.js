@@ -9,16 +9,18 @@ var player1, player2, muros, limites, spawnBombas, bombas, x, y, t1, t2, textoFi
 var t1 = 1000;
 var t2 = 1000;
 var timedEvent;
-//intento clase jugador 
-class Jugador {
-    constructor(vida) {
-        this.vida = vida;
-    }
-    get getVida() {
-        return this.vida;
-    }
-    set setVida(value) {
-        this.vida = value;
+
+//////////////////////////////////////////////////////////
+//  FUNCIOOOOOONAAAAA CARAAAAJOOOOOO VIVA MÉXICO LINDO
+/////////////////////////////////////////////////////////
+
+
+class Jugador extends Phaser.GameObjects.Sprite {
+
+    constructor (scene, x, y)
+    {
+        super(scene, x, y, "dude");
+        scene.add.existing(this);
     }
 }
 
@@ -86,16 +88,15 @@ export class Game extends Phaser.Scene {
         limites.create(400, 300, "separacion");
 
         //Personaje
-        player1 = new Jugador(10)
+        
         player1 = this.physics.add.sprite(100, 450, 'dude').setScale(1.25, 1.25).refreshBody(); //Fisica dinamica (dinamic group) por defecto
         player1.direcionMira = 'Down';
         player1.municion = false;
+        var monigote = new Jugador(this, 100, 300);
         player2 = this.physics.add.sprite(700, 450, 'dude').setScale(1.25, 1.25).refreshBody(); ; //Fisica dinamica (dinamic group) por defecto
         player2.direcionMira = 'Down';
         player2.municion = false;
         //INSTANCIACION JUGADOR 1
-        const playerC1 = new Jugador(10);
-        const playerC2 = new Jugador(10);
 
         //Posicion del personaje
         player1.setCollideWorldBounds(true);
@@ -433,6 +434,7 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
                 break;
               }
               player1.municion = false;
+              player1.tint = 0xffffff;
           }
         
         
