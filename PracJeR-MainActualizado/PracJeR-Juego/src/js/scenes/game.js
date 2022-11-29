@@ -2,7 +2,7 @@
 var score1 = 0;
 var score2 = 0;
 var scoreBoard1, scoreBoard2;
-var player1, player2, muros, limites, spawnBombas, bombas, x, y, t1, t2, textoFinPartida, text; //se sacan las variables fuera de la clase
+var player1, player2,monigote, muros, limites, spawnBombas, bombas, x, y, t1, t2, textoFinPartida, text; //se sacan las variables fuera de la clase
 var t1 = 1000;
 var t2 = 1000;
 var timedEvent;
@@ -18,6 +18,19 @@ class Jugador extends Phaser.GameObjects.Sprite {
     {
         super(scene, x, y, "dude");
         scene.add.existing(this);
+    }
+}
+
+class Explosivo extends Phaser.GameObjects.Sprite{
+
+    constructor (scene, x, y)
+    {
+        super(scene, x, y, "bomba");
+        scene.add.existing(this);
+
+        scene.physics.world.enableBody(this);
+        //this.refreshBody();
+        //this.setCollideWorldBounds(true);
     }
 }
 
@@ -89,7 +102,7 @@ export class Game extends Phaser.Scene {
         player1 = this.physics.add.sprite(100, 450, 'dude').setScale(1.25, 1.25).refreshBody(); //Fisica dinamica (dinamic group) por defecto
         player1.direcionMira = 'Down';
         player1.municion = false;
-        var monigote = new Jugador(this, 100, 300);
+        monigote = new Explosivo(this, 100, 300);
         player2 = this.physics.add.sprite(700, 450, 'dude').setScale(1.25, 1.25).refreshBody(); ; //Fisica dinamica (dinamic group) por defecto
         player2.direcionMira = 'Down';
         player2.municion = false;
@@ -98,6 +111,7 @@ export class Game extends Phaser.Scene {
         //Posicion del personaje
         player1.setCollideWorldBounds(true);
         player2.setCollideWorldBounds(true);
+        //monigote.setCollideWorldBounds(true);
 
 
 
@@ -152,6 +166,7 @@ export class Game extends Phaser.Scene {
         this.physics.add.collider(player2, muros);
         this.physics.add.collider(player1, limites);
         this.physics.add.collider(player2, limites);
+        this.physics.add.collider(player1, monigote);
 
         
 
@@ -236,7 +251,7 @@ export class Game extends Phaser.Scene {
             scoreBoard2.setText('P2: ' + score2);
             scoreBoard1.setText('P1: ' + score1);
         }
-         ///////////////////////////////////////////
+        ///////////////////////////////////////////
         //TIMER
         ///////////////////////////////////////////
         this.timer = 60; //tiempo en segundos restantes
