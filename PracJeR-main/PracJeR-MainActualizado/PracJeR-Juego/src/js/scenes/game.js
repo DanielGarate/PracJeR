@@ -46,6 +46,10 @@ export class Game extends Phaser.Scene {
             "../../resources/img/personaje.png",
             { frameWidth: 32, frameHeight: 48 }
         );
+        this.load.spritesheet("realDude",
+            "../../resources/img/realDude.png",
+            { frameWidth: 60, frameHeight: 81 }
+        );
           this.load.spritesheet("Explosion",
             "../../resources/img/ExplosionAnimacion.png",
             { frameWidth: 96, frameHeight: 96 }
@@ -100,7 +104,7 @@ export class Game extends Phaser.Scene {
 
         //Personaje
 
-        player1 = this.physics.add.sprite(100, 450, 'dude').setScale(1.25, 1.25).refreshBody(); //Fisica dinamica (dinamic group) por defecto
+        player1 = this.physics.add.sprite(100, 450, 'realDude').setScale(0.7, 0.7).refreshBody(); //Fisica dinamica (dinamic group) por defecto
         player1.direcionMira = 'Down';
         player2 = this.physics.add.sprite(700, 450, 'dude').setScale(1.25, 1.25).refreshBody(); //Fisica dinamica (dinamic group) por defecto
         player2.direcionMira = 'Down';
@@ -110,12 +114,11 @@ export class Game extends Phaser.Scene {
 
 
         // Spawn de bombas
-        spawnBombas1 = this.physics.add.sprite(100, 100, 'dude').setScale(0.75, 0.75).refreshBody();
+        spawnBombas1 = this.physics.add.sprite(100, 100, 'bomba').setScale(1, 1).refreshBody();
         spawnBombas1.setTint(0xff0000);
 
-        spawnBombas2 = this.physics.add.sprite(700, 100, 'dude').setScale(0.75, 0.75).refreshBody();
+        spawnBombas2 = this.physics.add.sprite(700, 100, 'bomba').setScale(1, 1).refreshBody();
         spawnBombas2.setTint(0xff0000);
-
 
         //creación de animaciones personaje
      
@@ -160,7 +163,40 @@ export class Game extends Phaser.Scene {
            killOnComplete: true,
         });
 
+        //creación de animaciones personaje2
 
+        this.anims.create({
+            key: 'left1',
+            frames: this.anims.generateFrameNumbers('realDude', { start: 0, end: 2 }), //Usa los fottogramas 0, 1, 2 y 3
+            frameRate: 10,
+            repeat: -1  //La animación debe volver a empezar cuando termine
+        });
+
+        this.anims.create({
+            key: 'turn1',
+            frames: [{ key: 'realDude', frame: 9 }],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'up1',
+            frames: this.anims.generateFrameNumbers('realDude', { start: 4, end: 6 }),
+            frameRate: 10
+        });
+
+        this.anims.create({
+            key: 'down1',
+            frames: this.anims.generateFrameNumbers('realDude', { start: 7, end: 9 }),
+            frameRate: 10
+        });
+
+
+        this.anims.create({
+            key: 'right1',
+            frames: this.anims.generateFrameNumbers('realDude', { start: 10, end: 12 }),
+            frameRate: 10,
+            repeat: -1
+        });
 
         this.cursors = this.input.keyboard.createCursorKeys();  //Crea el objeto cursors (con 4 propiedades: up, down, left, right)
         this.keys = this.input.keyboard.addKeys('A,W,S,D,E,L');
@@ -266,7 +302,7 @@ export class Game extends Phaser.Scene {
 
             if (score1 >= 5) {
                 this.physics.pause();
-                player1.anims.play('turn');
+                player1.anims.play('turn1');
 
                 textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 1 gana',
                     { fontSize: '50px', fill: '#000' });
@@ -292,6 +328,16 @@ export class Game extends Phaser.Scene {
 
             }
         }
+             this.physics.add.collider(bombas, bombas, ColisionBombas, null, this);
+        function ColisionBombas(bomba, bomba1) {
+            posExplosionX = bomba.x;
+            posExplosionY = bomba.y;     
+            bomba.destroy();
+            bomba1.destroy();
+            this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
+            this.animExplosion.anims.play('boom')
+        }
+      
         
 
         this.physics.add.collider(player2, bombas, hitBomb2, null, this);
@@ -395,59 +441,65 @@ export class Game extends Phaser.Scene {
         if (this.keys.S.isDown && this.keys.A.isDown) {
             player1.setVelocityY(250);
             player1.setVelocityX(-250);
-            player1.anims.play('left', true);
+            player1.anims.play('left1', true);
             player1.direcionMira = 'DownLeft';
         } else if (this.keys.S.isDown && this.keys.D.isDown) {
             player1.setVelocityY(250);
             player1.setVelocityX(250);
-            player1.anims.play('left', true);
+            player1.anims.play('right1', true);
             player1.direcionMira = 'DownRight';
 
         } else if (this.keys.W.isDown && this.keys.A.isDown) {
             player1.setVelocityY(-250);
             player1.setVelocityX(-250);
-            player1.anims.play('left', true);
+            player1.anims.play('left1', true);
             player1.direcionMira = 'UpLeft';
         } else if (this.keys.W.isDown && this.keys.D.isDown) {
             player1.setVelocityY(-250);
             player1.setVelocityX(250);
-            player1.anims.play('left', true);
+            player1.anims.play('right1', true);
             player1.direcionMira = 'UpRight';
 
         } else if (this.keys.A.isDown) {
             player1.setVelocityX(-250);
             player1.setVelocityY(0);
-            player1.anims.play('left', true);
+            player1.anims.play('left1', true);
             player1.direcionMira = 'Left';
         } else if (this.keys.D.isDown) {
             player1.setVelocityX(250);
             player1.setVelocityY(0);
-            player1.anims.play('right', true);
+            player1.anims.play('right1', true);
             player1.direcionMira = 'Right';
 
         } else if (this.keys.W.isDown) {
             player1.setVelocityY(-250);
             player1.setVelocityX(0);
-            player1.anims.play('right', true);
+            player1.anims.play('up1', true);
             player1.direcionMira = 'Up';
 
         } else if (this.keys.S.isDown) {
             player1.setVelocityY(250);
             player1.setVelocityX(0);
-            player1.anims.play('left', true);
+            player1.anims.play('down1', true);
             player1.direcionMira = 'Down';
         } else {
             player1.setVelocityX(0);
             player1.setVelocityY(0);
-            player1.anims.play('turn');
+            player1.anims.play('turn1');
         }
         if (this.keys.E.isDown) {
             if (player1.municion) {
-                this.bomba = bombas.create(player1.x + 40, player1.y, 'bomba');
+                this.bomba = bombas.create(player1.x + 40, player1.y, 'bomba').setAlpha(1);
            this.bomba.setBounce(1);
                 this.bomba.setCollideWorldBounds(true);
                 this.bomba.setDragX(50); //https://phaser.discourse.group/t/friction-not-working/5721/11
                 this.bomba.setDragY(50);
+                this.tweens.add({
+    targets: this.bomba,
+    alpha: 0.05,
+    duration: 2000,
+});
+               
                 this.bomba.setVelocity(Phaser.Math.Between(-200, 0), 20);
                 t1 = time;
       
@@ -476,9 +528,11 @@ export class Game extends Phaser.Scene {
                 this.bomba.setCollideWorldBounds(true);
                 this.bomba.setDragX(50);
                 this.bomba.setDragY(50);
-                this.bomba.setVelocity(Phaser.Math.Between(0, 200), 20);
-                t2 = time;
-
+                this.tweens.add({
+                targets: this.bomba,
+                alpha: 0.05,
+                duration: 2000,
+                });
                 switch (player2.direcionMira) {
                     case 'DownLeft':
                         this.bomba.setVelocity(-300, 300);
