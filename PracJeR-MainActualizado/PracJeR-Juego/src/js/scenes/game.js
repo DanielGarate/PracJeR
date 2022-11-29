@@ -5,7 +5,11 @@
 var score1 = 0;
 var score2 = 0;
 var scoreBoard1, scoreBoard2;
+<<<<<<< Updated upstream
 var player1, player2, muros, limites, bombas, spawnBombas1, spawnBombas2, text; //se sacan las variables fuera de la clase
+=======
+var player1, player2,monigote, muros, limites, spawnBombas1,spawnBombas2, bombas, x, y, t1, t2, textoFinPartida, text; //se sacan las variables fuera de la clase
+>>>>>>> Stashed changes
 var t1 = 1000;
 var t2 = 1000;
 var explosion;
@@ -18,11 +22,26 @@ class Jugador {
         this.vida = vida;
         this.municion = false;
     }
+<<<<<<< Updated upstream
     get getVida() {
         return this.vida;
     }
     set setVida(value) {
         this.vida = value;
+=======
+}
+
+class Explosivo extends Phaser.GameObjects.Sprite{
+
+    constructor (scene, x, y)
+    {
+        super(scene, x, y, "bomba");
+        scene.add.existing(this);
+
+        //scene.physics.world.enableBody(this);
+        //this.refreshBody();
+        //this.setCollideWorldBounds(true);
+>>>>>>> Stashed changes
     }
 }
 
@@ -106,9 +125,22 @@ export class Game extends Phaser.Scene {
         player2.setCollideWorldBounds(true);
 
 
+<<<<<<< Updated upstream
         // Spawn de bombas
         spawnBombas1 = this.physics.add.sprite(100, 100, 'dude').setScale(0.75, 0.75).refreshBody();
         spawnBombas1.setTint(0xff0000);
+=======
+        // Spawn de bombas1
+        spawnBombas1 = this.physics.add.sprite(100, 100, 'dude').setScale(0.75, 0.75).refreshBody();
+        spawnBombas1.localizacion = 0;
+        spawnBombas1.setTint(0xff0000);
+
+        // Spawn de bombas2
+        spawnBombas2 = this.physics.add.sprite(700, 100, 'dude').setScale(0.75, 0.75).refreshBody();
+        spawnBombas2.localizacion = 0;
+        spawnBombas2.setTint(0xff0000);
+
+>>>>>>> Stashed changes
 
         spawnBombas2 = this.physics.add.sprite(700, 100, 'dude').setScale(0.75, 0.75).refreshBody();
         spawnBombas2.setTint(0xff0000);
@@ -165,6 +197,7 @@ export class Game extends Phaser.Scene {
         scoreBoard2 = this.add.text(440, 40, "P2: 0", { fontSize: '32px', fill: '#fff' });
         scoreBoard1 = this.add.text(240, 40, "P1: 0", { fontSize: '32px', fill: '#fff' });
 
+<<<<<<< Updated upstream
         //Superposicióncon spawn
         this.physics.add.overlap(player1, spawnBombas1, refill, null, this);
         this.physics.add.overlap(player2, spawnBombas2, refill, null, this);
@@ -184,6 +217,91 @@ export class Game extends Phaser.Scene {
 
         //algoritmo que detecta bomba contra jugador detiene la partida
         //HAY ALGUN PROBLEMA CON LA DETECCION DE JUGADOR UN Y 2 TODO
+=======
+        //Superposicióncon spawnBombas1
+        this.physics.add.overlap(player1, spawnBombas1, refill1, null, this);
+
+        function refill1(jugador, spawn){
+            if(!jugador.municion)
+            {
+            jugador.setTint(0x09D802);
+            jugador.municion = true;
+            cambiaPosicion1(spawn);
+            }
+        }
+
+        function cambiaPosicion1(spawn)
+        {
+            switch (spawn.localizacion)
+            {
+                case 0:
+                    spawn.setPosition(100, 500);
+                    spawn.localizacion++;
+                break;
+
+                case 1:
+                    spawn.setPosition(225, 200);
+                    spawn.localizacion++;
+                break;
+
+                case 2:
+                    spawn.setPosition(225, 400);
+                    spawn.localizacion++;
+                break;
+
+                case 3:
+                    spawn.setPosition(350, 300);
+                    spawn.localizacion++;
+                break;
+
+                case 4:
+                    spawn.setPosition(100, 100);
+                    spawn.localizacion = 0;
+                break;
+            }
+        }
+        // Superposicion spawnBombas2
+        this.physics.add.overlap(player2, spawnBombas2, refill2, null, this);
+        function refill2(jugador, spawn){
+            if(!jugador.municion)
+            {
+            jugador.setTint(0x09D802);
+            jugador.municion = true;
+            cambiaPosicion2(spawn);
+            }
+        }
+
+        function cambiaPosicion2(spawn)
+        {
+            switch (spawn.localizacion)
+            {
+                case 0:
+                    spawn.setPosition(700, 500);
+                    spawn.localizacion++;
+                break;
+
+                case 1:
+                    spawn.setPosition(575, 200);
+                    spawn.localizacion++;
+                break;
+
+                case 2:
+                    spawn.setPosition(575, 400);
+                    spawn.localizacion++;
+                break;
+
+                case 3:
+                    spawn.setPosition(450, 300);
+                    spawn.localizacion++;
+                break;
+
+                case 4:
+                    spawn.setPosition(700, 100);
+                    spawn.localizacion = 0;
+                break;
+            }
+        }
+>>>>>>> Stashed changes
 
 
         this.physics.add.collider(muros, bombas, hitBomb1, null, this);
