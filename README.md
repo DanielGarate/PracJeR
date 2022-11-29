@@ -136,7 +136,7 @@ Flecha superior : Movimiento hacia arriba del jugador 2.
 Flecha inferior : Movimiento hacia abajo del jugador 2.
 Flecha derecha : Movimiento hacia la derecha del jugador 2.
 Flecha izquierda : Movimiento hacia la izquierda del jugador 2 .
-Barra espaciadora : Disparo del proyectil del jugador 2 y colocación de muros en la primera fase.
+Tecla L : Disparo del proyectil del jugador 2 y colocación de muros en la primera fase.
 Pantalla de juego
 Es la interfaz que se encontrará una vez que comience la partida, está compuesta por el campo de juego, un temporizador y dos contadores uno para cada jugador representados por una pequeña avatar de su personaje.
 
