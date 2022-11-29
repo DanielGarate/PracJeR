@@ -13,6 +13,7 @@ var posExplosionX, posExplosionY;  //Posicion de las explosiones
 var timedEvent1;
 var c1 = 0; //...
 var c2 = 0; //Para el control de spawns
+var bum;
 
 class Muro {            //Clase muro para poder destruir cuerpos
     constructor(x, y) { //Constructor con las posiciones
@@ -28,6 +29,10 @@ export class Game extends Phaser.Scene {
         super({ key: 'game' });
     }
     preload() {
+        // Se carga el audio
+        //bum = game.add.audio("explosion");
+        this.load.audio("bum", "../../resources/sound/efects/sonidoExplosion.mp3");
+
         //SE INCLUYEN LAS ANIMACIONES NECESARIAS
         this.load.spritesheet("dude",
             "../../resources/img/personaje.png",
@@ -58,7 +63,9 @@ export class Game extends Phaser.Scene {
 
     create() {
 
-
+        //Se añaden los archivos de audio y se preparan para cuando se les llame
+        this.bum = this.sound.add("bum");
+        
         //SE AÑADEN LAS IMAGENES INCLUIDAS EN EL PRELOAD
         this.add.image(400, 300, "campo");
         this.add.image(400, 300, "separacion");
@@ -315,6 +322,7 @@ export class Game extends Phaser.Scene {
             explosion.setVisible(false);
             this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');//Se crea e inicia la animacion de la explosion en la ultima posicion de la bomba
             this.animExplosion.anims.play('boom');
+            this.bum.play();
             bomba.destroy(); //Se destruye la bomba 
         }
 
