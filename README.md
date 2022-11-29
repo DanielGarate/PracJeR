@@ -142,12 +142,6 @@ Es la interfaz que se encontrará una vez que comience la partida, está compues
 
 
 
-
-
-
-
-
-
 Pantalla de victoria
 Interfaz que aparece una vez terminada la partida, aparece el nombre del jugador ganador y como ha ganado (puntuación o muerte súbita).
 
@@ -155,7 +149,11 @@ Botón Volver a jugar: Vuelve a la pantalla de selección de personajes.
 Botón Salir: Vuelve al menú principal.
 
 
+## CAMBIOS REALIZADOS RESPECTO AL GDD (Fase 2)
 
+-Las bombas permanecerán en la arena en lugar de explotar. Se ha añadido como mecánica llenar el campo del rival de minas. En lugar de explotar al tiempo tras pararse, se ha implementado que vayan desapareciendo hasta volverse casi invisibles. De esta manera, el jugador tendrá que recordar donde puso bombas su rival.
+
+-
 
 
 
