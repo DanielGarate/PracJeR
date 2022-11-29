@@ -235,37 +235,40 @@ export class Game extends Phaser.Scene {
             {
             jugador.setTint(0x09D802);
             jugador.municion = true;
+            let newLoc = Phaser.Math.Between(0, 4);
+            spawn.localizacion = newLoc;
             cambiaPosicion2(spawn);
             }
         }
 
         function cambiaPosicion2(spawn)
         {
+            
             switch (spawn.localizacion)
             {
                 case 0:
                     spawn.setPosition(700, 500);
-                    spawn.localizacion++;
+                    //spawn.localizacion++;
                 break;
 
                 case 1:
                     spawn.setPosition(575, 200);
-                    spawn.localizacion++;
+                    //spawn.localizacion++;
                 break;
 
                 case 2:
                     spawn.setPosition(575, 400);
-                    spawn.localizacion++;
+                    //spawn.localizacion++;
                 break;
 
                 case 3:
                     spawn.setPosition(450, 300);
-                    spawn.localizacion++;
+                    //spawn.localizacion++;
                 break;
 
                 case 4:
                     spawn.setPosition(700, 100);
-                    spawn.localizacion = 0;
+                    //spawn.localizacion = 0;
                 break;
             }
         }
@@ -484,7 +487,8 @@ update(time, delta) //Delta se usa para que en todos los navegadores el movimien
                   this.bomba.setVelocity(-100, -100);
                 break;
               }
-
+              player2.municion = false;
+              player2.tint = 0xffffff;
         }
     }
 
