@@ -46,10 +46,6 @@ export class Game extends Phaser.Scene {
             "../../resources/img/personaje.png",
             { frameWidth: 32, frameHeight: 48 }
         );
-        this.load.spritesheet("realDude",
-            "../../resources/img/realDude.png",
-            { frameWidth: 60, frameHeight: 81 }
-        );
           this.load.spritesheet("Explosion",
             "../../resources/img/ExplosionAnimacion.png",
             { frameWidth: 96, frameHeight: 96 }
@@ -80,8 +76,7 @@ export class Game extends Phaser.Scene {
 
         var coberturas = new Array(); //Array que contiene los muros
 
-        //explosion = this.physics.add.sprite(50,50,'Explosion').setScale(1,1).refreshBody();
-           explosion = this.physics.add.staticGroup();
+        explosion = this.physics.add.staticGroup(); //Se crea una grupo explosion que se encargara de las hitbox de las explosiones
 
         //Muros lado izquierdo
         muros.create(250, 408, "muro").setScale(0.7, 0.25).refreshBody();  //refresh body es necesario ya que se ha escalado un cuerpo estático
@@ -104,7 +99,7 @@ export class Game extends Phaser.Scene {
 
         //Personaje
 
-        player1 = this.physics.add.sprite(100, 450, 'realDude').setScale(0.7, 0.7).refreshBody(); //Fisica dinamica (dinamic group) por defecto
+        player1 = this.physics.add.sprite(100, 450, 'dude').setScale(1.25, 1.25).refreshBody(); //Fisica dinamica (dinamic group) por defecto
         player1.direcionMira = 'Down';
         player2 = this.physics.add.sprite(700, 450, 'dude').setScale(1.25, 1.25).refreshBody(); //Fisica dinamica (dinamic group) por defecto
         player2.direcionMira = 'Down';
@@ -114,10 +109,10 @@ export class Game extends Phaser.Scene {
 
 
         // Spawn de bombas
-        spawnBombas1 = this.physics.add.sprite(100, 100, 'bomba').setScale(1, 1).refreshBody();
+        spawnBombas1 = this.physics.add.sprite(100, 100, 'dude').setScale(0.75, 0.75).refreshBody();
         spawnBombas1.setTint(0xff0000);
 
-        spawnBombas2 = this.physics.add.sprite(700, 100, 'bomba').setScale(1, 1).refreshBody();
+        spawnBombas2 = this.physics.add.sprite(700, 100, 'dude').setScale(0.75, 0.75).refreshBody();
         spawnBombas2.setTint(0xff0000);
 
         //creación de animaciones personaje
@@ -163,57 +158,25 @@ export class Game extends Phaser.Scene {
            killOnComplete: true,
         });
 
-        //creación de animaciones personaje2
 
-        this.anims.create({
-            key: 'left1',
-            frames: this.anims.generateFrameNumbers('realDude', { start: 0, end: 2 }), //Usa los fottogramas 0, 1, 2 y 3
-            frameRate: 10,
-            repeat: -1  //La animación debe volver a empezar cuando termine
-        });
-
-        this.anims.create({
-            key: 'turn1',
-            frames: [{ key: 'realDude', frame: 9 }],
-            frameRate: 20
-        });
-
-        this.anims.create({
-            key: 'up1',
-            frames: this.anims.generateFrameNumbers('realDude', { start: 4, end: 6 }),
-            frameRate: 10
-        });
-
-        this.anims.create({
-            key: 'down1',
-            frames: this.anims.generateFrameNumbers('realDude', { start: 7, end: 9 }),
-            frameRate: 10
-        });
-
-
-        this.anims.create({
-            key: 'right1',
-            frames: this.anims.generateFrameNumbers('realDude', { start: 10, end: 12 }),
-            frameRate: 10,
-            repeat: -1
-        });
 
         this.cursors = this.input.keyboard.createCursorKeys();  //Crea el objeto cursors (con 4 propiedades: up, down, left, right)
-        this.keys = this.input.keyboard.addKeys('A,W,S,D,E,L');
+        this.keys = this.input.keyboard.addKeys('A,W,S,D,E,L'); //Se añaden las distintas teclas que se van a utilizar
 
-        this.physics.add.collider(player1, muros);
+        this.physics.add.collider(player1, muros);  //Se añaden las colisiones con los muros y los limites del 
         this.physics.add.collider(player2, muros);
         this.physics.add.collider(player1, limites);
         this.physics.add.collider(player2, limites);
 
+        //Se crea el grupo bombas que se va a utilizar
         bombas = this.physics.add.group();
 
 
-        //INTENTO DE MARCADOR 2
+        //MARCADOR 
         scoreBoard2 = this.add.text(440, 40, "P2: 0", { fontSize: '32px', fill: '#fff' });
         scoreBoard1 = this.add.text(240, 40, "P1: 0", { fontSize: '32px', fill: '#fff' });
 
-        //Superposicióncon spawn
+        //Superposición con spawn
         this.physics.add.overlap(player1, spawnBombas1, refill, null, this);
         this.physics.add.overlap(player2, spawnBombas2, refill, null, this);
 
@@ -229,14 +192,11 @@ export class Game extends Phaser.Scene {
         }
 
 
-
-        //algoritmo que detecta bomba contra jugador detiene la partida
-        //HAY ALGUN PROBLEMA CON LA DETECCION DE JUGADOR UN Y 2 TODO
-
+         //COLISIONES MUROS
 
         this.physics.add.collider(muros, bombas, hitBomb1, null, this);
 
-        //Detección colisión muro-bomba
+        //Detección colisiones muro-bomba
         function hitBomb1(muro, bomba) {
 
             var temp;
@@ -252,25 +212,25 @@ export class Game extends Phaser.Scene {
                 muro.destroy();
             }
 
-            posExplosionX = bomba.x;
+            posExplosionX = bomba.x; //Se guarda la ultima posicion de la bomba 
             posExplosionY = bomba.y;
-            explosion.create(posExplosionX, posExplosionY, 'bomba').setScale(3, 3).refreshBody();
+            explosion.create(posExplosionX, posExplosionY, 'bomba').setScale(3, 3).refreshBody(); //Se genera un sprite invisible de mayor tamaño que la bomba para posteriormente realizar la colision de la explosion
             explosion.setVisible(false);
-            this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
+            this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');//Se crea e inicia la animacion de la explosion en la ultima posicion de la bomba
             this.animExplosion.anims.play('boom');
-            bomba.destroy();
+            bomba.destroy(); //Se destruye la bomba 
         }
 
-            this.physics.add.collider(muros, explosion, hitExplosion, null, this);
-        function hitExplosion(muro, explosion) {
-          
+        this.physics.add.collider(muros, explosion, hitExplosion, null, this); //Se crea una colision que elimina la explosion para que no se quede flotando
+        function hitExplosion(muro, explosion) {         
             explosion.destroy();
-
         }
         
+
+         //Deteccion colisione jugador1-bombas
         this.physics.add.collider(player1, bombas, hitBomb, null, this);
-        function hitBomb(player1, bomba) {
-            score2++;
+        function hitBomb(player1, bomba) { //Colision que se encarga del impacto directo del jugador con la bomba
+            score2++;     
             marcador();
             player1.setPosition(100, Phaser.Math.Between(0, 600));
             posExplosionX = bomba.x;
@@ -278,69 +238,18 @@ export class Game extends Phaser.Scene {
             this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
             this.animExplosion.anims.play('boom');
             bomba.destroy();
-
-            if (score2 >= 5) {
-                this.physics.pause();
-                player1.anims.play('turn');
-
-                textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 2 gana',
-                    { fontSize: '50px', fill: '#000' });
-                this.scene.start('pantallaFinal'); //opcional
-
-            }
         }
         
-        
-      this.physics.add.collider(player2, explosion, hitExplosion2, null, this);
-
-        function hitExplosion2(player2, explosion) {
-            score1++;
-            marcador();
-            player2.setPosition(700, Phaser.Math.Between(0, 600));
-
-            explosion.destroy();
-
-            if (score1 >= 5) {
-                this.physics.pause();
-                player1.anims.play('turn1');
-
-                textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 1 gana',
-                    { fontSize: '50px', fill: '#000' });
-                this.scene.start('pantallaFinal'); //opcional
-
-            }
-        }
-
         this.physics.add.collider(player1, explosion, hitExplosion1, null, this);
-        function hitExplosion1(player1, explosion) {
+        function hitExplosion1(player1, explosion) { //Colision con la explosion simulada 
             score2++;
             marcador();
             player1.setPosition(100, Phaser.Math.Between(0, 600));
-            explosion.destroy();
-
-            if (score2 >= 5) {
-                this.physics.pause();
-                player2.anims.play('turn');
-
-                textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 2 gana',
-                    { fontSize: '50px', fill: '#000' });
-                this.scene.start('pantallaFinal'); //opcional
-
-            }
+            explosion.destroy(); //Destruye la explosion para que no puedas volver a chocar
         }
-             this.physics.add.collider(bombas, bombas, ColisionBombas, null, this);
-        function ColisionBombas(bomba, bomba1) {
-            posExplosionX = bomba.x;
-            posExplosionY = bomba.y;     
-            bomba.destroy();
-            bomba1.destroy();
-            this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
-            this.animExplosion.anims.play('boom')
-        }
-      
-        
 
-        this.physics.add.collider(player2, bombas, hitBomb2, null, this);
+        //Colisiones jugador2-bombas
+          this.physics.add.collider(player2, bombas, hitBomb2, null, this);
 
         function hitBomb2(player2, bomba) {
             score1++;
@@ -351,19 +260,31 @@ export class Game extends Phaser.Scene {
             this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
             this.animExplosion.anims.play('boom');
             bomba.destroy();
+        }
+        
+      this.physics.add.collider(player2, explosion, hitExplosion2, null, this);
 
-            if (score1 >= 5) {
-                this.physics.pause();
-                player2.anims.play('turn');
-                player1.anims.play('turn');
-                textoFinPartida = this.add.text(200, 200, 'Fin de partida \n Jugador 1 gana',
-                    { fontSize: '50px', fill: '#000' });
-                this.scene.start('pantallaFinal');//opcional
+        function hitExplosion2(player2, explosion) {//Colision con la explosion simulada 
+            score1++;
+            marcador();
+            player2.setPosition(700, Phaser.Math.Between(0, 600));
 
-            }
+            explosion.destroy();//Destruye la explosion para que no puedas volver a chocar
         }
 
-        //INTENTO DE MARCADOR 3
+        //Colision bomba-bomba que permite eliminar las minas en el mapa
+        
+        this.physics.add.collider(bombas, bombas, ColisionBombas, null, this);
+        function ColisionBombas(bomba, bomba1) {
+            posExplosionX = bomba.x;
+            posExplosionY = bomba.y;     
+            bomba.destroy();
+            bomba1.destroy();
+            this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
+            this.animExplosion.anims.play('boom')
+        }   
+
+        //Marcador
         function marcador() {
             scoreBoard2.setText('P2: ' + score2);
             scoreBoard1.setText('P1: ' + score1);
@@ -441,51 +362,51 @@ export class Game extends Phaser.Scene {
         if (this.keys.S.isDown && this.keys.A.isDown) {
             player1.setVelocityY(250);
             player1.setVelocityX(-250);
-            player1.anims.play('left1', true);
+            player1.anims.play('left', true);
             player1.direcionMira = 'DownLeft';
         } else if (this.keys.S.isDown && this.keys.D.isDown) {
             player1.setVelocityY(250);
             player1.setVelocityX(250);
-            player1.anims.play('right1', true);
+            player1.anims.play('left', true);
             player1.direcionMira = 'DownRight';
 
         } else if (this.keys.W.isDown && this.keys.A.isDown) {
             player1.setVelocityY(-250);
             player1.setVelocityX(-250);
-            player1.anims.play('left1', true);
+            player1.anims.play('left', true);
             player1.direcionMira = 'UpLeft';
         } else if (this.keys.W.isDown && this.keys.D.isDown) {
             player1.setVelocityY(-250);
             player1.setVelocityX(250);
-            player1.anims.play('right1', true);
+            player1.anims.play('left', true);
             player1.direcionMira = 'UpRight';
 
         } else if (this.keys.A.isDown) {
             player1.setVelocityX(-250);
             player1.setVelocityY(0);
-            player1.anims.play('left1', true);
+            player1.anims.play('left', true);
             player1.direcionMira = 'Left';
         } else if (this.keys.D.isDown) {
             player1.setVelocityX(250);
             player1.setVelocityY(0);
-            player1.anims.play('right1', true);
+            player1.anims.play('right', true);
             player1.direcionMira = 'Right';
 
         } else if (this.keys.W.isDown) {
             player1.setVelocityY(-250);
             player1.setVelocityX(0);
-            player1.anims.play('up1', true);
+            player1.anims.play('right', true);
             player1.direcionMira = 'Up';
 
         } else if (this.keys.S.isDown) {
             player1.setVelocityY(250);
             player1.setVelocityX(0);
-            player1.anims.play('down1', true);
+            player1.anims.play('left', true);
             player1.direcionMira = 'Down';
         } else {
             player1.setVelocityX(0);
             player1.setVelocityY(0);
-            player1.anims.play('turn1');
+            player1.anims.play('turn');
         }
         if (this.keys.E.isDown) {
             if (player1.municion) {
@@ -494,11 +415,11 @@ export class Game extends Phaser.Scene {
                 this.bomba.setCollideWorldBounds(true);
                 this.bomba.setDragX(50); //https://phaser.discourse.group/t/friction-not-working/5721/11
                 this.bomba.setDragY(50);
-                this.tweens.add({
-    targets: this.bomba,
-    alpha: 0.05,
-    duration: 2000,
-});
+                this.tweens.add({          //Tweens.add se encarga de la animacion que hace desaparecer lentamente las bombas
+                targets: this.bomba,
+                alpha: 0.05,
+                duration: 2000,
+                });
                
                 this.bomba.setVelocity(Phaser.Math.Between(-200, 0), 20);
                 t1 = time;
@@ -528,7 +449,7 @@ export class Game extends Phaser.Scene {
                 this.bomba.setCollideWorldBounds(true);
                 this.bomba.setDragX(50);
                 this.bomba.setDragY(50);
-                this.tweens.add({
+                this.tweens.add({   //Tweens.add se encarga de la animacion que hace desaparecer lentamente las bombas
                 targets: this.bomba,
                 alpha: 0.05,
                 duration: 2000,
