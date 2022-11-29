@@ -96,6 +96,7 @@ export class Game extends Phaser.Scene {
         coberturas[5] = new Muro(650, 308);
 
         limites.create(400, 300, "separacion");
+        
 
         //Personaje
 
@@ -103,10 +104,6 @@ export class Game extends Phaser.Scene {
         player1.direcionMira = 'Down';
         player2 = this.physics.add.sprite(700, 450, 'dude').setScale(1.25, 1.25).refreshBody(); //Fisica dinamica (dinamic group) por defecto
         player2.direcionMira = 'Down';
-        //INSTANCIACION JUGADOR 1
-        const playerC1 = new Jugador(10);
-        const playerC2 = new Jugador(10);
-
         //Posicion del personaje
         player1.setCollideWorldBounds(true);
         player2.setCollideWorldBounds(true);
@@ -221,21 +218,29 @@ export class Game extends Phaser.Scene {
 
             posExplosionX = bomba.x;
             posExplosionY = bomba.y;
-            explosion.create(posExplosionX, posExplosionY, 'bomba').setScale(2.5, 2.5).refreshBody();
+            explosion.create(posExplosionX, posExplosionY, 'bomba').setScale(3, 3).refreshBody();
             explosion.setVisible(false);
             this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
             this.animExplosion.anims.play('boom');
-              
-   
-           
-
             bomba.destroy();
         }
+
+            this.physics.add.collider(muros, explosion, hitExplosion, null, this);
+        function hitExplosion(muro, explosion) {
+          
+            explosion.destroy();
+
+        }
+        
         this.physics.add.collider(player1, bombas, hitBomb, null, this);
         function hitBomb(player1, bomba) {
             score2++;
             marcador();
             player1.setPosition(100, Phaser.Math.Between(0, 600));
+            posExplosionX = bomba.x;
+            posExplosionY = bomba.y;
+            this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
+            this.animExplosion.anims.play('boom');
             bomba.destroy();
 
             if (score2 >= 5) {
@@ -256,9 +261,10 @@ export class Game extends Phaser.Scene {
             score1++;
             marcador();
             player2.setPosition(700, Phaser.Math.Between(0, 600));
+
             explosion.destroy();
 
-            if (score2 == 5) {
+            if (score1 >= 5) {
                 this.physics.pause();
                 player1.anims.play('turn');
 
@@ -276,7 +282,7 @@ export class Game extends Phaser.Scene {
             player1.setPosition(100, Phaser.Math.Between(0, 600));
             explosion.destroy();
 
-            if (score2 == 5) {
+            if (score2 >= 5) {
                 this.physics.pause();
                 player2.anims.play('turn');
 
@@ -294,6 +300,10 @@ export class Game extends Phaser.Scene {
             score1++;
             marcador();
             player2.setPosition(700, Phaser.Math.Between(0, 600));
+             posExplosionX = bomba.x;
+            posExplosionY = bomba.y;
+            this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
+            this.animExplosion.anims.play('boom');
             bomba.destroy();
 
             if (score1 >= 5) {
@@ -434,7 +444,7 @@ export class Game extends Phaser.Scene {
         if (this.keys.E.isDown) {
             if (player1.municion) {
                 this.bomba = bombas.create(player1.x + 40, player1.y, 'bomba');
-                this.bomba.setBounce(1);
+           this.bomba.setBounce(1);
                 this.bomba.setCollideWorldBounds(true);
                 this.bomba.setDragX(50); //https://phaser.discourse.group/t/friction-not-working/5721/11
                 this.bomba.setDragY(50);
