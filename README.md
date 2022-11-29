@@ -157,11 +157,11 @@ Botón Salir: Vuelve al menú principal.
 
 -Arte adicional:
   *Arenas: 
-
+    ![ARENAPIXELCLEAR](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-MainActualizado/PracJeR-Juego/resources/img/pixelArenaClear.png?raw=true)
   *Sprites: 
-  
+    ![BOMB](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-MainActualizado/PracJeR-Juego/resources/img/bomb.png?raw=true)
   *Animaciones:
-
+    ![REALDUDE](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-MainActualizado/PracJeR-Juego/resources/img/realDude.png?raw=true)
 
 
 ### RECURSOS<br>
