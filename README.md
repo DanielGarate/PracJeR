@@ -153,6 +153,8 @@ Botón Salir: Vuelve al menú principal.
 
 -Las bombas permanecerán en la arena en lugar de explotar. Se ha añadido como mecánica llenar el campo del rival de minas. En lugar de explotar al tiempo tras pararse, se ha implementado que vayan desapareciendo hasta volverse casi invisibles. De esta manera, el jugador tendrá que recordar donde puso bombas su rival.
 
+_Las bombas se recogeran de un totem y una vez que se coja una el totem cambiara de posición. De esta manera el jugador tendra que moverse por todo el escenario para poder disparar.
+
 -Las partidas (por el momento) tienen una única fase y los muros siempre se colocan de igual manera para los dos jugadores. De esta forma los dos jugadores inicialmente disponen de las mismas posibilidades de ganar.
 
 -Arte adicional:
