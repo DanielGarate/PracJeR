@@ -156,11 +156,11 @@ Botón Salir: Vuelve al menú principal.
 -Las partidas (por el momento) tienen una única fase y los muros siempre se colocan de igual manera para los dos jugadores. De esta forma los dos jugadores inicialmente disponen de las mismas posibilidades de ganar.
 
 -Arte adicional:
-  *Arenas: 
+  **Arenas:** 
     ![ARENAPIXELCLEAR](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-MainActualizado/PracJeR-Juego/resources/img/pixelArenaClear.png?raw=true)
-  *Sprites: 
+  **Sprites:**
     ![BOMB](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-MainActualizado/PracJeR-Juego/resources/img/bomb.png?raw=true)
-  *Animaciones:
+  **Animaciones:**
     ![REALDUDE](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-MainActualizado/PracJeR-Juego/resources/img/realDude.png?raw=true)
 
 
