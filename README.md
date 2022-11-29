@@ -157,6 +157,10 @@ Botón Salir: Vuelve al menú principal.
 
 -Las partidas (por el momento) tienen una única fase y los muros siempre se colocan de igual manera para los dos jugadores. De esta forma los dos jugadores inicialmente disponen de las mismas posibilidades de ganar.
 
+-Las partidas duran un minuto tras el cual el ganador sera decidido por su puntuacion.
+
+-Los muros se destruyen tras tres impactos (en vez de 10) logrando asi que la partida sea mas dinamica.
+
 -Arte adicional:
   <br>
   **Arenas:** 
