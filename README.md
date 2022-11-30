@@ -162,29 +162,34 @@ Botón Salir: Vuelve al menú principal.
 -Los muros se destruyen tras tres impactos (en vez de 10) logrando asi que la partida sea mas dinamica.
 <br>
 -Pantalla de inicio: Muestra los controles y tiene dos botones: Play y Credits.
+  ![PANTALLAINIC](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-Fase3/PracJeR-Juego/resources/img/PANTALLAINIC.png)
 <br>
 -Pantalla de juego: En esta pantalla se muestra la escena game y es en la que se desarrolla la partida.
 <br>
 -Pantalla de Créditos: En esta pantalla se muestran los participantes en el proyecto.
+  ![PANTALLACREDITOS](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-Fase3/PracJeR-Juego/resources/img/pantallacreditos.png)
 <br>
 -Pantalla de Pausa: En medio de un apartida se puede pausar la acción y luego volver a jugar.
+  ![PANTALLAPAUSA](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-Fase3/PracJeR-Juego/resources/img/pantallaPausa.png)
 <br>
 -Pantalla de victoria Player 1: Si el jugador 1 tiene más puntuación Se muestra por pantalla que ha ganado.
+  ![P1WIN](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-Fase3/PracJeR-Juego/resources/img/jugador1Ganado.png)
 <br>
 -Pantalla de victoria Player 2: Si el jugador 2 tiene más puntuación Se muestra por pantalla que ha ganado.
+  ![P2WIN](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-Fase3/PracJeR-Juego/resources/img/jugador2Ganado.png)
 <br>
 ![DIAGRAMA](https://media.discordapp.net/attachments/789091325550919680/1047423667287621652/Diagrama_flujo_pantallas.png)
 
 -Arte adicional:
   <br>
   **Arenas:** 
-    ![ARENAPIXELCLEAR](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-MainActualizado/PracJeR-Juego/resources/img/pixelArenaClear.png?raw=true)
+    ![ARENAPIXELCLEAR](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-Fase3/PracJeR-Juego/resources/img/Campo.png)
   <br>
   **Sprites:** 
-    ![BOMB](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-MainActualizado/PracJeR-Juego/resources/img/bomb.png?raw=true)
+    ![BOMB](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-Fase3/PracJeR-Juego/resources/img/bomb.png)
   <br>
   **Animaciones:**
-    ![REALDUDE](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-MainActualizado/PracJeR-Juego/resources/img/realDude.png?raw=true)
+    ![REALDUDE](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-Fase3/PracJeR-Juego/resources/img/realDude.png)
 
 
 ### RECURSOS<br>
