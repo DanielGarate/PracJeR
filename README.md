@@ -150,16 +150,30 @@ Botón Salir: Vuelve al menú principal.
 
 
 ## CAMBIOS REALIZADOS RESPECTO AL GDD (Fase 2)
-
+<br>
 -Las bombas permanecerán en la arena en lugar de explotar. Se ha añadido como mecánica llenar el campo del rival de minas. En lugar de explotar al tiempo tras pararse, se ha implementado que vayan desapareciendo hasta volverse casi invisibles. De esta manera, el jugador tendrá que recordar donde puso bombas su rival.
-
+<br>
 -Las bombas se recogeran de un totem y una vez que se coja una el totem cambiara de posición. De esta manera el jugador tendra que moverse por todo el escenario para poder disparar.
-
+<br>
 -Las partidas (por el momento) tienen una única fase y los muros siempre se colocan de igual manera para los dos jugadores. De esta forma los dos jugadores inicialmente disponen de las mismas posibilidades de ganar.
-
+<br>
 -Las partidas duran un minuto tras el cual el ganador sera decidido por su puntuacion.
-
+<br>
 -Los muros se destruyen tras tres impactos (en vez de 10) logrando asi que la partida sea mas dinamica.
+<br>
+-Pantalla de inicio: Muestra los controles y tiene dos botones: Play y Credits.
+<br>
+-Pantalla de juego: En esta pantalla se muestra la escena game y es en la que se desarrolla la partida.
+<br>
+-Pantalla de Créditos: En esta pantalla se muestran los participantes en el proyecto.
+<br>
+-Pantalla de Pausa: En medio de un apartida se puede pausar la acción y luego volver a jugar.
+<br>
+-Pantalla de victoria Player 1: Si el jugador 1 tiene más puntuación Se muestra por pantalla que ha ganado.
+<br>
+-Pantalla de victoria Player 2: Si el jugador 2 tiene más puntuación Se muestra por pantalla que ha ganado.
+<br>
+![DIAGRAMA](https://media.discordapp.net/attachments/789091325550919680/1047423667287621652/Diagrama_flujo_pantallas.png)
 
 -Arte adicional:
   <br>
