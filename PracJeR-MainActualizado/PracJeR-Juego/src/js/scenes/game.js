@@ -1,4 +1,3 @@
-import {Explosives} from './explosives.js';
 var score1 = 0;  //Puntuacion jugador 1
 var score2 = 0;  //Puntuacion jugador 2
 var scoreBoard1, scoreBoard2; //Para imprimir las puntuaciones de J1 y J2
@@ -6,13 +5,13 @@ var player1, player2; //Para referenciar a los jugadores
 var muros, limites, bombas;  //Representan grupos
 var spawnBombas1, spawnBombas2; //Lugares donde apareceran las bombas
 var text, textoFinPartida; //Para poder mostrar texto
-var explosion, explosion1;  //Para el cuerpo de las explosiones
+var explosion;  //Para el cuerpo de las explosiones
 var timedEvent;  //Necesario para el timer
 var posExplosionX, posExplosionY;  //Posicion de las explosiones
 var timedEvent1;
 var c1 = 0; //...
 var c2 = 0; //Para el control de spawns
-var sumadoTesteo = 30;
+
 
 class Muro {            //Clase muro para poder destruir cuerpos
     constructor(x, y) { //Constructor con las posiciones
@@ -28,6 +27,10 @@ export class Game extends Phaser.Scene {
         super({ key: 'game' });
     }
     preload() {
+        // Se carga el audio
+        //bum = game.add.audio("explosion");
+        this.load.audio("bum", "../../resources/sound/efects/sonidoExplosion.mp3");
+
         //SE INCLUYEN LAS ANIMACIONES NECESARIAS
         this.load.spritesheet("dude",
             "../../resources/img/personaje.png",
@@ -54,33 +57,16 @@ export class Game extends Phaser.Scene {
         this.load.image("muro", "../../resources/img/muro.png");  //Imagen muros
         this.load.image("separacion", "../../resources/img/separacion.png");  //Limite central
         this.load.image("bomba", "../../resources/img/bomb.png");  //Imagen bombas
-        this.load.image("sombraMuro", "../../resources/img/sombraMuro.png");  //Imagen sombra de muro
-    
-        //SE INCLUYE EL AUDIO NECESARIO
-        this.load.audio("bum", "../../resources/sound/sonidoExplosion.mp3");
-        this.load.audio('temaBatalla', '../../../resources/audio/vulcano.ogg');
-
-        //
-        this.load.spritesheet('buttonPause', '../../resources/img/spritePause.png',
-        { frameWidth: 208/2, frameHeight: 34 }
-        );
-        this.load.spritesheet('buttonContinue', '../../../resources/img/buttonContinue.png',
-        { frameWidth: 91, frameHeight: 91 }
-        );
     }
 
     create() {
-        this.battleTheme = this.sound.add('temaBatalla');
-        this.battleTheme.play();
 
+        //Se añaden los archivos de audio y se preparan para cuando se les llame
+        this.bum = this.sound.add("bum");
+        
         //SE AÑADEN LAS IMAGENES INCLUIDAS EN EL PRELOAD
         this.add.image(400, 300, "campo");
         this.add.image(400, 300, "separacion");
-
-
-        //SE AÑADE EL AUDIO INCLUIDO EN EL PRELOAD
-        //Se añaden los archivos de audio y se preparan para cuando se les llame
-        this.bum = this.sound.add("bum");
 
 
         //MARCADOR
@@ -91,7 +77,6 @@ export class Game extends Phaser.Scene {
         muros = this.physics.add.staticGroup();
         limites = this.physics.add.staticGroup();
         explosion = this.physics.add.staticGroup();
-        explosion1 = this.physics.add.staticGroup();
 
         //ARRAY QUE GUARDARA LOS OBJETOS DE LA CLASE MURO CREADOS
         var coberturas = new Array();
@@ -199,7 +184,7 @@ export class Game extends Phaser.Scene {
 
         //OBJETO CURSORS PARA MOVERSE
         this.cursors = this.input.keyboard.createCursorKeys();  //Crea el objeto cursors (con 4 propiedades: up, down, left, right)
-        this.keys = this.input.keyboard.addKeys('A,W,S,D,E,L,P'); //Se añaden w,a,s,d para el  J2
+        this.keys = this.input.keyboard.addKeys('A,W,S,D,E,L'); //Se añaden w,a,s,d para el  J2
 
 
 
@@ -211,6 +196,7 @@ export class Game extends Phaser.Scene {
         this.physics.add.collider(player2, muros);
         this.physics.add.collider(player1, limites);
         this.physics.add.collider(player2, limites);
+        this.physics.add.collider(bombas, explosion);
 
 
 
@@ -326,17 +312,15 @@ export class Game extends Phaser.Scene {
 
             if (coberturas[temp].vida == 0) {
                 muro.destroy();
-                explosion1.create(posExplosionX, posExplosionY, 'bomba').setScale(3, 3).refreshBody();
-                explosion1.setVisible(false);
             }
 
             posExplosionX = bomba.x; //Se guarda la ultima posicion de la bomba 
             posExplosionY = bomba.y;
             explosion.create(posExplosionX, posExplosionY, 'bomba').setScale(3, 3).refreshBody(); //Se genera un sprite invisible de mayor tamaño que la bomba para posteriormente realizar la colision de la explosion
             explosion.setVisible(false);
-            this.bum.play();
             this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');//Se crea e inicia la animacion de la explosion en la ultima posicion de la bomba
             this.animExplosion.anims.play('boom');
+            this.bum.play();
             bomba.destroy(); //Se destruye la bomba 
         }
 
@@ -355,20 +339,6 @@ export class Game extends Phaser.Scene {
 
         }
 
-        this.physics.add.collider(explosion1, explosion, hitExplosion3, null, this); //Se crea una colision que elimina la explosion para que no se quede flotando
-        function hitExplosion3(explosion1, explosion) {
-        this.timer1=1
-        timedEvent1 = this.time.addEvent({ delay: 1000, callback: onEvent1,callbackScope: this, loop: true});
-         function onEvent1() //cada vez que pase un segundo se ejecutará onEvent(), poner aqui creacion de bombas y 
-        {
-            this.timer1 -= 1; // One second
-            if (this.timer1 <= 0) {
-              explosion.destroy();
-            }
-        }
-
-        }
-
 
         //Deteccion colisione J1-bombas
         this.physics.add.collider(player1, bombas, hitBomb, null, this);
@@ -378,7 +348,6 @@ export class Game extends Phaser.Scene {
             player1.setPosition(100, Phaser.Math.Between(0, 600));
             posExplosionX = bomba.x;
             posExplosionY = bomba.y;
-            this.bum.play();
             this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
             this.animExplosion.anims.play('boom');
             bomba.destroy();
@@ -401,7 +370,6 @@ export class Game extends Phaser.Scene {
             player2.setPosition(700, Phaser.Math.Between(0, 600));
             posExplosionX = bomba.x;
             posExplosionY = bomba.y;
-            this.bum.play();
             this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
             this.animExplosion.anims.play('boom');
             bomba.destroy();
@@ -423,7 +391,6 @@ export class Game extends Phaser.Scene {
         function ColisionBombas(bomba, bomba1) {
             posExplosionX = bomba.x;
             posExplosionY = bomba.y;
-            this.bum.play();
             bomba.destroy();
             bomba1.destroy();
             this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
@@ -442,7 +409,7 @@ export class Game extends Phaser.Scene {
         ///////////////////////////////////////////
         this.timer = 60; //tiempo en segundos restantes
 
-        text = this.add.text(12, 30, 'Time left: ' + this.timer, { fontSize: '25px', fill: '#ffff' });
+        text = this.add.text(32, 32, 'Time left: ' + this.timer);
         timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this, loop: true });
 
         function onEvent() //cada vez que pase un segundo se ejecutará onEvent(), poner aqui creacion de bombas y 
@@ -451,36 +418,13 @@ export class Game extends Phaser.Scene {
             text.setText('Time left: ' + this.timer);
             //pequeña función que hace que cuando se acabe el tiempo cambie a la pantalla final
             if (this.timer == 0) {
-                this.sound.stopAll();
-                if(score1>score2){
                 this.scene.start('pantallaFinal');
-                score2 = 0;
-                score1 = 0;
-            }else{
-                this.scene.start('pantallaFinalJugador2');
-                score1 = 0;
-                score2 = 0;
             }
         }
-    }
-
-
-    ///PAUSE
-    this.pauseButton = this.add.sprite(720,50,'buttonPause').setInteractive(); //añade a la escena actual el sprite y lo vuelve interactivo
-        this.pauseButton.on('pointerover',()=>{
-            this.pauseButton.setFrame(1);
-        })
-        this.pauseButton.on('pointerout',()=>{
-            this.pauseButton.setFrame(0);
-        })
-        this.pauseButton.on('pointerdown',()=>{
-            //this.sound.pauseAll();
-            this.scene.pause();
-            this.scene.launch('pause');//.................----
-        })
 
         //Grupo de las bombas
         this.poolBombas = this.add.group();
+
     }
 
     update(time, delta) //Delta se usa para que en todos los navegadores el movimiento sea el mismo
@@ -489,6 +433,8 @@ export class Game extends Phaser.Scene {
             var revienta = this.poolBombas.getChildren()[i];
             revienta.update();
           }
+
+
 
         //Jugador 1
         if (this.keys.S.isDown && this.keys.A.isDown) {
@@ -580,7 +526,7 @@ export class Game extends Phaser.Scene {
 
         if (this.keys.E.isDown) {
             if (player1.municion) {
-                this.bomba = bombas.create(player1.x + 30, player1.y, 'bomba');
+                this.bomba = bombas.create(player1.x + 40, player1.y, 'bomba');
                 this.bomba.setBounce(1);
                 this.bomba.setCollideWorldBounds(true);
                 this.bomba.setDragX(500); //https://phaser.discourse.group/t/friction-not-working/5721/11
@@ -622,33 +568,36 @@ export class Game extends Phaser.Scene {
 
                 switch (player2.direcionMira) {
                     case 'DownLeft':
-                        this.bomba.setVelocity(-600, 600);
+                        this.bomba.setVelocity(-500, 500);
                         break;
                     case 'Left':
-                        this.bomba.setVelocity(-600, 0);
+                        this.bomba.setVelocity(-500, 0);
                         break;
                     case 'UpLeft':
-                        this.bomba.setVelocity(-600, -600);
+                        this.bomba.setVelocity(-500, -500);
                         break;
                 }
 
                 player2.municion = false;
                 player2.tint = 0xffffff;
+                console.log("Lanzado");
             }
 
 
         }
-        if(this.keys.P.isDown){
-            this.lanzaBomba(player2);
+
+        //Testeo Bombas
+        if(this.key.Y.isDown){
+            this.lanzaBomba();
         }
 
 
     }
-    lanzaBomba(lanzador){
-        var lanzado = new Explosives(this, lanzador);
-        //lanzado.x = sumadoTesteo;
-        //lanzado.y = sumadoTesteo;
-        //sumadoTesteo+=30;
+    lanzaBomba(){
+        var lanzado = new explosives(this);
+        lanzado.x = sumadoTesteo;
+        lanzado.y = sumadoTesteo;
+        sumadoTesteo+=30;
         console.log("Lanzado");
       }
 }

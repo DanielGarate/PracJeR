@@ -1,9 +1,11 @@
+// Se declara cada 
 import { Game } from './scenes/game.js';
 import{menuIni} from './scenes/menuIni.js';
 import{pantallaFin} from './scenes/pantallaFinal.js';
 import{pantallaFinJugador} from './scenes/pantallaFinalJugador2.js';
 import {Credits} from './scenes/credits.js';
 import {Pause} from './scenes/pause.js';
+//import {Explosives} from './scenes/explosives.js';
 
 var config = {     //Contiene un json
   type: Phaser.AUTO,
