@@ -604,51 +604,16 @@ export class Game extends Phaser.Scene {
                 }
                 player1.municion = false;
                 player1.tint = 0xffffff;
-
             }
         }
         if (this.keys.L.isDown) {
-            if (player2.municion) {
-                this.bomba = bombas.create(player2.x - 40, player2.y, 'bomba');  //+40 provisional para que el juagdor
-                this.bomba.setBounce(1);                                         //no se mate a si mismo
-                this.bomba.setCollideWorldBounds(true);
-                this.bomba.setDragX(500);
-                this.bomba.setDragY(500);
-                this.tweens.add({          //Tweens.add se encarga de la animacion que hace desaparecer lentamente las bombas
-                    targets: this.bomba,
-                    alpha: 0.05,
-                    duration: 2000,
-                });
-
-                switch (player2.direcionMira) {
-                    case 'DownLeft':
-                        this.bomba.setVelocity(-600, 600);
-                        break;
-                    case 'Left':
-                        this.bomba.setVelocity(-600, 0);
-                        break;
-                    case 'UpLeft':
-                        this.bomba.setVelocity(-600, -600);
-                        break;
-                }
-
+            if (player2.municion)
+            {
+                // Crea la bomba que se va a lanzar
+                var lanzado = new Explosives(this, player2);
                 player2.municion = false;
                 player2.tint = 0xffffff;
             }
-
-
         }
-        if(this.keys.P.isDown){
-            this.lanzaBomba(player2);
-        }
-
-
     }
-    lanzaBomba(lanzador){
-        var lanzado = new Explosives(this, lanzador);
-        //lanzado.x = sumadoTesteo;
-        //lanzado.y = sumadoTesteo;
-        //sumadoTesteo+=30;
-        console.log("Lanzado");
-      }
 }
