@@ -12,7 +12,6 @@ var posExplosionX, posExplosionY;  //Posicion de las explosiones
 var timedEvent1;
 var c1 = 0; //...
 var c2 = 0; //Para el control de spawns
-var sumadoTesteo = 30;
 
 class Muro {            //Clase muro para poder destruir cuerpos
     constructor(x, y) { //Constructor con las posiciones
@@ -205,6 +204,9 @@ export class Game extends Phaser.Scene {
 
         //GRUPOS DINAMICOS
         bombas = this.physics.add.group();
+
+        //Grupo de las bombas
+        this.poolBombas = this.physics.add.group();
         
         //COLIDERS
         this.physics.add.collider(player1, muros);
@@ -479,8 +481,7 @@ export class Game extends Phaser.Scene {
             this.scene.launch('pause');//.................----
         })
 
-        //Grupo de las bombas
-        this.poolBombas = this.add.group();
+        
     }
 
     update(time, delta) //Delta se usa para que en todos los navegadores el movimiento sea el mismo
@@ -495,6 +496,7 @@ export class Game extends Phaser.Scene {
             player1.setVelocityY(250);
             player1.setVelocityX(-250);
             player1.anims.play('left1', true);
+            player1.direcionMira = 'DownRight';
         } else if (this.keys.S.isDown && this.keys.D.isDown) {
             player1.setVelocityY(250);
             player1.setVelocityX(250);
@@ -505,6 +507,7 @@ export class Game extends Phaser.Scene {
             player1.setVelocityY(-250);
             player1.setVelocityX(-250);
             player1.anims.play('left1', true);
+            player1.direcionMira = 'UpRight';
         } else if (this.keys.W.isDown && this.keys.D.isDown) {
             player1.setVelocityY(-250);
             player1.setVelocityX(250);
@@ -525,11 +528,13 @@ export class Game extends Phaser.Scene {
             player1.setVelocityY(-250);
             player1.setVelocityX(0);
             player1.anims.play('up1', true);
+            player1.direcionMira = 'UpRight';
 
         } else if (this.keys.S.isDown) {
             player1.setVelocityY(250);
             player1.setVelocityX(0);
             player1.anims.play('down1', true);
+            player1.direcionMira = 'DownRight';
         } else {
             player1.setVelocityX(0);
             player1.setVelocityY(0);
@@ -546,6 +551,7 @@ export class Game extends Phaser.Scene {
             player2.setVelocityY(250);
             player2.setVelocityX(250);
             player2.anims.play('right1', true);
+            player2.direcionMira = 'DownLeft';
         } else if (this.cursors.up.isDown && this.cursors.left.isDown) {
             player2.setVelocityY(-250);
             player2.setVelocityX(-250);
@@ -555,6 +561,7 @@ export class Game extends Phaser.Scene {
             player2.setVelocityY(-250);
             player2.setVelocityX(250);
             player2.anims.play('right1', true);
+            player2.direcionMira = 'UpLeft';
         } else if (this.cursors.left.isDown) {
             player2.setVelocityX(-250);
             player2.setVelocityY(0);
@@ -568,10 +575,12 @@ export class Game extends Phaser.Scene {
             player2.setVelocityY(-250);
             player2.setVelocityX(0);
             player2.anims.play('up1', true);
+            player2.direcionMira = 'UpLeft';
         } else if (this.cursors.down.isDown) {
             player2.setVelocityY(250);
             player2.setVelocityX(0);
             player2.anims.play('down1', true);
+            player2.direcionMira = 'DownLeft';
         } else {
             player2.setVelocityX(0);
             player2.setVelocityY(0);
@@ -580,28 +589,9 @@ export class Game extends Phaser.Scene {
 
         if (this.keys.E.isDown) {
             if (player1.municion) {
-                this.bomba = bombas.create(player1.x + 30, player1.y, 'bomba');
-                this.bomba.setBounce(1);
-                this.bomba.setCollideWorldBounds(true);
-                this.bomba.setDragX(500); //https://phaser.discourse.group/t/friction-not-working/5721/11
-                this.bomba.setDragY(500);
-                this.tweens.add({   //Tweens.add se encarga de la animacion que hace desaparecer lentamente las bombas
-                    targets: this.bomba,
-                    alpha: 0.05,
-                    duration: 2000,
-                });
-
-                switch (player1.direcionMira) {
-                    case 'UpRight':
-                        this.bomba.setVelocity(600, -600);
-                        break;
-                    case 'Right':
-                        this.bomba.setVelocity(600, 0);
-                        break;
-                    case 'DownRight':
-                        this.bomba.setVelocity(600, 600);
-                        break;
-                }
+                // Crea la bomba que se va a lanzar
+                // La trayectoria y la velocidad se calculan en el constructor de explosive
+                var lanzado = new Explosives(this, player1);
                 player1.municion = false;
                 player1.tint = 0xffffff;
             }
@@ -610,6 +600,7 @@ export class Game extends Phaser.Scene {
             if (player2.municion)
             {
                 // Crea la bomba que se va a lanzar
+                // La trayectoria y la velocidad se calculan en el constructor de explosive
                 var lanzado = new Explosives(this, player2);
                 player2.municion = false;
                 player2.tint = 0xffffff;
