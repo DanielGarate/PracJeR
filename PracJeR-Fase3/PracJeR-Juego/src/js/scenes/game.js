@@ -1,4 +1,5 @@
 import {Explosives} from './explosives.js';
+import {Terrenos} from './terrenos.js';
 var score1 = 0;  //Puntuacion jugador 1
 var score2 = 0;  //Puntuacion jugador 2
 var scoreBoard1, scoreBoard2; //Para imprimir las puntuaciones de J1 y J2
@@ -12,14 +13,6 @@ var posExplosionX, posExplosionY;  //Posicion de las explosiones
 var timedEvent1;
 var c1 = 0; //...
 var c2 = 0; //Para el control de spawns
-
-class Muro {            //Clase muro para poder destruir cuerpos
-    constructor(x, y) { //Constructor con las posiciones
-        this.x = x;     //Posicion en x
-        this.y = y;     //Posicion en y
-        this.vida = 3;  //Vida del muro (numero de explosiones necesarias para destruirlo)
-    }
-}
 
 
 export class Game extends Phaser.Scene {
@@ -51,6 +44,10 @@ export class Game extends Phaser.Scene {
         //SE INCLUYEN LAS IMAGENES NECESARIAS
         this.load.image("campo", "../../resources/img/campo.png");  //Imagen del campo
         this.load.image("muro", "../../resources/img/muro.png");  //Imagen muros
+        this.load.image("muroDMG1", "../../resources/img/muroRoto1.png");  //Imagen muros
+        this.load.image("muroDMG2", "../../resources/img/muroRoto2.png");  //Imagen muros
+        this.load.image("muroDMG3", "../../resources/img/muroRoto.png");  //Imagen muros
+
         this.load.image("separacion", "../../resources/img/separacion.png");  //Limite central
         this.load.image("bomba", "../../resources/img/bomb.png");  //Imagen bombas
         this.load.image("sombraMuro", "../../resources/img/sombraMuro.png");  //Imagen sombra de muro
@@ -88,30 +85,28 @@ export class Game extends Phaser.Scene {
 
         //GRUPOS ESTATICOS
         muros = this.physics.add.staticGroup();
+        this.poolMuros = this.add.group();
         limites = this.physics.add.staticGroup();
         explosion = this.physics.add.staticGroup();
         explosion1 = this.physics.add.staticGroup();
 
-        //ARRAY QUE GUARDARA LOS OBJETOS DE LA CLASE MURO CREADOS
-        var coberturas = new Array();
+        //GRUPOS DINAMICOS
+        bombas = this.physics.add.group();
+
+        //Grupo de las bombas
+        this.poolBombas = this.add.group();
 
 
         //SE CREAN LOS MUROS POR PARTES
-        //Muros lado izquierdo
-        muros.create(250, 408, "muro").setScale(0.8, 0.75).refreshBody();  //refresh body es necesario ya que se ha escalado un cuerpo estático
-        coberturas[0] = new Muro(250, 408);
-        muros.create(250, 208, "muro").setScale(0.8, 0.75).refreshBody();
-        coberturas[1] = new Muro(250, 208);
-        muros.create(150, 308, "muro").setScale(0.8, 0.75).refreshBody();
-        coberturas[2] = new Muro(150, 308);
 
-        //Muros lado derecho
-        muros.create(550, 408, "muro").setScale(0.8, 0.75).refreshBody();  //refresh body es necesario ya que se ha escalado un cuerpo estático
-        coberturas[3] = new Muro(550, 408);
-        muros.create(550, 208, "muro").setScale(0.8, 0.75).refreshBody();
-        coberturas[4] = new Muro(550, 208);
-        muros.create(650, 308, "muro").setScale(0.8, 0.75).refreshBody();
-        coberturas[5] = new Muro(650, 308);
+        var muroIzq1 = new Terrenos (this, 250, 408);
+        var muroIzq2 = new Terrenos (this, 250, 208);
+        var muroIzq3 = new Terrenos (this, 150, 308);
+
+
+        var muroDere1 = new Terrenos (this, 550, 408);
+        var muroDere2 = new Terrenos (this, 550, 208);
+        var muroDere3 = new Terrenos (this, 650, 308);
 
         //Limite central
         limites.create(400, 300, "separacion");
@@ -204,15 +199,11 @@ export class Game extends Phaser.Scene {
 
 
 
-        //GRUPOS DINAMICOS
-        bombas = this.physics.add.group();
-
-        //Grupo de las bombas
-        this.poolBombas = this.add.group();
+        
         
         //COLIDERS
-        this.physics.add.collider(player1, muros);
-        this.physics.add.collider(player2, muros);
+        this.physics.add.collider(player1, this.poolMuros);
+        this.physics.add.collider(player2, this.poolMuros);
         this.physics.add.collider(player1, limites);
         this.physics.add.collider(player2, limites);
 
@@ -313,10 +304,10 @@ export class Game extends Phaser.Scene {
 
         //SE AÑADE UNA COLISION DE MUROS CON BOMBAS
         // Detección de la colision de bombas con los muros
-        this.physics.add.collider(muros, this.poolBombas, colMuroBomba, null, this);
-        function colMuroBomba(muros, explosivo)
+        this.physics.add.collider(this.poolMuros, this.poolBombas, colMuroBomba, null, this);
+        function colMuroBomba(muro, explosivo)
         {
-            for (var i = 0; i < coberturas.length; i++) {
+            /*for (var i = 0; i < coberturas.length; i++) {
                 if (muros.x == coberturas[i].x && muros.y == coberturas[i].y) {
                     coberturas[i].vida--;
                     temp = i;
@@ -332,12 +323,14 @@ export class Game extends Phaser.Scene {
                 muros.destroy();
                 explosion1.create(posExplosionX, posExplosionY, 'bomba').setScale(3, 3).refreshBody();
                 explosion1.setVisible(false);
-            }
+            }*/
+            muro.quiebra();
             posExplosionX = explosivo.x;
             posExplosionY = explosivo.y;
             //this.bum.play();
             this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
-            this.animExplosion.anims.play('boom')
+            this.animExplosion.anims.play('boom');
+            
 
             explosivo.explota(); //Se destruye la bomba 
             var temp;
@@ -486,15 +479,18 @@ export class Game extends Phaser.Scene {
             this.scene.pause();
             this.scene.launch('pause');//.................----
         })
-
-        
     }
 
     update(time, delta) //Delta se usa para que en todos los navegadores el movimiento sea el mismo
     {
         for(var i = 0; i < this.poolBombas.getChildren().length; i++){
-            var revienta = this.poolBombas.getChildren()[i];
-            revienta.update();
+            let inspectBomb  = this.poolBombas.getChildren()[i];
+            inspectBomb.Update();
+          }
+
+          for(var i = 0; i < this.poolMuros.getChildren().length; i++){
+            var inspectMuro = this.poolMuros.getChildren()[i];
+            inspectMuro.Update();
           }
 
         //Jugador 1
