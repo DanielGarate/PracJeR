@@ -2,9 +2,13 @@ package com.example.demo;
 
 import java.util.Collection;
 import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.util.Scanner;
 import java.io.FileReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -42,26 +46,10 @@ public class UsersController {
 		long id = nextId.incrementAndGet();
 		user.setId(id);
 		users.put(id, user);
-
-
-		FileWriter flwriter = null;
-        FileReader flreader = null;
-        try { 
-        	
-            flwriter = new FileWriter("users.txt", true);
-
-            BufferedWriter bfwriter = new BufferedWriter(flwriter);
-
-
-            bfwriter.write(user.toString());
-            //bfwriter.write(ln);
-            bfwriter.close();
-
-        } catch (IOException e) {
-            System.err.println("Error en la escritura");
-        }
-
-
+		
+		//escribirArchivo("Manolo", "124");
+		escribirArchivo(user.getName(), "123"); //FALTA METER COMO METER LA CONTRASEÑA
+		
 		return true;
 	}
 
@@ -84,7 +72,6 @@ public class UsersController {
 	public ResponseEntity<User> getUsers(@PathVariable long id) {
 
 		User savedUsers = users.get(id);
-
 		if (savedUsers != null) {
 			return new ResponseEntity<>(savedUsers, HttpStatus.OK);
 		} else {
@@ -105,4 +92,83 @@ public class UsersController {
 		}
 	}
 
+	
+	
+	
+	public static void escribirArchivo(String nombre, String contrasenya) {
+		
+	    File log = new File("test.txt"); //CREAMOS ARCHIVO
+	    	    try{
+	    	    if(log.exists()==false){ //si no existe el archivo, lo crea
+	    	            System.out.println("We had to make a new file.");
+	    	            log.createNewFile();
+	    	    } //si existe buscame el nombre
+	    	    
+	    	    if(chekeadorPalabra(nombre) == false) { //CEHACEKADOR DE PALABRA RECIBE UNA PALABRA y retorna un bool si esta o no
+	    	    	FileWriter fileWriter = new FileWriter(log, true);
+	 	    	    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+	 	    	    bufferedWriter.write(nombre + "-" + contrasenya + "-");// + "\n"); //escribe el nombre u contrasena
+	 	    	    bufferedWriter.close();
+	    		}else {
+	    			if(chekeadorPalabra(contrasenya) == false){ //chekeador de palabra tmb podemos chekear contrasenas
+	    				System.out.println("Contasna incorrecta"); //si llegar hasta aui significa que coincide el nombre
+	    			}else {
+	    				System.out.println("sesion inciada"); //si llegar hasta aui significa que coincide el nombre y contraseña AGREGAR AQUI ALGO DE INICIO SESION
+	    			}
+	    			
+	    		}
+	    	    
+	    	    //aqui escribo
+	    	   
+	    	    }catch(IOException e){
+	    	        System.out.println("COULD NOT LOG!!");
+	    	    }
+	}
+	public static boolean chekeadorPalabra(String palabra) {
+		boolean escribo = false;
+		try{
+	    File log = new File("test.txt");
+	    //File file = new File("test.txt");
+	    
+	    //buscador de palabras
+ 		String[] words=null;
+ 		String input= palabra; //palabra a buscra
+ 		int count=0;
+        // Creating an object of BufferedReader class
+        BufferedReader br
+            = new BufferedReader(new FileReader(log));
+        
+        // Declaring a string variable
+        String st;
+        // Condition holds true till
+        // there is character in a string
+        while ((st = br.readLine()) != null) {
+        	// Print the string
+            //System.out.println(st);
+        	words=st.split("-");  //Split the word using space
+            for (String word : words) 
+            {
+                   if (word.equals(input))   //Search for the given word
+                   {
+                     count++;    //If Present increase the count by one
+                   }
+            }
+            
+        }
+        if(count!=0)  //Check for count not equal to zero
+        {
+           System.out.println("The given word is present for "+count+ " Times in the file");
+           escribo = true; 
+        }
+        else
+        {
+           System.out.println("The given word is not present in the file");
+           escribo = false; //si la palabra no existe, la escribo
+        }
+        br.close();
+		}catch(IOException e){
+	        System.out.println("COULD NOT LOG!!");
+	    }
+		return escribo;
+	}
 }
