@@ -119,8 +119,10 @@ export class Game extends Phaser.Scene {
         //Se crean los personajes, apuntando hacia adelante por defecto
         player1 = this.physics.add.sprite(100, 450, 'realDude').setScale(0.7, 0.7).refreshBody(); //Fisica dinamica (dinamic group) por defecto
         player1.direcionMira = 'Right';
+        player1.id = 1;
         player2 = this.physics.add.sprite(700, 450, 'realDude').setScale(0.7, 0.7).refreshBody();; //Fisica dinamica (dinamic group) por defecto
         player2.direcionMira = 'Left';
+        player2.id = 2;
 
 
         //Los personajes no se pueden salir del mapa
@@ -206,13 +208,16 @@ export class Game extends Phaser.Scene {
         bombas = this.physics.add.group();
 
         //Grupo de las bombas
-        this.poolBombas = this.physics.add.group();
+        this.poolBombas = this.add.group();
         
         //COLIDERS
         this.physics.add.collider(player1, muros);
         this.physics.add.collider(player2, muros);
         this.physics.add.collider(player1, limites);
         this.physics.add.collider(player2, limites);
+
+        //this.physics.add.collider(this.poolBombas, muros);
+        //this.physics.add.collider(player2, limites);
 
 
 
@@ -307,39 +312,38 @@ export class Game extends Phaser.Scene {
 
 
         //SE AÑADE UNA COLISION DE MUROS CON BOMBAS
-        this.physics.add.collider(muros, bombas, hitBomb1, null, this);
-
-        //Detección colisión muro-bomba
-        function hitBomb1(muro, bomba) {
-
-            var temp;
+        // Detección de la colision de bombas con los muros
+        this.physics.add.collider(muros, this.poolBombas, colMuroBomba, null, this);
+        function colMuroBomba(muros, explosivo)
+        {
             for (var i = 0; i < coberturas.length; i++) {
-                if (muro.x == coberturas[i].x && muro.y == coberturas[i].y) {
+                if (muros.x == coberturas[i].x && muros.y == coberturas[i].y) {
                     coberturas[i].vida--;
                     temp = i;
 
                     if (coberturas[i].vida == 2) {
-                        muro.anims.play('roto1', true);
+                        muros.anims.play('roto1', true);
                     } else if (coberturas[i].vida == 1) {
-                        muro.anims.play('roto2', true);
+                        muros.anims.play('roto2', true);
                     }
                 }
             }
-
             if (coberturas[temp].vida == 0) {
-                muro.destroy();
+                muros.destroy();
                 explosion1.create(posExplosionX, posExplosionY, 'bomba').setScale(3, 3).refreshBody();
                 explosion1.setVisible(false);
             }
+            
 
-            posExplosionX = bomba.x; //Se guarda la ultima posicion de la bomba 
-            posExplosionY = bomba.y;
-            explosion.create(posExplosionX, posExplosionY, 'bomba').setScale(3, 3).refreshBody(); //Se genera un sprite invisible de mayor tamaño que la bomba para posteriormente realizar la colision de la explosion
-            explosion.setVisible(false);
-            this.bum.play();
-            this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');//Se crea e inicia la animacion de la explosion en la ultima posicion de la bomba
-            this.animExplosion.anims.play('boom');
-            bomba.destroy(); //Se destruye la bomba 
+            posExplosionX = explosivo.x;
+            posExplosionY = explosivo.y;
+            //this.bum.play();
+            this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
+            this.animExplosion.anims.play('boom')
+
+            explosivo.explota(); //Se destruye la bomba 
+            var temp;
+            
         }
 
         //FUNCION PARA EXPLOSION
@@ -373,17 +377,19 @@ export class Game extends Phaser.Scene {
 
 
         //Deteccion colisione J1-bombas
-        this.physics.add.collider(player1, bombas, hitBomb, null, this);
-        function hitBomb(player1, bomba) { //Colision que se encarga del impacto directo del jugador con la bomba
+        this.physics.add.collider(player1, this.poolBombas, colJ1Bomba, null, this);
+        function colJ1Bomba(player1, explosivo) { //Colision que se encarga del impacto directo del jugador con la bomba
+            if(player1.id != explosivo.idLanzador){
             score2++;
             marcador();
             player1.setPosition(100, Phaser.Math.Between(0, 600));
-            posExplosionX = bomba.x;
-            posExplosionY = bomba.y;
+            posExplosionX = explosivo.x;
+            posExplosionY = explosivo.y;
             this.bum.play();
             this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
             this.animExplosion.anims.play('boom');
-            bomba.destroy();
+            explosivo.explota();
+            }
         }
 
         this.physics.add.collider(player1, explosion, hitExplosion1, null, this);
@@ -395,18 +401,20 @@ export class Game extends Phaser.Scene {
         }
 
         //Colisiones J2-bombas
-        this.physics.add.collider(player2, bombas, hitBomb2, null, this);
+        this.physics.add.collider(player2, this.poolBombas, colJ2Bomba, null, this);
 
-        function hitBomb2(player2, bomba) {
+        function colJ2Bomba(player2, explosivo) {
+            if(player2.id != explosivo.idLanzador){
             score1++;
             marcador();
             player2.setPosition(700, Phaser.Math.Between(0, 600));
-            posExplosionX = bomba.x;
-            posExplosionY = bomba.y;
+            posExplosionX = explosivo.x;
+            posExplosionY = explosivo.y;
             this.bum.play();
             this.animExplosion = this.add.sprite(posExplosionX, posExplosionY, 'boom');
             this.animExplosion.anims.play('boom');
-            bomba.destroy();
+            explosivo.destroy();
+            }
         }
 
         this.physics.add.collider(player2, explosion, hitExplosion2, null, this);
