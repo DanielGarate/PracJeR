@@ -16,7 +16,6 @@ export class Terrenos extends Phaser.Physics.Arcade.Sprite/*Phaser.GameObjects.S
         this.destroy();
     }
     
-
     quiebra()
     {
         this.vida--;

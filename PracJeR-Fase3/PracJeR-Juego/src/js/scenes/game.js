@@ -9,6 +9,7 @@ var spawnBombas1, spawnBombas2; //Lugares donde apareceran las bombas
 var text, textoFinPartida; //Para poder mostrar texto
 var explosion, explosion1;  //Para el cuerpo de las explosiones
 var timedEvent;  //Necesario para el timer
+var controladorBombas;
 var posExplosionX, posExplosionY;  //Posicion de las explosiones
 var timedEvent1;
 var c1 = 0; //...
@@ -46,7 +47,6 @@ export class Game extends Phaser.Scene {
         this.load.image("muro", "../../resources/img/muro.png");  //Imagen muros
         this.load.image("muroDMG1", "../../resources/img/muroRoto1.png");  //Imagen muros
         this.load.image("muroDMG2", "../../resources/img/muroRoto2.png");  //Imagen muros
-        this.load.image("muroDMG3", "../../resources/img/muroRoto.png");  //Imagen muros
 
         this.load.image("separacion", "../../resources/img/separacion.png");  //Limite central
         this.load.image("bomba", "../../resources/img/bomb.png");  //Imagen bombas
@@ -199,18 +199,11 @@ export class Game extends Phaser.Scene {
 
 
 
-        
-        
         //COLIDERS
         this.physics.add.collider(player1, this.poolMuros);
         this.physics.add.collider(player2, this.poolMuros);
         this.physics.add.collider(player1, limites);
         this.physics.add.collider(player2, limites);
-
-        //this.physics.add.collider(this.poolBombas, muros);
-        //this.physics.add.collider(player2, limites);
-
-
 
 
         //SUPERPOSICION SPAWNS
@@ -307,23 +300,6 @@ export class Game extends Phaser.Scene {
         this.physics.add.collider(this.poolMuros, this.poolBombas, colMuroBomba, null, this);
         function colMuroBomba(muro, explosivo)
         {
-            /*for (var i = 0; i < coberturas.length; i++) {
-                if (muros.x == coberturas[i].x && muros.y == coberturas[i].y) {
-                    coberturas[i].vida--;
-                    temp = i;
-
-                    if (coberturas[i].vida == 2) {
-                        muros.anims.play('roto1', true);
-                    } else if (coberturas[i].vida == 1) {
-                        muros.anims.play('roto2', true);
-                    }
-                }
-            }
-            if (coberturas[temp].vida == 0) {
-                muros.destroy();
-                explosion1.create(posExplosionX, posExplosionY, 'bomba').setScale(3, 3).refreshBody();
-                explosion1.setVisible(false);
-            }*/
             muro.quiebra();
             posExplosionX = explosivo.x;
             posExplosionY = explosivo.y;
@@ -457,13 +433,27 @@ export class Game extends Phaser.Scene {
                 this.scene.start('pantallaFinal');
                 score2 = 0;
                 score1 = 0;
-            }else{
+            }
+            else
+            {
                 this.scene.start('pantallaFinalJugador2');
                 score1 = 0;
                 score2 = 0;
             }
+            }
         }
-    }
+        controladorBombas = this.time.addEvent({ delay: 1000, callback: cuentaAtras, callbackScope: this, loop: true });
+
+        function cuentaAtras()
+        {
+            for(var i = 0; i < this.poolBombas.getChildren().length; i++){
+                let inspectBomb  = this.poolBombas.getChildren()[i];
+                inspectBomb.contarAtras();
+              }
+        }
+
+
+
 
 
     ///PAUSE

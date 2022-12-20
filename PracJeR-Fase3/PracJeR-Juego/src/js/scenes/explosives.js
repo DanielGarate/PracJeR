@@ -3,9 +3,8 @@ export class Explosives extends Phaser.Physics.Arcade.Sprite/*Phaser.GameObjects
 
         super(scene, lanzador.x, lanzador.y, "bomba");
         this.trayectoria = lanzador.direcionMira;
-        this.tiempoBum = 0;
+        this.tiempoBum = 3;
         this.idLanzador = lanzador.id;
-
 
         this.scene.add.existing(this);
         //this.scene.physics.world.enableBody(this);
@@ -13,11 +12,8 @@ export class Explosives extends Phaser.Physics.Arcade.Sprite/*Phaser.GameObjects
         this.setBounce(1, 1);
         this.setCollideWorldBounds(true);
         this.lanza(this.trayectoria);
-        /*this.timer = scene.time.create(false);
-        timer.loop(5000, explota, scene);*/
-        this.tiempoExp = this.scene.time
+        
         scene.poolBombas.add(this);
-
     }
 
     lanza(trayectoria)
@@ -53,12 +49,11 @@ export class Explosives extends Phaser.Physics.Arcade.Sprite/*Phaser.GameObjects
 
     Update(time, delta)
     {
-        this.tiempoBum += 1;
-        if(this.tiempoBum>=500)
+        if(this.tiempoBum<= 0)
         {
             this.explota();
         }
-        
+    
     }
 
     explota()
@@ -68,6 +63,12 @@ export class Explosives extends Phaser.Physics.Arcade.Sprite/*Phaser.GameObjects
         this.scene.bum.play();
         //this.scene.animExplosion.play('boom');
         this.destroy();
+    }
+
+    contarAtras()
+    {
+        this.tiempoBum--;
+
     }
 
     
