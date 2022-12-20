@@ -333,8 +333,6 @@ export class Game extends Phaser.Scene {
                 explosion1.create(posExplosionX, posExplosionY, 'bomba').setScale(3, 3).refreshBody();
                 explosion1.setVisible(false);
             }
-            
-
             posExplosionX = explosivo.x;
             posExplosionY = explosivo.y;
             //this.bum.play();
