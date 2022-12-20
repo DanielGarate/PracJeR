@@ -48,7 +48,7 @@ public class UsersController {
 		users.put(id, user);
 		
 		//escribirArchivo("Manolo", "124");
-		escribirArchivo(user.getName(), "123"); //FALTA METER COMO METER LA CONTRASEÑA
+		escribirArchivo(user.getName(), user.getPassword()); //FALTA METER COMO METER LA CONTRASEÑA
 		
 		return true;
 	}

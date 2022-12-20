@@ -1,7 +1,7 @@
 //Load users from server
 function loadUsers(callback) {
     $.ajax({
-        url: 'http://192.168.1.19:8080/users'
+        url: 'http://192.168.1.50:8080/users'
     }).done(function (users) {
         console.log('Users loaded: ' + JSON.stringify(users));
         callback(users);
@@ -12,7 +12,7 @@ function loadUsers(callback) {
 function createUser(user, callback) {
     $.ajax({
         method: "POST",
-        url: 'http://192.168.1.19:8080/users',
+        url: 'http://192.168.1.50:8080/users',
         data: JSON.stringify(user),
         processData: false,
         headers: {
@@ -28,7 +28,7 @@ function createUser(user, callback) {
 function updateUser(user) {
     $.ajax({
         method: 'PUT',
-        url: 'http://192.168.1.19:8080/users' + user.id,
+        url: 'http://192.168.1.50:8080/users' + user.id,
         data: JSON.stringify(user),
         processData: false,
         headers: {
@@ -43,7 +43,7 @@ function updateUser(user) {
 function deleteUser(userId) {
     $.ajax({
         method: 'DELETE',
-        url: 'http://192.168.1.19:8080/users' + userId
+        url: 'http://192.168.1.50:8080/users' + userId
     }).done(function (user) {
         console.log("Deleted user " + userId)
     })
