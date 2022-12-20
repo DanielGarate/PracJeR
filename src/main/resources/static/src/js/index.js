@@ -4,7 +4,8 @@ var player1Password = '';
 
 var player2Name = '';
 var player2Password = '';
-
+var message1 = "HOLA";
+var user1 = "";
 
 class LogIn1Button{
     constructor(scene,indentNextScene,posX,posY,sprite){
@@ -39,29 +40,34 @@ class LogIn1Button{
 			 
 		var existe = false;
 			 
-        //When users are loaded from server
+        //When users are loaded from server---------------------------------------------------------------------------------------------------------
         for (var i = 0; i < users.length; i++) {
             if(users[i].name == player1Name && users[i].password != ' '){
             	console.log("Usuario repetido");
+            	
+            	
             	existe = true;
 			}else if(users[i].name == player1Name && users[i].password == ' '){
             	console.log("Bienvenido " + player1Name);
             	existe = true;
+            	
 			}
         }
-        	if(!existe){
-                createUser(user, function (userWithId) {
+        
+    	if(!existe){
+            createUser(user, function (userWithId) {
             //When user with id is returned from server        
             showUser(userWithId);
-            console.log("Usuario  " + player1Name + " creado correctamente");
-        });
-        }
+            console.log("Usuario ADIOS " + player1Name +" "+  player1Password + " creado correctamente");
+            console.log("Usuario  " + users +  " creado correctamente");
+        	});
+   		}
 
-        
+         
     });
-        
-            this.actualScene.sound.stopAll();
-            this.actualScene.scene.start(this.nextScene); 
+        this.actualScene.sound.stopAll();
+        this.actualScene.scene.start(this.nextScene);
+            
         
         })
     
@@ -229,25 +235,25 @@ class User1SignIn extends Phaser.Scene {
     this.input.keyboard.on('keydown', function (event) {
 		
 		
-if(event.keyCode != 8 && event.keyCode != 13 &&
-                    event.keyCode != 16 && event.keyCode != 32 &&
-                            event.keyCode != 39){
-
-            player1Name += event.key;
-        }
-        if (event.keyCode === 8 && textEntry1.text.length > 0)
-            {
-                if(textEntry1.text.length > 0){
-
-                    textEntry1.text = textEntry1.text.substr(0, textEntry1.text.length - 1);
-                       player1Name = textEntry1.text;
-                }else{
-                    textEntry1.text = textEntry1.text.substr(0, textEntry1.text.length);
-                       player1Name = textEntry1.text;
-                }
-
-
-            }
+		if(event.keyCode != 8 && event.keyCode != 13 &&
+					event.keyCode != 16 && event.keyCode != 32 &&
+							event.keyCode != 39){
+				
+			player1Name += event.key;
+		}		
+		if (event.keyCode === 8 && textEntry1.text.length > 0)
+        	{
+				if(textEntry1.text.length > 0){
+					
+					textEntry1.text = textEntry1.text.substr(0, textEntry1.text.length - 1);
+           			player1Name = textEntry1.text;
+				}else{
+					textEntry1.text = textEntry1.text.substr(0, textEntry1.text.length);
+           			player1Name = textEntry1.text;
+				}
+            	
+           		
+        	}	
 
         else if (event.keyCode >= 48 && event.keyCode < 90)
         {
@@ -293,19 +299,20 @@ class Password1SignIn extends Phaser.Scene {
 		event.keyCode != 16 && event.keyCode != 32 &&
 		event.keyCode != 39){
 			player1Password += event.key;
+			
 		}		
 
         if (event.keyCode === 8 && textEntry1.text.length > 0)
         {
-		       if(textEntry1.text.length > 0){
-
-                    textEntry1.text = textEntry1.text.substr(0, textEntry1.text.length - 1);
-                       player1Password = textEntry1.text;
-                }else{
-                    textEntry1.text = textEntry1.text.substr(0, textEntry1.text.length);
-                       player1Password = textEntry1.text;
-                }
-
+			if(textEntry1.text.length > 0){
+					
+					textEntry1.text = textEntry1.text.substr(0, textEntry1.text.length - 1);
+           			player1Password = textEntry1.text;
+				}else{
+					textEntry1.text = textEntry1.text.substr(0, textEntry1.text.length);
+           			player1Password = textEntry1.text;
+				}
+            	
         }
         else if (event.keyCode >= 48 && event.keyCode < 90)
         {
@@ -358,15 +365,14 @@ class User2SignIn extends Phaser.Scene {
 
         if (event.keyCode === 8 && textEntry2.text.length > 0)
         {
-                  if(textEntry2.text.length > 0){
-
-                    textEntry2.text = textEntry2.text.substr(0, textEntry2.text.length - 1);
-                       player2Name = textEntry2.text;
-                }else{
-                    textEntry2.text = textEntry2.text.substr(0, textEntry2.text.length);
-                       player2Name = textEntry2.text;
-                }
-
+			if(textEntry2.text.length > 0){
+					
+					textEntry2.text = textEntry2.text.substr(0, textEntry2.text.length - 1);
+           			player2Name = textEntry2.text;
+				}else{
+					textEntry2.text = textEntry2.text.substr(0, textEntry2.text.length);
+           			player2Name = textEntry1.text;
+				}
         }
         else if (event.keyCode >= 48 && event.keyCode < 90)
         {
@@ -417,14 +423,14 @@ class Password2SignIn extends Phaser.Scene {
 
         if (event.keyCode === 8 && textEntry2.text.length > 0)
         {
-              if(textEntry2.text.length > 0){
-
-                    textEntry2.text = textEntry2.text.substr(0, textEntry2.text.length - 1);
-                       player2Password = textEntry2.text;
-                }else{
-                    textEntry2.text = textEntry2.text.substr(0, textEntry2.text.length);
-                       player2Password = textEntry2.text;
-                }
+            if(textEntry1.text.length > 0){
+					
+					textEntry2.text = textEntry2.text.substr(0, textEntry2.text.length - 1);
+           			player2Password = textEntry1.text;
+				}else{
+					textEntry2.text = textEntry2.text.substr(0, textEntry2.text.length);
+           			player2Password = textEntry2.text;
+				}
         }
         else if (event.keyCode >= 48 && event.keyCode < 90)
         {
@@ -1207,6 +1213,9 @@ class Pause extends Phaser.Scene {
         this.load.spritesheet('buttonContinue', '../../../resources/img/buttonContinue.png',
         { frameWidth: 182/2, frameHeight: 92 }
         );
+        this.load.spritesheet('buttonContinue', '../../../resources/img/buttonContinue.png',
+        { frameWidth: 182/2, frameHeight: 92 }
+        );
         this.load.spritesheet('mainMenu', '../../resources/img/spriteMainMenuPause.png',
         { frameWidth: 896/2, frameHeight: 79 }
         );
@@ -1224,6 +1233,25 @@ class Pause extends Phaser.Scene {
         this.buttonCont.on('pointerdown',()=>{
             this.scene.resume('game');  
             this.scene.stop();
+        })
+		
+		this.buttonMsg = this.add.sprite(400,200,'buttonContinue').setInteractive(); //añade a la escena actual el sprite y lo vuelve interactivo
+        this.buttonMsg.on('pointerover',()=>{
+            this.buttonMsg.setFrame(1);
+        })
+        this.buttonMsg.on('pointerout',()=>{
+            this.buttonMsg.setFrame(0);
+        })
+        this.buttonMsg.on('pointerdown',()=>{
+			  var chat = {
+            		//name: user1,
+            		text: message1
+            	}
+			loadChat(function (msg){
+				createChat(chat );
+			})
+            //this.scene.resume('game');  
+            //this.scene.stop();
         })
 
         this.buttonMainMenu = this.add.sprite(400,500,'mainMenu').setInteractive(); //añade a la escena actual el sprite y lo vuelve interactivo

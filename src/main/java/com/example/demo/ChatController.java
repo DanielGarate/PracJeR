@@ -1,19 +1,16 @@
 package com.example.demo;
 
-import java.util.Collection;
-import java.io.BufferedWriter;
 import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.util.Scanner;
-import java.io.FileReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
-import java.io.IOException;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,93 +19,90 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/users")
-public class UsersController {
-
-	Map<Long, User> users = new ConcurrentHashMap<>(); 
+public class ChatController {
+	//Map<Long, User> users = new ConcurrentHashMap<>(); 
+	Map<Long, Chat> msg = new ConcurrentHashMap<>(); 
 	AtomicLong nextId = new AtomicLong(0);
 	
 	@GetMapping
-	public Collection<User> users() {
-		return users.values();
+	public Collection<Chat> messages() {
+		return msg.values();
 	}
 	
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public boolean nuevoUser(@RequestBody User user) {
+	public boolean newMsg(@RequestBody Chat chat) {
 
 		long id = nextId.incrementAndGet();
-		user.setId(id);
-		users.put(id, user);
+		chat.setId(id);
+		msg.put(id, chat);
 		
 		//escribirArchivo("Manolo", "124");
-		escribirArchivo(user.getName(), user.getPassword()); //FALTA METER COMO METER LA CONTRASEÑA
+		escribirArchivo(chat.getUsuario1(), chat.getMUsuario1()); //FALTA METER COMO METER LA CONTRASEÑA
 		
 		return true;
 	}
-
+	/*
 	@PutMapping("/{id}")
 	public ResponseEntity<User> actulizaUser(@PathVariable long id, @RequestBody User userActualizado) {
 
-		User savedUser = users.get(userActualizado.getId());
+		User savedUser = msg.get(userActualizado.getId());
 
 		if (savedUser != null) {
 
-			users.put(id, userActualizado);
+			msg.put(id, userActualizado);
 
 			return new ResponseEntity<>(userActualizado, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-
+	*/
+	
 	@GetMapping("/{id}")
-	public ResponseEntity<User> getUsers(@PathVariable long id) {
+	public ResponseEntity<Chat> getChat(@PathVariable long id) {
 
-		User savedUsers = users.get(id);
-		if (savedUsers != null) {
-			return new ResponseEntity<>(savedUsers, HttpStatus.OK);
+		Chat savedMsg = msg.get(id);
+		if (savedMsg != null) {
+			return new ResponseEntity<>(savedMsg, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-
+	/*
 	@DeleteMapping("/{id}")
 	public ResponseEntity<User> borraUser(@PathVariable long id) {
 
-		User savedUsers = users.get(id);
+		User savedUsers = msg.get(id);
 
 		if (savedUsers != null) {
-			users.remove(savedUsers.getId());
+			msg.remove(savedUsers.getId());
 			return new ResponseEntity<>(savedUsers, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
+	*/
 	
 	
-	
-	public static void escribirArchivo(String nombre, String contrasenya) {
+	public static void escribirArchivo(String user, String chathist) {
 		
-	    File log = new File("test.txt"); //CREAMOS ARCHIVO
+	    File log = new File("chat.txt"); //CREAMOS ARCHIVO
 	    	    try{
 	    	    if(log.exists()==false){ //si no existe el archivo, lo crea
 	    	            System.out.println("We had to make a new file.");
 	    	            log.createNewFile();
 	    	    } //si existe buscame el nombre
-	    	    
-	    	    if(chekeadorPalabra(nombre) == false) { //CEHACEKADOR DE PALABRA RECIBE UNA PALABRA y retorna un bool si esta o no
-	    	    	FileWriter fileWriter = new FileWriter(log, true);
-	 	    	    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-	 	    	    bufferedWriter.write(nombre + "-" + contrasenya + "-");// + "\n"); //escribe el nombre u contrasena
-	 	    	    bufferedWriter.close();
+	    	    FileWriter fileWriter = new FileWriter(log, true);
+ 	    	    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+ 	    	    bufferedWriter.write(user + ": " + chathist + "\n");// + "\n"); //escribe el nombre u contrasena
+ 	    	    bufferedWriter.close();
+	    	    /*if(chekeadorPalabra(nombre) == false) { //CEHACEKADOR DE PALABRA RECIBE UNA PALABRA y retorna un bool si esta o no
+	    	    	
 	    		}else {
 	    			if(chekeadorPalabra(contrasenya) == false){ //chekeador de palabra tmb podemos chekear contrasenas
 	    				System.out.println("Contasna incorrecta"); //si llegar hasta aui significa que coincide el nombre 
@@ -120,7 +114,7 @@ public class UsersController {
 	    			}
 	    			
 	    		}
-	    	    
+	    	    */
 	    	    //aqui escribo
 	    	   
 	    	    }catch(IOException e){
