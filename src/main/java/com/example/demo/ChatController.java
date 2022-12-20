@@ -19,8 +19,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
+
+
+@RestController
+@RequestMapping("/chat")
 public class ChatController {
 	//Map<Long, User> users = new ConcurrentHashMap<>(); 
 	Map<Long, Chat> msg = new ConcurrentHashMap<>(); 
@@ -42,7 +48,7 @@ public class ChatController {
 		
 		//escribirArchivo("Manolo", "124");
 		escribirArchivo(chat.getUsuario1(), chat.getMUsuario1()); //FALTA METER COMO METER LA CONTRASEÑA
-		
+		//escribirArchivo("usuario alex", "HOLA "); //FALTA METER COMO METER LA CONTRASEÑA
 		return true;
 	}
 	/*

@@ -53,7 +53,7 @@ function deleteUser(userId) {
 //.-------------------------------------------------------------------------chat
 function loadChat(callback) {
     $.ajax({
-        url: 'http://192.168.1.46:8080/users/chat'
+        url: 'http://192.168.1.46:8080/chat'
     }).done(function (msg) {
         console.log("User loaded CHAT" + JSON.stringify(msg));
         callback(msg);
@@ -63,7 +63,7 @@ function loadChat(callback) {
 function createChat(chat, callback){
 	    $.ajax({
         method: "POST",
-        url: 'http://192.168.1.46:8080/users/chat',
+        url: 'http://192.168.1.46:8080/chat',
         data: JSON.stringify(chat),
         processData: false,
         headers: {
@@ -71,14 +71,14 @@ function createChat(chat, callback){
         }
     }).done(function (chat) {
         console.log("Chat created: " + JSON.stringify(chat));
-        callback(chat);
+        //callback(chat);
     })
 }
 
 function updateChat(chat) {
     $.ajax({
         method: 'PUT',
-        url: 'http://192.168.1.46:8080/users/chat' + chat.id,
+        url: 'http://192.168.1.46:8080/chat' + chat.id,
         data: JSON.stringify(chat),
         processData: false,
         headers: {
@@ -93,7 +93,7 @@ function updateChat(chat) {
 function deleteChat(chatId) {
     $.ajax({
         method: 'DELETE',
-        url: 'http://192.168.1.46:8080/users/chat' + chatId
+        url: 'http://192.168.1.46:8080/chat' + chatId
     }).done(function (chatId) {
         console.log("Deleted user " + chatId)
     })
@@ -120,12 +120,12 @@ $(document).ready(function () {
             showUser(users[i]);
         }
     });
-	loadChat(function (msg) {
+	//loadChat(function (msg) {
 	        //When users are loaded from server
-	        for (var i = 0; i < msg.length; i++) {
-	            showChat(msg[i]);
-	        }
-	    });
+	//        for (var i = 0; i < msg.length; i++) {
+	//            showChat(msg[i]);
+	//        }
+	//    });
 
 
     var username = $('#name');

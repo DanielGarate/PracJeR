@@ -1242,7 +1242,8 @@ class Pause extends Phaser.Scene {
         this.buttonMsg.on('pointerout',()=>{
             this.buttonMsg.setFrame(0);
         })
-        this.buttonMsg.on('pointerdown',()=>{
+        this.buttonMsg.on('pointerdown',()=>{ //----------------------------------------------------------------------------------------------------------------
+			  message1 = "joañ";
 			  var chat = {
             		//name: user1,
             		text: message1
