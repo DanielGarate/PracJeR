@@ -192,7 +192,7 @@ Botón Salir: Vuelve al menú principal.
     ![REALDUDE](https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-Fase3/PracJeR-Juego/resources/img/realDude.png)
 -UML:
   <br>
-    ![UML]([https://github.com/DanielGarate/PracJeR/blob/main/PracJeR-Fase3/PracJeR-Juego/resources/img/bomb.png] (https://cdn.discordapp.com/attachments/789091325550919680/1054915023589355640/Clase_UML.png))
+    ![UML]([https://github.com/DanielGarate/PracJeR/blob/fase3Inicio/src/main/resources/static/resources/img/Clase_UML.png)
 ### RECURSOS<br>
 [Porcunipine « PCGamesTorrents](https://pcgamestorrents.com/porcunipine.html)  Barricadas <br>
 [Pixel Soccer | 🕹️ Play Pixel Soccer Online On GamePix Ejemplo](https://www.gamepix.com/play/pixel-soccer) Mapa
