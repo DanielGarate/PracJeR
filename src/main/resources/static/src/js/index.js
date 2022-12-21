@@ -1235,6 +1235,7 @@ class Pause extends Phaser.Scene {
             this.scene.stop();
         })
 		
+		/*
 		this.buttonMsg = this.add.sprite(400,200,'buttonContinue').setInteractive(); //añade a la escena actual el sprite y lo vuelve interactivo
         this.buttonMsg.on('pointerover',()=>{
             this.buttonMsg.setFrame(1);
@@ -1242,7 +1243,7 @@ class Pause extends Phaser.Scene {
         this.buttonMsg.on('pointerout',()=>{
             this.buttonMsg.setFrame(0);
         })
-        this.buttonMsg.on('pointerdown',()=>{ //----------------------------------------------------------------------------------------------------------------
+        this.buttonMsg.on('pointerdown',()=>{ //--------------------------------------------------------------CHAT--------------------------------------------------
 				
 			  var chat = {
             		user: player1Name,
@@ -1256,7 +1257,7 @@ class Pause extends Phaser.Scene {
             //this.scene.resume('game');  
             //this.scene.stop();
         })
-
+		*/
         this.buttonMainMenu = this.add.sprite(400,500,'mainMenu').setInteractive(); //añade a la escena actual el sprite y lo vuelve interactivo
         this.buttonMainMenu.on('pointerover',()=>{
             this.buttonMainMenu.setFrame(1);
@@ -1269,9 +1270,9 @@ class Pause extends Phaser.Scene {
             this.scene.stop('game');
             this.scene.stop();
         })
-        this.add.text(80, 50, 'CHAT', { font: '16px Courier', fill: '#ffffff' });
+        //this.add.text(80, 50, 'CHAT', { font: '16px Courier', fill: '#ffffff' });
 			//https://phaser.io/examples/v3/view/input/keyboard/text-entry
-	    var chatEntry1 = this.add.text(80, 90, '', { font: '16px Courier', fill: '#ffff00' });
+	    /*var chatEntry1 = this.add.text(80, 90, '', { font: '16px Courier', fill: '#ffff00' });
 	
 	    this.input.keyboard.on('keydown', function (event) {
 			
@@ -1300,7 +1301,7 @@ class Pause extends Phaser.Scene {
 	        {
 	            chatEntry1.text += event.key;
 	        }
-	    }); 
+	    });*/ 
     }
 }
 
