@@ -3,7 +3,7 @@ function loadUsers(callback) {
     $.ajax({
         url: 'http://192.168.1.46:8080/users'
     }).done(function (users) {
-        console.log("User loaded BRO" + JSON.stringify(users));
+        console.log("User loaded " + JSON.stringify(users));
         callback(users);
     })
 }
@@ -71,7 +71,7 @@ function createChat(chat, callback){
         }
     }).done(function (chat) {
         console.log("Chat created: " + JSON.stringify(chat));
-        //callback(chat);
+        callback(chat);
     })
 }
 

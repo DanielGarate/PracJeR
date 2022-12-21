@@ -4,7 +4,7 @@ var player1Password = '';
 
 var player2Name = '';
 var player2Password = '';
-var message1 = "HOLA";
+var message1 = "";
 var user1 = "";
 
 class LogIn1Button{
@@ -1243,14 +1243,16 @@ class Pause extends Phaser.Scene {
             this.buttonMsg.setFrame(0);
         })
         this.buttonMsg.on('pointerdown',()=>{ //----------------------------------------------------------------------------------------------------------------
-			  message1 = "joañ";
+				
 			  var chat = {
-            		//name: user1,
-            		text: message1
+            		user: player1Name,
+            		mensage: message1
             	}
 			loadChat(function (msg){
 				createChat(chat );
+				chatEntry1.text = chatEntry1.text.substr(0, chatEntry1.text.length * 0);
 			})
+			
             //this.scene.resume('game');  
             //this.scene.stop();
         })
@@ -1267,10 +1269,40 @@ class Pause extends Phaser.Scene {
             this.scene.stop('game');
             this.scene.stop();
         })
-        
-
+        this.add.text(80, 50, 'CHAT', { font: '16px Courier', fill: '#ffffff' });
+			//https://phaser.io/examples/v3/view/input/keyboard/text-entry
+	    var chatEntry1 = this.add.text(80, 90, '', { font: '16px Courier', fill: '#ffff00' });
+	
+	    this.input.keyboard.on('keydown', function (event) {
+			
+			
+			if(event.keyCode != 8 && event.keyCode != 13 &&
+						event.keyCode != 16 && event.keyCode != 32 &&
+								event.keyCode != 39){
+					
+				message1 += event.key;
+			}		
+			if (event.keyCode === 8 && chatEntry1.text.length > 0)
+	        	{
+					if(chatEntry1.text.length > 0){
+						
+						chatEntry1.text = chatEntry1.text.substr(0, chatEntry1.text.length - 1);
+	           			message1 = chatEntry1.text;
+					}else{
+						chatEntry1.text = chatEntry1.text.substr(0, chatEntry1.text.length);
+	           			message1 = chatEntry1.text;
+					}
+	            	
+	           		
+	        	}	
+	
+	        else if (event.keyCode >= 48 && event.keyCode < 90)
+	        {
+	            chatEntry1.text += event.key;
+	        }
+	    }); 
     }
-    }
+}
 
 
 
