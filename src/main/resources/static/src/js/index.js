@@ -1,12 +1,60 @@
 
 var player1Name = '';
+
+
 var player1Password = '';
+
 
 var player2Name = '';
 var player2Password = '';
 var message1 = "";
 var user1 = "";
 
+class Register1Button{
+    constructor(scene,indentNextScene,posX,posY,sprite){
+        this.actualScene = scene;
+        this.nextScene = indentNextScene;
+        this.x = posX;
+        this.y = posY;
+        this.spriteKey = sprite;
+    }
+    preload(){
+        this.actualScene.load.spritesheet('buttonPl', '../../../resources/img/spritePlay.png',
+        { frameWidth: 896/2, frameHeight: 79 }); //le asocia el sprite
+        
+    }
+    create(){
+        
+        this.startButton = this.actualScene.add.sprite(this.x,this.y,this.spriteKey).setInteractive(); //añade a la escena actual el sprite y lo vuelve interactivo
+        this.startButton.on('pointerover',()=>{
+            this.startButton.setFrame(1);
+        })
+        this.startButton.on('pointerout',()=>{
+            this.startButton.setFrame(0);
+        })
+
+        this.startButton.on('pointerdown',()=>{
+			
+			var user = {
+            	name: player1Name,
+            	password: player1Password,
+            	
+            }
+            console.log("U----" + user.name);
+            getUser(user);
+            this.actualScene.scene.start(this.nextScene); //borrar esto cuando GET funciione
+			/*if(getUser(user) == false){
+				//mensaje que usuario incorrecto
+			}else{
+				this.actualScene.scene.start(this.nextScene); 
+			}*/
+			
+		})
+        
+    
+    }
+   
+}
 class LogIn1Button{
     constructor(scene,indentNextScene,posX,posY,sprite){
         this.actualScene = scene;
@@ -17,11 +65,14 @@ class LogIn1Button{
     }
     preload(){
         this.actualScene.load.spritesheet('buttonPl', '../../../resources/img/spritePlay.png',
-        { frameWidth: 896/2, frameHeight: 79 }
-        ); //le asocia el sprite
+        { frameWidth: 896/2, frameHeight: 79 }); //le asocia el sprite
+        
+        this.actualScene.load.spritesheet('buttonPl', '../../../resources/img/spritePlay.png',
+        { frameWidth: 500, frameHeight: 200 }); //le asocia el sprite
         
     }
     create(){
+        this.startButton1 = this.actualScene.add.sprite(this.x,this.y,this.spriteKey).setInteractive();
         this.startButton = this.actualScene.add.sprite(this.x,this.y,this.spriteKey).setInteractive(); //añade a la escena actual el sprite y lo vuelve interactivo
         this.startButton.on('pointerover',()=>{
             this.startButton.setFrame(1);
@@ -30,12 +81,14 @@ class LogIn1Button{
             this.startButton.setFrame(0);
         })
         this.startButton.on('pointerdown',()=>{
-
+			//var id = 1;
         	var user = {
+				
             	name: player1Name,
             	password: player1Password,
             	}
-       
+       	//getUser(user);
+      
         loadUsers(function (users) {
 			 
 		var existe = false;
@@ -57,23 +110,21 @@ class LogIn1Button{
     	if(!existe){
             createUser(user, function (userWithId) {
             //When user with id is returned from server        
-            showUser(userWithId);
+            //showUser(userWithId);
             console.log("Usuario ADIOS " + player1Name +" "+  player1Password + " creado correctamente");
             console.log("Usuario  " + users +  " creado correctamente");
         	});
    		}
 
          
-    });
+    	});
         this.actualScene.sound.stopAll();
         this.actualScene.scene.start(this.nextScene);
-            
-        
-        })
-    
+        }) //---
+
     }
    
-    }
+}
 
 class LogIn2Button{
     constructor(scene,indentNextScene,posX,posY,sprite){
@@ -102,7 +153,7 @@ class LogIn2Button{
         	var user = {
             	name: player2Name,
             	password: player2Password,
-            	}
+            }
        
         loadUsers(function (users) {
 			 
@@ -125,7 +176,7 @@ class LogIn2Button{
             console.log("Usuario  " + player2Name + " creado correctamente");
         });
         }     
-    });
+    	});
         
             this.actualScene.sound.stopAll();
             this.actualScene.scene.start(this.nextScene); 
@@ -203,7 +254,7 @@ class Credits extends Phaser.Scene {
         this.add.image(400, 300, "fondo");  //Añade un nuevo elemento del juego 
         this.buttonBack.create();
     }
-    }
+}
 
 
 
@@ -211,13 +262,14 @@ class User1SignIn extends Phaser.Scene {
   constructor() {
     super({ key: 'user1signin' });
     this.logInButton = new button(this,'password1signin',230,540,'buttonGo');
-
+	this.logIn1Button1 = new Register1Button(this,'password1signin',600,540,'buttonGo');
   }
 
   preload() {
 
     this.load.image("pantallaSignIn", "../../resources/img/PANTALLAINIC.png");
     this.logInButton.preload();
+    this.logIn1Button1.preload();
     }
  
 
@@ -226,7 +278,7 @@ class User1SignIn extends Phaser.Scene {
     this.add.text(80, 350, 'P1 Enter your name', { font: '16px Courier', fill: '#ffffff' });
 
     this.logInButton.create();
-	
+	this.logIn1Button1.create();
 
 
 	//https://phaser.io/examples/v3/view/input/keyboard/text-entry
@@ -240,6 +292,7 @@ class User1SignIn extends Phaser.Scene {
 							event.keyCode != 39){
 				
 			player1Name += event.key;
+			
 		}		
 		if (event.keyCode === 8 && textEntry1.text.length > 0)
         	{
@@ -247,9 +300,11 @@ class User1SignIn extends Phaser.Scene {
 					
 					textEntry1.text = textEntry1.text.substr(0, textEntry1.text.length - 1);
            			player1Name = textEntry1.text;
+           			
 				}else{
 					textEntry1.text = textEntry1.text.substr(0, textEntry1.text.length);
            			player1Name = textEntry1.text;
+           			
 				}
             	
            		
@@ -269,13 +324,15 @@ class Password1SignIn extends Phaser.Scene {
   constructor() {
     super({ key: 'password1signin' });
     this.logIn1Button = new LogIn1Button(this,'user2signin',230,540,'buttonGo');
-
+    
+	
   }
 
   preload() {
 
     this.load.image("pantallaSignIn", "../../resources/img/PANTALLAINIC.png");
     this.logIn1Button.preload();
+    
     }
  
 
@@ -285,6 +342,7 @@ class Password1SignIn extends Phaser.Scene {
     this.add.text(80, 385, 'P1 Enter your password', { font: '16px Courier', fill: '#ffffff' });
 
     this.logIn1Button.create();
+    
 	
 
 

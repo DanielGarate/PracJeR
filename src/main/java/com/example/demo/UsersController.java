@@ -38,20 +38,22 @@ public class UsersController {
 		return users.values();
 	}
 	
-
+	long id;
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public boolean nuevoUser(@RequestBody User user) {
 
-		long id = nextId.incrementAndGet();
+		id= nextId.incrementAndGet();
 		user.setId(id);
 		users.put(id, user);
 		
 		//escribirArchivo("Manolo", "124");
-		escribirArchivo(user.getName(), user.getPassword()); //FALTA METER COMO METER LA CONTRASEÑA
+		escribirArchivo(user.getId(), user.getName(), user.getPassword()); //FALTA METER COMO METER LA CONTRASEÑA
 		
 		return true;
 	}
+	
+
 
 	@PutMapping("/{id}")
 	public ResponseEntity<User> actulizaUser(@PathVariable long id, @RequestBody User userActualizado) {
@@ -67,17 +69,32 @@ public class UsersController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-
+	
 	@GetMapping("/{id}")
-	public ResponseEntity<User> getUsers(@PathVariable long id) {
+	public boolean getUsers(String name) {
+		System.out.println(name);
+		return chekeadorPalabra(name);
+		
+	}
+	
+	/*public ResponseEntity<User> getUsers1(@PathVariable long id, @RequestBody User userGet) {
+		
+		User savedUsers = users.get(userGet.getId());
 
-		User savedUsers = users.get(id);
 		if (savedUsers != null) {
+			//users.put(id, userGet);
+			System.out.println(userGet.getName());
+			//return String.valueOf(id);
+			/*if(chekeadorPalabra(user.getName())) {
+				System.out.println("esta el nombre");
+			}else {
+				System.out.println("NO esta el nombre");
+			}
 			return new ResponseEntity<>(savedUsers, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-	}
+	}*/
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<User> borraUser(@PathVariable long id) {
@@ -86,7 +103,9 @@ public class UsersController {
 
 		if (savedUsers != null) {
 			users.remove(savedUsers.getId());
+			
 			return new ResponseEntity<>(savedUsers, HttpStatus.OK);
+			
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -95,7 +114,7 @@ public class UsersController {
 	
 	
 	
-	public static void escribirArchivo(String nombre, String contrasenya) {
+	public static void escribirArchivo(Long id, String nombre, String contrasenya) {
 		
 	    File log = new File("test.txt"); //CREAMOS ARCHIVO
 	    	    try{
@@ -107,7 +126,7 @@ public class UsersController {
 	    	    if(chekeadorPalabra(nombre) == false) { //CEHACEKADOR DE PALABRA RECIBE UNA PALABRA y retorna un bool si esta o no
 	    	    	FileWriter fileWriter = new FileWriter(log, true);
 	 	    	    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-	 	    	    bufferedWriter.write(nombre + "-" + contrasenya + "-");// + "\n"); //escribe el nombre u contrasena
+	 	    	    bufferedWriter.write(id + "-" + nombre + "-" + contrasenya + "-");// + "\n"); //escribe el nombre u contrasena
 	 	    	    bufferedWriter.close();
 	    		}else {
 	    			if(chekeadorPalabra(contrasenya) == false){ //chekeador de palabra tmb podemos chekear contrasenas
@@ -174,4 +193,8 @@ public class UsersController {
 	    }
 		return escribo;
 	}
+	
+
 }
+
+

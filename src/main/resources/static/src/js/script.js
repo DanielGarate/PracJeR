@@ -28,7 +28,7 @@ function createUser(user, callback) {
 function updateUser(user) {
     $.ajax({
         method: 'PUT',
-        url: 'http://192.168.1.46:8080/users' + user.id,
+        url: 'http://192.168.1.46:8080/users/' + user.id,
         data: JSON.stringify(user),
         processData: false,
         headers: {
@@ -43,11 +43,39 @@ function updateUser(user) {
 function deleteUser(userId) {
     $.ajax({
         method: 'DELETE',
-        url: 'http://192.168.1.46:8080/users' + userId
+        url: 'http://192.168.1.46:8080/users/' + userId
     }).done(function (userId) {
         console.log("Deleted user " + userId)
     })
 }
+
+
+ function getUser(user) { 
+ $.ajax({ 
+	 type : "GET", 
+	 //url : "/search/api/getSearchResult/"+id, 
+	 url : "http://192.168.1.46:8080/users/"  + user.name,
+	 data: JSON.stringify(user.name),
+	 processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        },
+	 timeout : 100000, 
+	 success : function(user) { 
+		 console.log("SUCCESS: ", user.name); 
+		 //display(id); 
+		 //alert(response); 
+	}, 
+	error : function(e) { 
+		console.log("ERROR: ", e); 
+		//display(e); 
+	}, 
+	done : function(e) { 
+		console.log("DONE"); 
+	} 
+}); 
+} 
+
 
 
 //.-------------------------------------------------------------------------chat
@@ -78,7 +106,7 @@ function createChat(chat, callback){
 function updateChat(chat) {
     $.ajax({
         method: 'PUT',
-        url: 'http://192.168.1.46:8080/chat' + chat.id,
+        url: 'http://192.168.1.46:8080/chat/' + chat.id,
         data: JSON.stringify(chat),
         processData: false,
         headers: {
@@ -93,7 +121,7 @@ function updateChat(chat) {
 function deleteChat(chatId) {
     $.ajax({
         method: 'DELETE',
-        url: 'http://192.168.1.46:8080/chat' + chatId
+        url: 'http://192.168.1.46:8080/chat/' + chatId
     }).done(function (chatId) {
         console.log("Deleted user " + chatId)
     })
@@ -111,7 +139,9 @@ function showUser(user) {
         '<div id="user-' + user.id + '> ' + user.name + '</div>')
 }
 
-
+/*$(document).onload(function (){
+	
+})*/
 $(document).ready(function () {
 
     loadUsers(function (users) {
