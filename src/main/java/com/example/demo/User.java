@@ -8,7 +8,12 @@ public class User {
 
 	public User() {
 	}
-
+	
+	public User(String _name, String _password) 
+	{
+		this.name = _name;
+	    this.password = _password;
+	}
 	public long getId() {
 		return id;
 	}
@@ -18,19 +23,19 @@ public class User {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String _name) {
+		this.name = _name;
 	}
 	
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String _password) {
+		this.password = _password;
 	}
 
 

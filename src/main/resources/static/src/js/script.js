@@ -1,7 +1,7 @@
 //Load users from server
 function loadUsers(callback) {
 	$.ajax({
-		url: 'http://192.168.1.49:8080/users'
+		url: 'http://192.168.1.46:8080/users'
 	}).done(function(users) {
 		console.log("User loaded " + JSON.stringify(users));
 		callback(users);
@@ -12,7 +12,7 @@ function loadUsers(callback) {
 function createUser(user, callback) {
 	$.ajax({
 		method: "POST",
-		url: 'http://192.168.1.49:8080/users',
+		url: 'http://192.168.1.46:8080/users',
 		data: JSON.stringify(user),
 		processData: false,
 		headers: {
@@ -28,7 +28,7 @@ function createUser(user, callback) {
 function updateUser(user) {
 	$.ajax({
 		method: 'PUT',
-		url: 'http://192.168.1.49:8080/users/' + user.id,
+		url: 'http://192.168.1.46:8080/users/' + user.id,
 		data: JSON.stringify(user),
 		processData: false,
 		headers: {
@@ -43,7 +43,7 @@ function updateUser(user) {
 function deleteUser(userId) {
 	$.ajax({
 		method: 'DELETE',
-		url: 'http://192.168.1.49:8080/users/' + userId
+		url: 'http://192.168.1.46:8080/users/' + userId
 	}).done(function(userId) {
 		console.log("Deleted user " + userId)
 	})
@@ -51,23 +51,31 @@ function deleteUser(userId) {
 
 
 function getUser(user) {
-	$.ajax({
-		type: "GET",
-		//url : "/search/api/getSearchResult/"+id, 
-		url: "http://192.168.1.49:8080/users/" + user.name + "#" + user.password,
-		data: JSON.stringify(user.name + "#" + user.password), //new?
-		//data: JSON.stringify(user.name),
-		processData: false,
-		//async: false,
-		timeout: 100,
-		headers: {
-			"Content-Type": "application/json"
-		},
-		error: function(e) {
-			console.log("ERROR: ", e);
-			//display(e); 
-		}
-	}).done(function(boolU) {
+	console.log("estoy dentro");
+	
+	console.log(user.name);
+	if (user.name != "" && user.password != "") {
+		$.ajax({
+			type: "POST",
+			async: false,
+			headers: {
+				'Accept': 'application/json',
+				'Content-type': 'application/json'
+			},
+			//url: url + "users",
+			url: "http://192.168.1.46:8080/usersV/",
+			data: JSON.stringify({ nick: "" + user.name, password: "" + user.password}),
+			dataType: "json",
+			success: function(boolean) { // returned variable to check if we can change the scene
+				change = boolean;
+			}
+		}).done(function(item) {
+			console.log("User created: " + JSON.stringify({ nickname: "" + user.name, password: "" + user.password}));
+		})
+	}
+}
+
+/*.done(function(boolU) {
 		console.log("done " + boolU);
 		if (boolU) {
 			console.log("USUARIO " + user.name + " EXISTE");
@@ -76,15 +84,13 @@ function getUser(user) {
 			console.log("ERROR USUARIO " + user.name + " NO EXISTE");
 		}
 	})
-}
-
-
+*/
 
 
 //.-------------------------------------------------------------------------chat
 function loadChat(callback) {
 	$.ajax({
-		url: 'http://192.168.1.49:8080/chat'
+		url: 'http://192.168.1.46:8080/chat'
 	}).done(function(msg) {
 		console.log("User loaded CHAT" + JSON.stringify(msg));
 		callback(msg);
@@ -94,7 +100,7 @@ function loadChat(callback) {
 function createChat(chat, callback) {
 	$.ajax({
 		method: "POST",
-		url: 'http://192.168.1.49:8080/chat',
+		url: 'http://192.168.1.46:8080/chat',
 		data: JSON.stringify(chat),
 		processData: false,
 		headers: {
@@ -109,7 +115,7 @@ function createChat(chat, callback) {
 function updateChat(chat) {
 	$.ajax({
 		method: 'PUT',
-		url: 'http://192.168.1.49:8080/chat/' + chat.id,
+		url: 'http://192.168.1.46:8080/chat/' + chat.id,
 		data: JSON.stringify(chat),
 		processData: false,
 		headers: {
@@ -124,7 +130,7 @@ function updateChat(chat) {
 function deleteChat(chatId) {
 	$.ajax({
 		method: 'DELETE',
-		url: 'http://192.168.1.49:8080/chat/' + chatId
+		url: 'http://192.168.1.46:8080/chat/' + chatId
 	}).done(function(chatId) {
 		console.log("Deleted user " + chatId)
 	})
@@ -149,7 +155,6 @@ function showUser(user) {
 $(document).ready(function() {
 
 	loadUsers(function(users) {
-		console.log("aqui");
 		//When users are loaded from server
 		for (var i = 0; i < users.length; i++) {
 			
@@ -180,7 +185,7 @@ $(document).ready(function() {
 			name: value1,
 			password: value2,
 		}
-		getUser(user);
+		//getUser(user);
 		loadUsers(function(users) {
 			var existe = false;
 			//When users are loaded from server
@@ -188,7 +193,7 @@ $(document).ready(function() {
 				if (users[i].name == value1 && users[i].password != value2) {
 					console.log("Usuario repetido");
 					existe = true;
-				} else if (users[i].name == value1 && users[i].password == value2) {
+				}else if (users[i].name == value1 && users[i].password == value2) {
 					console.log("Bienvenido " + value1);
 					existe = true;
 				}
