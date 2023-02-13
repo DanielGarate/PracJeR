@@ -1,7 +1,7 @@
 //Load users from server
 function loadUsers(callback) {
 	$.ajax({
-		url: 'http://192.168.1.46:8080/users'
+		url: 'http://192.168.1.49:8080/users'
 	}).done(function(users) {
 		console.log("User loaded " + JSON.stringify(users));
 		callback(users);
@@ -9,26 +9,39 @@ function loadUsers(callback) {
 }
 
 //Create user in server
+let exist = false;
 function createUser(user, callback) {
 	$.ajax({
 		method: "POST",
-		url: 'http://192.168.1.46:8080/users',
+		url: 'http://192.168.1.49:8080/users',
 		data: JSON.stringify(user),
 		processData: false,
 		headers: {
 			"Content-Type": "application/json"
+		},
+		succes: function(boolean){
+			exist = boolean;
 		}
+		
 	}).done(function(user) {
 		console.log("User created: " + JSON.stringify(user));
 		callback(user);
 	})
+	
+	if (exist) { // if we access with an existing user and correct password or create a new one we can change the scene
+		Nexcena++;
+		console.log("he cambiado");
+	} else { // if the given password doesn't match the one of the existing user, we can't change the scene
+		$('#info').append(
+		'<div id="user-' + user.id + '> ' + user.name + '</div>')
+	}
 }
 
 //Update user in server
 function updateUser(user) {
 	$.ajax({
 		method: 'PUT',
-		url: 'http://192.168.1.46:8080/users/' + user.id,
+		url: 'http://192.168.1.49:8080/users/' + user.id,
 		data: JSON.stringify(user),
 		processData: false,
 		headers: {
@@ -43,13 +56,13 @@ function updateUser(user) {
 function deleteUser(userId) {
 	$.ajax({
 		method: 'DELETE',
-		url: 'http://192.168.1.46:8080/users/' + userId
+		url: 'http://192.168.1.49:8080/users/' + userId
 	}).done(function(userId) {
 		console.log("Deleted user " + userId)
 	})
 }
 
-
+/*
 function getUser(user) {
 	console.log("estoy dentro");
 	
@@ -73,7 +86,7 @@ function getUser(user) {
 			console.log("User created: " + JSON.stringify({ nickname: "" + user.name, password: "" + user.password}));
 		})
 	}
-}
+}*/
 
 /*.done(function(boolU) {
 		console.log("done " + boolU);
@@ -90,7 +103,7 @@ function getUser(user) {
 //.-------------------------------------------------------------------------chat
 function loadChat(callback) {
 	$.ajax({
-		url: 'http://192.168.1.46:8080/chat'
+		url: 'http://192.168.1.49:8080/chat'
 	}).done(function(msg) {
 		console.log("User loaded CHAT" + JSON.stringify(msg));
 		callback(msg);
@@ -100,7 +113,7 @@ function loadChat(callback) {
 function createChat(chat, callback) {
 	$.ajax({
 		method: "POST",
-		url: 'http://192.168.1.46:8080/chat',
+		url: 'http://192.168.1.49:8080/chat',
 		data: JSON.stringify(chat),
 		processData: false,
 		headers: {
@@ -115,7 +128,7 @@ function createChat(chat, callback) {
 function updateChat(chat) {
 	$.ajax({
 		method: 'PUT',
-		url: 'http://192.168.1.46:8080/chat/' + chat.id,
+		url: 'http://192.168.1.49:8080/chat/' + chat.id,
 		data: JSON.stringify(chat),
 		processData: false,
 		headers: {
@@ -130,7 +143,7 @@ function updateChat(chat) {
 function deleteChat(chatId) {
 	$.ajax({
 		method: 'DELETE',
-		url: 'http://192.168.1.46:8080/chat/' + chatId
+		url: 'http://192.168.1.49:8080/chat/' + chatId
 	}).done(function(chatId) {
 		console.log("Deleted user " + chatId)
 	})
@@ -145,7 +158,7 @@ function showUser(user) {
 
 
 	$('#info').append(
-		'<div id="user-' + user.id + '> ' + user.name + '</div>')
+		'<div id="user-' + user.id + '> ' + user.name + '</div>');
 }
 
 
@@ -174,6 +187,7 @@ $(document).ready(function() {
 	var info = $('#info');
 
 	//Handle add button
+	
 	$("#play-button").click(function() {
 		console.log("QQQHH"); //----------------------------------------------------------------------------------------------------aqui
 		var value1 = username.val();
@@ -196,6 +210,8 @@ $(document).ready(function() {
 				}else if (users[i].name == value1 && users[i].password == value2) {
 					console.log("Bienvenido " + value1);
 					existe = true;
+					Nexcena = 1;
+					$("#info").html("<div> Iniciada sesion J1: " + value1 + " Bienvenido</div>");
 				}
 			}
 			if (!existe) {

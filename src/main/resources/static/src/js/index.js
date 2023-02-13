@@ -35,14 +35,6 @@ class Register1Button {
 
 		this.startButton.on('pointerdown', () => {
 
-			var user = {
-				name: player1Name,
-				password: player1Password,
-
-			}
-			console.log("U----" + user.name);
-			getUser(user);
-			console.log(Nexcena + "final");
 			if (Nexcena == 1) {
 				this.actualScene.scene.start(this.nextScene);
 				console.log("NEXT ESCENA");
@@ -266,7 +258,7 @@ class User1SignIn extends Phaser.Scene {
 	preload() {
 
 		//this.load.image("pantallaSignIn", "../../resources/img/PANTALLAINIC.png");
-		//this.logInButton.preload();
+		this.logIn1Button1.preload();
 		//this.logIn1Button1.preload();
 		
 		//new 
@@ -277,7 +269,9 @@ class User1SignIn extends Phaser.Scene {
 
 
 	create() {
+		
 		this.add.image(400, 300, 'pic');
+		this.logIn1Button1.create();
 		/*var user = {
 				name: player1Name,
 				password: player1Password,
@@ -1402,7 +1396,8 @@ var config = {     //Contiene un json
         createContainer: true
     },
 	type: Phaser.AUTO,
-	scene: [menuIni, User1SignIn, Password1SignIn, User2SignIn, Password2SignIn, Game, pantallaFin, Credits, pantallaFinJugador, Pause],
+	//scene: [menuIni, User1SignIn, Password1SignIn, User2SignIn, Password2SignIn, Game, pantallaFin, Credits, pantallaFinJugador, Pause],
+	scene: [menuIni, User1SignIn, User2SignIn, Game, pantallaFin, Credits, pantallaFinJugador, Pause],
 	physics: {    //Se agrega el sistema de fisicas arcade a la configuración
 		default: 'arcade',
 		arcade: {
