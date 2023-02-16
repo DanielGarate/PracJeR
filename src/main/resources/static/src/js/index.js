@@ -1,7 +1,7 @@
 
-var player1Name = '';
+var player1Name;
 var player1Password = '';
-var player2Name = '';
+var player2Name;
 var player2Password = '';
 var message1 = "";
 var user1 = "";
@@ -36,6 +36,7 @@ class Register1Button {
 		this.startButton.on('pointerdown', () => {
 
 			if (Nexcena == 1) {
+				this.actualScene.sound.stopAll();
 				this.actualScene.scene.start(this.nextScene);
 				console.log("NEXT ESCENA");
 			}
@@ -71,42 +72,6 @@ class LogIn1Button {
 		})
 		this.startButton.on('pointerdown', () => {
 			//var id = 1;
-			var user = {
-
-				name: player1Name,
-				password: player1Password,
-			}
-			//getUser(user);
-
-			loadUsers(function(users) {
-
-				var existe = false;
-
-				//When users are loaded from server---------------------------------------------------------------------------------------------------------
-				for (var i = 0; i < users.length; i++) {
-					if (users[i].name == player1Name && users[i].password != ' ') {
-						console.log("Usuario repetido");
-
-
-						existe = true;
-					} else if (users[i].name == player1Name && users[i].password == ' ') {
-						console.log("Bienvenido " + player1Name);
-						existe = true;
-
-					}
-				}
-
-				if (!existe) {
-					createUser(user, function(userWithId) {
-						//When user with id is returned from server        
-						//showUser(userWithId);
-						console.log("Usuario ADIOS " + player1Name + " " + player1Password + " creado correctamente");
-						console.log("Usuario  " + users + " creado correctamente");
-					});
-				}
-
-
-			});
 			this.actualScene.sound.stopAll();
 			this.actualScene.scene.start(this.nextScene);
 		}) //---
@@ -245,13 +210,10 @@ class Credits extends Phaser.Scene {
 	}
 }
 
-
-let url;
 class User1SignIn extends Phaser.Scene {
 	constructor() {
 		super({ key: 'user1signin' });
-		this.logInButton = new button(this, 'password1signin', 230, 540, 'buttonGo');
-		this.logIn1Button1 = new Register1Button(this, 'password1signin', 600, 540, 'buttonGo');
+		this.logIn1Button1 = new Register1Button(this, 'game', 600, 540, 'buttonGo');
 
 	}
 
@@ -259,7 +221,6 @@ class User1SignIn extends Phaser.Scene {
 
 		//this.load.image("pantallaSignIn", "../../resources/img/PANTALLAINIC.png");
 		this.logIn1Button1.preload();
-		//this.logIn1Button1.preload();
 		
 		//new 
 		
@@ -272,75 +233,6 @@ class User1SignIn extends Phaser.Scene {
 		
 		this.add.image(400, 300, 'pic');
 		this.logIn1Button1.create();
-		/*var user = {
-				name: player1Name,
-				password: player1Password,
-
-			}
-		 showUser(user)*/
-		 
-		//url = this.dataObj.url;
-        //this.add.image(960, 540, 'mainMenu_Background');
-        
-        // Creates variable for managing the textview
-		/*
-        var element = this.add.dom(750, 800).createFromCache('form');
-
-        let name = element.getChildByName("name");
-        let password = element.getChildByName("password");
-
-        let text = this.add.text(450, 500, '').setScale(2);
-
-        let change = false; // boolean to change scene (at first is set to false)
-
-		var data = this.dataObj;
-        this.startButton = this.add.sprite(955, 950, 'start_button');
-        this.startButton.setInteractive().on('pointerdown', () => {
-            if (name.value != "" && password.value != "") {
-				console.log(url);
-				console.log(name.value);
-                $.ajax({
-                    type: "POST",
-                    async: false,
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-type': 'application/json'
-                    },
-                    //url: url + "users",
-                    url: "http://192.168.1.46:8080/users/users",
-                    data: JSON.stringify({nick: "" + name.value, password: "" + password.value}),
-                    dataType: "json",
-                    success: function (boolean) { // returned variable to check if we can change the scene
-                        change = boolean;
-                    }
-                }).done(function (item) {
-				    console.log("User created: " + JSON.stringify({nickname: "" + name.value, password: "" + password.value}));
-				})
-
-                // Starts the next scene
-                if (change) { // if we access with an existing user and correct password or create a new one we can change the scene
-                    this.scene.stop();
-                    this.dataObj.username = name.value;
-                    this.dataObj.url = url;
-                    this.scene.start('mainMenu', data);
-                } else { // if the given password doesn't match the one of the existing user, we can't change the scene
-                    text.setText('Wrong password. Try again'); //
-                }
-            }
-        });
-        this.startButton.on('pointerover', function (){
-
-            this.setScale(1.2, 1.2);
-            //playButton.setTint(0x44ff44);
-            //onS.play();
-        });
-        this.startButton.on('pointerout', function (){
-
-            this.setScale(1, 1);
-            //playButton.setTint(0x44ff44);
-            //onS.play();
-        })
-		*/
 	}
 
 }
@@ -1397,7 +1289,9 @@ var config = {     //Contiene un json
     },
 	type: Phaser.AUTO,
 	//scene: [menuIni, User1SignIn, Password1SignIn, User2SignIn, Password2SignIn, Game, pantallaFin, Credits, pantallaFinJugador, Pause],
-	scene: [menuIni, User1SignIn, User2SignIn, Game, pantallaFin, Credits, pantallaFinJugador, Pause],
+	scene: [menuIni, User1SignIn, Password1SignIn, User2SignIn, Password2SignIn, Game, pantallaFin, Credits, pantallaFinJugador, Pause],
+	//scene: [menuIni, User1SignIn,Game, pantallaFin, Credits, pantallaFinJugador, Pause],
+	//scene: [menuIni, User1SignIn, Game, pantallaFin, Credits, pantallaFinJugador, Pause],
 	physics: {    //Se agrega el sistema de fisicas arcade a la configuración
 		default: 'arcade',
 		arcade: {

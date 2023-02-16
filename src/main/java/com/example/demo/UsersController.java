@@ -1,44 +1,25 @@
 package com.example.demo;
 
+import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.io.BufferedWriter;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.util.Scanner;
-import java.io.FileReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.Writer;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
-import java.io.IOException;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.io.*;
+import java.util.Scanner;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 @RestController
 @RequestMapping("/users")
 public class UsersController {
 
 	//Map<Long, User> users = new ConcurrentHashMap<>(); 
-	Map<String, User> users = new ConcurrentHashMap<>(); 
+	Map<String, User> users = new HashMap<>(); 
 	Map<String, User> activeUsers = new HashMap<String, User>();
 	static String usersFileURL = "src/main/resources/static/text.txt";
-	AtomicLong nextId = new AtomicLong(0);
+	//AtomicLong nextId = new AtomicLong(0);
 	
 	public UsersController() 
 	{

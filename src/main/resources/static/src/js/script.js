@@ -1,7 +1,7 @@
 //Load users from server
 function loadUsers(callback) {
 	$.ajax({
-		url: 'http://192.168.1.49:8080/users'
+		url: 'http://192.168.1.54:8080/users'
 	}).done(function(users) {
 		console.log("User loaded " + JSON.stringify(users));
 		callback(users);
@@ -13,7 +13,7 @@ let exist = false;
 function createUser(user, callback) {
 	$.ajax({
 		method: "POST",
-		url: 'http://192.168.1.49:8080/users',
+		url: 'http://192.168.1.54:8080/users',
 		data: JSON.stringify(user),
 		processData: false,
 		headers: {
@@ -41,7 +41,7 @@ function createUser(user, callback) {
 function updateUser(user) {
 	$.ajax({
 		method: 'PUT',
-		url: 'http://192.168.1.49:8080/users/' + user.id,
+		url: 'http://192.168.1.54:8080/users/' + user.id,
 		data: JSON.stringify(user),
 		processData: false,
 		headers: {
@@ -56,7 +56,7 @@ function updateUser(user) {
 function deleteUser(userId) {
 	$.ajax({
 		method: 'DELETE',
-		url: 'http://192.168.1.49:8080/users/' + userId
+		url: 'http://192.168.1.54:8080/users/' + userId
 	}).done(function(userId) {
 		console.log("Deleted user " + userId)
 	})
@@ -103,7 +103,7 @@ function getUser(user) {
 //.-------------------------------------------------------------------------chat
 function loadChat(callback) {
 	$.ajax({
-		url: 'http://192.168.1.49:8080/chat'
+		url: 'http://192.168.1.54:8080/chat'
 	}).done(function(msg) {
 		console.log("User loaded CHAT" + JSON.stringify(msg));
 		callback(msg);
@@ -113,7 +113,7 @@ function loadChat(callback) {
 function createChat(chat, callback) {
 	$.ajax({
 		method: "POST",
-		url: 'http://192.168.1.49:8080/chat',
+		url: 'http://192.168.1.54:8080/chat',
 		data: JSON.stringify(chat),
 		processData: false,
 		headers: {
@@ -128,7 +128,7 @@ function createChat(chat, callback) {
 function updateChat(chat) {
 	$.ajax({
 		method: 'PUT',
-		url: 'http://192.168.1.49:8080/chat/' + chat.id,
+		url: 'http://192.168.1.54:8080/chat/' + chat.id,
 		data: JSON.stringify(chat),
 		processData: false,
 		headers: {
@@ -143,7 +143,7 @@ function updateChat(chat) {
 function deleteChat(chatId) {
 	$.ajax({
 		method: 'DELETE',
-		url: 'http://192.168.1.49:8080/chat/' + chatId
+		url: 'http://192.168.1.54:8080/chat/' + chatId
 	}).done(function(chatId) {
 		console.log("Deleted user " + chatId)
 	})
@@ -187,11 +187,19 @@ $(document).ready(function() {
 	var info = $('#info');
 
 	//Handle add button
-	
+	let unavez=0;
+	let dosvez=0;
 	$("#play-button").click(function() {
 		console.log("QQQHH"); //----------------------------------------------------------------------------------------------------aqui
-		var value1 = username.val();
-		var value2 = password.val();
+		if(username.val()!=null && password.val()!=null){
+			console.log("usuario feo"); 
+			var value1 = username.val();
+		}
+		if(username.val()!=undefined && password.val()!=undefined){
+			var value2 = username.val();
+		}
+		//var value1 = username.val();
+		//var value2 = password.val();
 		username.val('');
 		password.val('');
 		
@@ -200,6 +208,7 @@ $(document).ready(function() {
 			password: value2,
 		}
 		//getUser(user);
+
 		loadUsers(function(users) {
 			var existe = false;
 			//When users are loaded from server
@@ -210,8 +219,18 @@ $(document).ready(function() {
 				}else if (users[i].name == value1 && users[i].password == value2) {
 					console.log("Bienvenido " + value1);
 					existe = true;
-					Nexcena = 1;
-					$("#info").html("<div> Iniciada sesion J1: " + value1 + " Bienvenido</div>");
+					if(unavez == 0){
+						$("#info").html("<div> Iniciada sesion J1: " + value1 + " Bienvenido</div>");
+						$("#info1").html("Inicia sesion J2");
+						player1Name = value1;
+						dosvez++;
+						unavez++;
+					}else{
+						$("#info").html("<div> Iniciada sesion J2: " + value1 + " Bienvenido</div>");
+						player2Name = value1;
+						
+						Nexcena = 1;
+					}
 				}
 			}
 			if (!existe) {
@@ -219,6 +238,16 @@ $(document).ready(function() {
 					//When user with id is returned from server        
 					showUser(userWithId);
 					console.log("Usuario HOLA  " + value1 + " creado correctamente");
+					if(dosvez == 0){
+						$("#info").html("<div> Usuario  creado J1: " + value1 + " Bienvenido</div>");
+						player1Name = value1;
+						dosvez++;
+						unavez++;
+					}else{
+						$("#info").html("<div> Usuario  creado J2: " + value1 + " Bienvenido</div>");
+						player2Name = value1;
+					}
+					Nexcena = 1;
 				});
 			}
 		});
