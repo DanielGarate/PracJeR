@@ -1,43 +1,30 @@
 package com.example.demo;
 
 public class Chat {
-
-	private long id;
 	private String user;
-	private String mensage;
-	
-	public Chat() {
+	private String message;
+
+	public Chat() {}
+
+	public Chat(String _user, String _message) {
+		this.user = _user;
+		this.message = _message;
 	}
 
-	public long getId() {
-		return id;
+	public void setUser(String _user) {
+		this.user = _user;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setMessage(String _message) {
+		this.message = _message;
 	}
 
-	public void setUsuario1(String usuario1) {
-		this.user = usuario1;
+	public String getUser() {
+		return this.user;
 	}
 
-	public String getUsuario1() {
-		return user;
+	public String getMessage() {
+		return this.message;
 	}
-	
-	public void setMUsuario1(String mensjes1) {
-		this.mensage = mensjes1;
-	}
-
-	public String getMUsuario1() {
-		return user;
-	}
-
-
-
-	@Override
-	public String toString() {
-		return user + ": " + mensage + "/" +"\n";
-	}
-
 }
+
